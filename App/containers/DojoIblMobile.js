@@ -7,6 +7,8 @@ import {
   Linking
 } from 'react-native';
 
+var shittyQs = require('shitty-qs')
+
 export default class DojoIblMobile extends Component {
   constructor(props) {
     super(props);
@@ -20,15 +22,23 @@ export default class DojoIblMobile extends Component {
     Linking.addEventListener('url', urlHandler);
 
     const self = this;
-    function urlHandler(e) {
-      self.setState({
-        url: e.url
-      });
+    function urlHandler(event) {
+
+      console.log(event.url);
+      var [, query_string] = event.url.match(/[^&?]*?=[^&?]*/)
+      var query = shittyQs(query_string)
+      console.log(query);
+      console.log(query_string);
+
+      if (state === query.state) {
+        callback(null, query.access_token, query.uid)
+      } else {
+        callback(new Error('Oauth2 security error'))
+      }
 
       Linking.removeEventListener('url', urlHandler);
     }
-
-    Linking.openURL('https://www.rk02.net/redirect.php?url=dojoiblmobile://www.rafaelklaessen.nl');
+    Linking.openURL('https://wespot-arlearn.appspot.com/Login.html?client_id=dojo-ibl&redirect_uri=dojoiblmobile://dojo-ibl.appspot.com/oauth/wespot&response_type=code&scope=profile+email');
   }
 
   render() {
