@@ -6,6 +6,6 @@ import {
   View
 } from 'react-native';
 
-import DojoIblMobile from 'App/containers/DojoIblMobile';
+import DojoIblMobile from './App/containers/DojoIblMobile';
 
 AppRegistry.registerComponent('DojoIblMobile', () => DojoIblMobile);

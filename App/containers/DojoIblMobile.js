@@ -4,7 +4,8 @@ import {
   StyleSheet,
   Text,
   View,
-  Linking
+  Linking,
+  Platform
 } from 'react-native';
 import { Config } from '../config'
 
@@ -20,9 +21,13 @@ export default class DojoIblMobile extends Component {
   componentDidMount() {
     Linking.addEventListener('url', urlHandler);
 
+    if (Platform.OS == 'android') console.log('wtf')
+
     const self = this;
     function urlHandler(event) {
       const requestToken = (event.url).split('code=')[1];
+
+      console.log('urlhandler')
 
       fetch(`https://wespot-arlearn.appspot.com/oauth/token?client_id=${Config.wespot.clientId}&redirect_uri=${Config.wespot.redirectUri}&client_secret=${Config.wespot.clientSecret}&code=${requestToken}&grant_type=authorization_code`, {
           method: 'post',
