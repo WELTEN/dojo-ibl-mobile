@@ -187,7 +187,7 @@ export default class DojoIblMobile extends Component {
           <Button
             onPress={this.openLoginPage}
             title="Log in"
-            color="white"
+            color="#4CAF50"
             />
         </View>
       );
@@ -198,7 +198,7 @@ export default class DojoIblMobile extends Component {
           <Button
             onPress={() => { AsyncStorage.clear() }}
             title="Clear AsyncStorage"
-            color="white"
+            color="#4CAF50"
             />
         </View>
       )
