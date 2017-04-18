@@ -30,7 +30,24 @@ export default class DojoIblMobile extends Component {
     function urlHandler(event) {
       const requestToken = (event.url).split('code=')[1];
 
-      fetch(`https://wespot-arlearn.appspot.com/oauth/token?client_id=${Config.wespot.clientId}&redirect_uri=${Config.wespot.redirectUri}&client_secret=${Config.wespot.clientSecret}&code=${requestToken}&grant_type=authorization_code`, {
+      self.getAccessTokenJson().then((json) => {
+          self.setState({
+            accessToken: json.access_token
+          });
+        })
+        .catch((error) => {
+          self.setState({
+            accessToken: error
+          });
+        });
+
+      Linking.removeEventListener('url', urlHandler);
+    }
+  }
+
+  getAccessTokenJson(authToken) {
+    return new Promise((resolve, reject) => {
+      fetch(`https://wespot-arlearn.appspot.com/oauth/token?client_id=${Config.wespot.clientId}&redirect_uri=${Config.wespot.redirectUri}&client_secret=${Config.wespot.clientSecret}&code=${authToken}&grant_type=authorization_code`, {
           method: 'post',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -39,27 +56,15 @@ export default class DojoIblMobile extends Component {
         .then((response) => response.json())
         .then((json) => {
           if (json.access_token) {
-            self.setState({
-              accessToken: json.access_token
-            });
-
-            const expiresAt = Math.round(Date.now() / 1000) + json.expires_in;
-
-            self.saveTokens(requestToken, json.access_token, expiresAt);
+            resolve(json);
           } else {
-            self.setState({
-              accessToken: 'Can\'t get access token'
-            });
+            reject('Couldn\'t get access token JSON');
           }
         })
         .catch((error) => {
-          self.setState({
-            accessToken: 'Logging in failed failed!'
-          });
+          reject('Request failed!');
         });
-
-      Linking.removeEventListener('url', urlHandler);
-    }
+    });
   }
 
   saveTokens(authToken, accessToken, expiresAt) {
