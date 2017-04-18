@@ -13,7 +13,7 @@ export default class DojoIblMobile extends Component {
     super(props);
 
     this.state = {
-      url: 'nope'
+      accessToken: 'nope'
     };
   }
 
@@ -27,25 +27,24 @@ export default class DojoIblMobile extends Component {
       fetch(`https://wespot-arlearn.appspot.com/oauth/token?client_id=${Config.wespot.clientId}&redirect_uri=${Config.wespot.redirectUri}&client_secret=${Config.wespot.clientSecret}&code=${requestToken}&grant_type=authorization_code`, {
           method: 'post',
           headers: {
-            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
           }
         })
-        .then((data) => {
-          console.log('Request succeeded with JSON response', data);
-          if (data.ok) {
+        .then((response) => response.json())
+        .then((json) => {
+          if (json.access_token) {
             self.setState({
-              url: data.statusText
+              accessToken: json.access_token
             });
           } else {
             self.setState({
-              url: 'Can\'t get access token!'
+              accessToken: 'Can\'t get access token'
             });
           }
         })
         .catch((error) => {
-          console.log('Request failed', error);
           self.setState({
-            url: 'Request failed!!'
+            accessToken: 'Request failed!'
           });
         });
 
@@ -61,7 +60,7 @@ export default class DojoIblMobile extends Component {
           Welcome to React Native!
         </Text>
         <Text style={styles.instructions}>
-          URL: {this.state.url}
+          Access token: {this.state.accessToken}
         </Text>
         <Text style={styles.instructions}>
           Double tap R on your keyboard to reload,{'\n'}
