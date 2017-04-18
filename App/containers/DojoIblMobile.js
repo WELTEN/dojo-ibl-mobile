@@ -16,33 +16,47 @@ export default class DojoIblMobile extends Component {
     this.state = {
       accessToken: 'No access token'
     };
+
+    this.urlHandler = this.urlHandler.bind(this);
   }
 
   componentDidMount() {
-    this.handleUrls();
-    Linking.openURL('https://wespot-arlearn.appspot.com/Login.html?client_id=dojo-ibl&redirect_uri=dojoiblmobile://dojo-ibl.appspot.com/oauth/wespot&response_type=code&scope=profile+email');
+    this.getTokens().then((tokens) => {
+        if (tokens) {
+          this.setState({
+            accessToken: 'Already saved'
+          });
+        } else {
+          Linking.addEventListener('url', this.urlHandler);
+          Linking.openURL('https://wespot-arlearn.appspot.com/Login.html?client_id=dojo-ibl&redirect_uri=dojoiblmobile://dojo-ibl.appspot.com/oauth/wespot&response_type=code&scope=profile+email');
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
-  handleUrls() {
-    Linking.addEventListener('url', urlHandler);
+  componentWillUnmount() {
+    Linking.removeEventListener(this.urlHandler);
+  }
 
-    const self = this;
-    function urlHandler(event) {
-      const requestToken = (event.url).split('code=')[1];
+  urlHandler(event) {
+    const requestToken = (event.url).split('code=')[1];
 
-      self.getAccessTokenJson().then((json) => {
-          self.setState({
-            accessToken: json.access_token
-          });
-        })
-        .catch((error) => {
-          self.setState({
-            accessToken: error
-          });
+    this.getAccessTokenJson().then((json) => {
+        this.setState({
+          accessToken: json.access_token
         });
 
-      Linking.removeEventListener('url', urlHandler);
-    }
+        const expiresAt = Math.round(Date.now() / 1000) + json.expires_in;
+
+        this.saveTokens(requestToken, json.access_token, expiresAt);
+      })
+      .catch((error) => {
+        this.setState({
+          accessToken: error
+        });
+      });
   }
 
   getAccessTokenJson(authToken) {
@@ -82,7 +96,16 @@ export default class DojoIblMobile extends Component {
   }
 
   getTokens() {
-
+    return new Promise((resolve, reject) => {
+      AsyncStorage.getItem('tokens')
+        .then((tokensJson) => {
+          const tokens = JSON.parse(tokensJson);
+          resolve(tokens);
+        })
+        .catch((error) => {
+          reject(error);
+        })
+    });
   }
 
   render() {
