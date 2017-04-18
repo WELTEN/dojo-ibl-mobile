@@ -5,6 +5,7 @@ import {
   Text,
   View,
   Linking,
+  Button,
   AsyncStorage
 } from 'react-native';
 import { Config } from '../config'
@@ -14,9 +15,11 @@ export default class DojoIblMobile extends Component {
     super(props);
 
     this.state = {
-      accessToken: 'No access token'
+      accessToken: 'No access token',
+      loggedIn: false
     };
 
+    this.openLoginPage = this.openLoginPage.bind(this);
     this.urlHandler = this.urlHandler.bind(this);
   }
 
@@ -24,11 +27,11 @@ export default class DojoIblMobile extends Component {
     this.getTokens().then((tokens) => {
         if (tokens) {
           this.setState({
-            accessToken: 'Already saved'
+            accessToken: 'Already saved',
+            loggedIn: true
           });
         } else {
           Linking.addEventListener('url', this.urlHandler);
-          Linking.openURL('https://wespot-arlearn.appspot.com/Login.html?client_id=dojo-ibl&redirect_uri=dojoiblmobile://dojo-ibl.appspot.com/oauth/wespot&response_type=code&scope=profile+email');
         }
       })
       .catch((error) => {
@@ -38,6 +41,10 @@ export default class DojoIblMobile extends Component {
 
   componentWillUnmount() {
     Linking.removeEventListener(this.urlHandler);
+  }
+
+  openLoginPage() {
+    Linking.openURL('https://wespot-arlearn.appspot.com/Login.html?client_id=dojo-ibl&redirect_uri=dojoiblmobile://dojo-ibl.appspot.com/oauth/wespot&response_type=code&scope=profile+email')
   }
 
   urlHandler(event) {
@@ -50,7 +57,14 @@ export default class DojoIblMobile extends Component {
 
         const expiresAt = Math.round(Date.now() / 1000) + json.expires_in;
 
-        this.saveTokens(requestToken, json.access_token, expiresAt);
+        this.saveTokens(requestToken, json.access_token, expiresAt).then(() => {
+            this.setState({
+              loggedIn: true
+            });
+          })
+          .catch((error) => {
+            console.log('Error');
+          });
       })
       .catch((error) => {
         this.setState({
@@ -82,17 +96,19 @@ export default class DojoIblMobile extends Component {
   }
 
   saveTokens(authToken, accessToken, expiresAt) {
-    AsyncStorage.setItem('tokens', JSON.stringify({
-        authToken: authToken,
-        accessToken: accessToken,
-        expiresAt: expiresAt
-      }))
-      .then(() => {
-        console.log('done')
-      })
-      .catch((error) => {
-        console.log(error)
-      });
+    return new Promise((resolve, reject) => {
+      AsyncStorage.setItem('tokens', JSON.stringify({
+          authToken: authToken,
+          accessToken: accessToken,
+          expiresAt: expiresAt
+        }))
+        .then(() => {
+          resolve();
+        })
+        .catch((error) => {
+          reject(error)
+        });
+    });
   }
 
   getTokens() {
@@ -109,16 +125,34 @@ export default class DojoIblMobile extends Component {
   }
 
   render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.title}>
-          Welcome to DojoIblMobile!
-        </Text>
-        <Text style={styles.text}>
-          Access token: {this.state.accessToken}
-        </Text>
-      </View>
-    );
+    if (!this.state.loggedIn) {
+      return (
+        <View style={styles.container}>
+          <Text style={styles.title}>
+            Welcome to DojoIblMobile!
+          </Text>
+          <Text style={styles.text}>
+            Please log in to continue:
+          </Text>
+          <Button
+            onPress={this.openLoginPage}
+            title="Log in"
+            color="white"
+            />
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.container}>
+          <Text style={styles.title}>Logged in!</Text>
+          <Button
+            onPress={() => { AsyncStorage.clear() }}
+            title="Clear AsyncStorage"
+            color="white"
+            />
+        </View>
+      )
+    }
   }
 }
 
