@@ -24,7 +24,8 @@ export default class DojoIblMobile extends Component {
   }
 
   componentDidMount() {
-    this.getTokens().then((tokens) => {
+    this.getTokens()
+      .then((tokens) => {
         console.log(tokens)
 
         if (tokens && !this.accessTokenExpired(tokens)) {
@@ -63,14 +64,19 @@ export default class DojoIblMobile extends Component {
   urlHandler(event) {
     const requestToken = (event.url).split('code=')[1];
 
-    this.getAccessTokenJson(requestToken).then((json) => {
+    this.getAccessTokenJson(requestToken)
+      .then((json) => {
         this.setState({
           accessToken: json.access_token
         });
 
         const expiresAt = Math.round(Date.now() / 1000) + json.expires_in;
 
-        this.saveTokens(requestToken, json.access_token, expiresAt).then(() => {
+        return [requestToken, json.access_token, expiresAt];
+      })
+      .then((tokens) => {
+        this.saveTokens(tokens[0], tokens[1], tokens[2])
+          .then(() => {
             this.setState({
               loggedIn: true
             });
