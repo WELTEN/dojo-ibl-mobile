@@ -13,7 +13,7 @@ export default class DojoIblMobile extends Component {
     super(props);
 
     this.state = {
-      accessToken: 'nope'
+      accessToken: 'No access token'
     };
   }
 
@@ -56,15 +56,11 @@ export default class DojoIblMobile extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
+        <Text style={styles.title}>
+          Welcome to DojoIblMobile!
         </Text>
-        <Text style={styles.instructions}>
+        <Text style={styles.text}>
           Access token: {this.state.accessToken}
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
         </Text>
       </View>
     );
@@ -78,13 +74,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#3F51B5',
   },
-  welcome: {
+  title: {
     fontSize: 24,
     color: 'rgba(255, 255, 255, .7)',
     textAlign: 'center',
     margin: 10,
   },
-  instructions: {
+  text: {
     textAlign: 'center',
     color: 'rgba(255, 255, 255, .7)',
     marginBottom: 5,
