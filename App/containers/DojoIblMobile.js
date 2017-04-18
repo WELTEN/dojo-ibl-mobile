@@ -25,10 +25,23 @@ export default class DojoIblMobile extends Component {
 
   componentDidMount() {
     this.getTokens().then((tokens) => {
+        console.log(tokens)
+
         if (tokens && !this.accessTokenExpired(tokens)) {
           this.setState({
-            accessToken: 'Already saved',
             loggedIn: true
+          });
+        } else if (tokens && this.accessTokenExpired(tokens)) {
+          this.setState({
+            loggedIn: true
+          });
+
+          this.refreshTokens(tokens).catch((error) => {
+            console.log(error);
+
+            this.setState({
+              loggedIn: false
+            });
           });
         } else {
           Linking.addEventListener('url', this.urlHandler);
@@ -50,7 +63,7 @@ export default class DojoIblMobile extends Component {
   urlHandler(event) {
     const requestToken = (event.url).split('code=')[1];
 
-    this.getAccessTokenJson().then((json) => {
+    this.getAccessTokenJson(requestToken).then((json) => {
         this.setState({
           accessToken: json.access_token
         });
@@ -128,6 +141,31 @@ export default class DojoIblMobile extends Component {
     const currentTime = Date.now() / 1000;
 
     return tokens.expiresAt <= currentTime;
+  }
+
+  refreshTokens(oldTokens) {
+
+    console.log('Logged in with expired token!')
+
+    return new Promise((resolve, reject) => {
+      this.getAccessTokenJson(oldTokens.authToken)
+        .then((json) => {
+          const expiresAt = Math.round(Date.now() / 1000) + json.expires_in;
+
+          console.log(json)
+
+          this.saveTokens(oldTokens.authToken, json.access_token, expiresAt)
+            .then(() => {
+              resolve();
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
   }
 
   render() {
