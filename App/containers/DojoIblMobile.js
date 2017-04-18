@@ -24,7 +24,7 @@ export default class DojoIblMobile extends Component {
     function urlHandler(event) {
       const requestToken = (event.url).split('code=')[1];
 
-      fetch(`https://wespot-arlearn.appspot.com/oauth/token?client_id=${Config.wespot.clientId}&redirect_uri=http://localhost/callback&client_secret=${Config.wespot.clientSecret}&code=${requestToken}`, {
+      fetch(`https://wespot-arlearn.appspot.com/oauth/token?client_id=${Config.wespot.clientId}&redirect_uri=${Config.wespot.redirectUri}&client_secret=${Config.wespot.clientSecret}&code=${requestToken}&grant_type=authorization_code`, {
           method: 'post',
           headers: {
             'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -45,7 +45,7 @@ export default class DojoIblMobile extends Component {
         .catch((error) => {
           console.log('Request failed', error);
           self.setState({
-            url: 'Can\'t get access token!'
+            url: 'Request failed!!'
           });
         });
 

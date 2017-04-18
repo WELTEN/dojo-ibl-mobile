@@ -1,6 +1,7 @@
 export const Config = {
   wespot: {
-    clientId: 'wespotClientId',
-    clientSecret: 'wespotClientSecret'
+    clientId: 'dojo-ibl',
+    clientSecret: 'dojosecret',
+    redirectUri: 'http://dojo-ibl.appspot.com/oauth/wespot'
   }
 };
