@@ -25,7 +25,7 @@ export default class DojoIblMobile extends Component {
 
   componentDidMount() {
     this.getTokens().then((tokens) => {
-        if (tokens) {
+        if (tokens && !this.accessTokenExpired(tokens)) {
           this.setState({
             accessToken: 'Already saved',
             loggedIn: true
@@ -122,6 +122,12 @@ export default class DojoIblMobile extends Component {
           reject(error);
         })
     });
+  }
+
+  accessTokenExpired(tokens) {
+    const currentTime = Date.now() / 1000;
+
+    return tokens.expiresAt <= currentTime;
   }
 
   render() {
