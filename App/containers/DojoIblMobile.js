@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { Config } from '../config';
 import { globalStyles } from '../styles/globalStyles';
+import { Auth } from '../lib/Auth';
 
 export default class DojoIblMobile extends Component {
   constructor(props) {
@@ -25,20 +26,20 @@ export default class DojoIblMobile extends Component {
   }
 
   componentDidMount() {
-    this.getTokens()
+    Auth.getTokens()
       .then((tokens) => {
         console.log(tokens)
 
-        if (tokens && !this.accessTokenExpired(tokens)) {
+        if (tokens && !Auth.accessTokenExpired(tokens)) {
           this.setState({
             loggedIn: true
           });
-        } else if (tokens && this.accessTokenExpired(tokens)) {
+        } else if (tokens && Auth.accessTokenExpired(tokens)) {
           this.setState({
             loggedIn: true
           });
 
-          this.refreshTokens(tokens).catch((error) => {
+          Auth.refreshTokens(tokens).catch((error) => {
             console.log(error);
 
             this.setState({
@@ -65,7 +66,7 @@ export default class DojoIblMobile extends Component {
   handleAuthToken(event) {
     const authToken = (event.url).split('code=')[1];
 
-    this.getAccessTokenJson(authToken)
+    Auth.getAccessTokenJson(authToken)
       .then((json) => {
         this.setState({
           accessToken: json.access_token
@@ -73,7 +74,7 @@ export default class DojoIblMobile extends Component {
 
         const expiresAt = Math.round(Date.now() / 1000) + json.expires_in;
 
-        return this.saveTokens(authToken, json.access_token, expiresAt);
+        return Auth.saveTokens(authToken, json.access_token, expiresAt);
       })
       .then(() => {
         this.setState({
@@ -85,87 +86,6 @@ export default class DojoIblMobile extends Component {
           accessToken: error
         });
       });
-  }
-
-  getAccessTokenJson(authToken) {
-    return new Promise((resolve, reject) => {
-      fetch(`https://wespot-arlearn.appspot.com/oauth/token?client_id=${Config.wespot.clientId}&redirect_uri=${Config.wespot.redirectUri}&client_secret=${Config.wespot.clientSecret}&code=${authToken}&grant_type=authorization_code`, {
-          method: 'post',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-          }
-        })
-        .then((response) => response.json())
-        .then((json) => {
-          if (json.access_token) {
-            resolve(json);
-          } else {
-            reject('Couldn\'t get access token JSON');
-          }
-        })
-        .catch((error) => {
-          reject('Request failed!');
-        });
-    });
-  }
-
-  saveTokens(authToken, accessToken, expiresAt) {
-    return new Promise((resolve, reject) => {
-      AsyncStorage.setItem('tokens', JSON.stringify({
-          authToken: authToken,
-          accessToken: accessToken,
-          expiresAt: expiresAt
-        }))
-        .then(() => {
-          resolve();
-        })
-        .catch((error) => {
-          reject(error)
-        });
-    });
-  }
-
-  getTokens() {
-    return new Promise((resolve, reject) => {
-      AsyncStorage.getItem('tokens')
-        .then((tokensJson) => {
-          const tokens = JSON.parse(tokensJson);
-          resolve(tokens);
-        })
-        .catch((error) => {
-          reject(error);
-        })
-    });
-  }
-
-  accessTokenExpired(tokens) {
-    const currentTime = Math.round(Date.now() / 1000);
-
-    return tokens.expiresAt <= currentTime;
-  }
-
-  refreshTokens(oldTokens) {
-    console.log('Logged in with expired token!')
-
-    return new Promise((resolve, reject) => {
-      this.getAccessTokenJson(oldTokens.authToken)
-        .then((json) => {
-          const expiresAt = Math.round(Date.now() / 1000) + json.expires_in;
-
-          console.log(json)
-
-          this.saveTokens(oldTokens.authToken, json.access_token, expiresAt)
-            .then(() => {
-              resolve();
-            })
-            .catch((error) => {
-              reject(error);
-            });
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
   }
 
   render() {
