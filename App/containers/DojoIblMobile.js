@@ -6,7 +6,8 @@ import {
   View,
   Linking,
   Button,
-  AsyncStorage
+  AsyncStorage,
+  Alert
 } from 'react-native';
 import { Config } from '../config';
 import { globalStyles } from '../styles/globalStyles';
@@ -32,28 +33,28 @@ export default class DojoIblMobile extends Component {
       .then((tokens) => {
         console.log(tokens)
 
-        if (tokens && Auth.accessTokenExpired(tokens)) {
+        if (tokens && !Auth.accessTokenExpired(tokens)) {
           this.setState({
             loggedIn: true,
-            accessToken: tokens.accessToken
+            tokens: tokens
           });
-        } else if (tokens && !Auth.accessTokenExpired(tokens)) {
+        } else if (tokens && Auth.accessTokenExpired(tokens)) {
           Auth.refreshTokens(tokens)
             .then((tokens) => {
               this.setState({
                 loggedIn: true,
-                accessToken: tokens.accessToken
+                tokens: tokens
               });
             })
             .catch((error) => {
-              console.log(error);
+              Alert.alert('Error', error);
             });
         } else {
           Linking.addEventListener('url', this.handleAuthToken);
         }
       })
       .catch((error) => {
-        console.log(error);
+        Alert.alert('Error', error);
       });
   }
 
@@ -82,13 +83,11 @@ export default class DojoIblMobile extends Component {
       .then((tokens) => {
         this.setState({
           loggedIn: true,
-          accessToken: tokens.accessToken
+          tokens: tokens
         });
       })
       .catch((error) => {
-        this.setState({
-          accessToken: error
-        });
+        Alert.alert('Error', error);
       });
   }
 
@@ -100,7 +99,7 @@ export default class DojoIblMobile extends Component {
         });
       })
       .catch((error) => {
-        console.log('Error')
+        Alert.alert('Error', error);
       });
   }
 
@@ -108,7 +107,7 @@ export default class DojoIblMobile extends Component {
     if (!this.state.loggedIn) {
       return <LoginPage openLoginPage={this.openLoginPage} />;
     } else {
-      return <ProfilePage logout={this.logout} accessToken={this.state.accessToken} />;
+      return <ProfilePage logout={this.logout} tokens={this.state.tokens} />;
     }
   }
 }
