@@ -13,8 +13,8 @@ export default class ProfilePage extends Component {
       <View style={globalStyles.container}>
         <Text style={globalStyles.title}>Logged in!</Text>
         <Button
-          onPress={() => { AsyncStorage.clear() }}
-          title="Clear AsyncStorage"
+          onPress={this.props.logout}
+          title="Logout"
           color="#4CAF50"
           />
       </View>

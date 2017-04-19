@@ -26,32 +26,15 @@ export default class Auth {
   }
 
   static saveTokens(authToken, accessToken, expiresAt) {
-    return new Promise((resolve, reject) => {
-      AsyncStorage.setItem('tokens', JSON.stringify({
-          authToken: authToken,
-          accessToken: accessToken,
-          expiresAt: expiresAt
-        }))
-        .then(() => {
-          resolve();
-        })
-        .catch((error) => {
-          reject(error)
-        });
-    });
+    return AsyncStorage.setItem('tokens', JSON.stringify({
+        authToken: authToken,
+        accessToken: accessToken,
+        expiresAt: expiresAt
+      }));
   }
 
   static getTokens() {
-    return new Promise((resolve, reject) => {
-      AsyncStorage.getItem('tokens')
-        .then((tokensJson) => {
-          const tokens = JSON.parse(tokensJson);
-          resolve(tokens);
-        })
-        .catch((error) => {
-          reject(error);
-        })
-    });
+    return AsyncStorage.getItem('tokens').then((tokensJson) => JSON.parse(tokensJson));
   }
 
   static accessTokenExpired(tokens) {
@@ -63,21 +46,17 @@ export default class Auth {
   static refreshTokens(oldTokens) {
     console.log('Logged in with expired token!')
 
-    return new Promise((resolve, reject) => {
-      Auth.getAccessTokenJson(oldTokens.authToken)
+    return Auth.getAccessTokenJson(oldTokens.authToken)
         .then((json) => {
           const expiresAt = Math.round(Date.now() / 1000) + json.expires_in;
 
           console.log(json)
 
           return Auth.saveTokens(oldTokens.authToken, json.access_token, expiresAt);
-        })
-        .then(() => {
-          resolve();
-        })
-        .catch((error) => {
-          reject(error);
         });
-    });
+  }
+
+  static removeTokens() {
+    return AsyncStorage.removeItem('tokens');
   }
 }
