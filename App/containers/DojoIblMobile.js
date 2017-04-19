@@ -10,7 +10,9 @@ import {
 } from 'react-native';
 import { Config } from '../config';
 import { globalStyles } from '../styles/globalStyles';
-import { Auth } from '../lib/Auth';
+import Auth from '../lib/Auth';
+import LoginPage from '../pages/LoginPage';
+import ProfilePage from '../pages/ProfilePage';
 
 export default class DojoIblMobile extends Component {
   constructor(props) {
@@ -90,32 +92,9 @@ export default class DojoIblMobile extends Component {
 
   render() {
     if (!this.state.loggedIn) {
-      return (
-        <View style={globalStyles.container}>
-          <Text style={globalStyles.title}>
-            Welcome to DojoIblMobile!
-          </Text>
-          <Text style={globalStyles.text}>
-            Please log in to continue:
-          </Text>
-          <Button
-            onPress={this.openLoginPage}
-            title="Log in"
-            color="#4CAF50"
-            />
-        </View>
-      );
+      return <LoginPage openLoginPage={this.openLoginPage} />;
     } else {
-      return (
-        <View style={globalStyles.container}>
-          <Text style={globalStyles.title}>Logged in!</Text>
-          <Button
-            onPress={() => { AsyncStorage.clear() }}
-            title="Clear AsyncStorage"
-            color="#4CAF50"
-            />
-        </View>
-      )
+      return <ProfilePage/>;
     }
   }
 }

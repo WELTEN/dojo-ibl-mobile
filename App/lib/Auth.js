@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { AsyncStorage } from 'react-native';
 import { Config } from '../config';
 
-export class Auth {
+export default class Auth {
   static getAccessTokenJson(authToken) {
     return new Promise((resolve, reject) => {
       fetch(`https://wespot-arlearn.appspot.com/oauth/token?client_id=${Config.wespot.clientId}&redirect_uri=${Config.wespot.redirectUri}&client_secret=${Config.wespot.clientSecret}&code=${authToken}&grant_type=authorization_code`, {
