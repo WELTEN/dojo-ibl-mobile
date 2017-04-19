@@ -73,18 +73,12 @@ export default class DojoIblMobile extends Component {
 
         const expiresAt = Math.round(Date.now() / 1000) + json.expires_in;
 
-        return [authToken, json.access_token, expiresAt];
+        return this.saveTokens(authToken, json.access_token, expiresAt);
       })
-      .then((tokens) => {
-        this.saveTokens(tokens[0], tokens[1], tokens[2])
-          .then(() => {
-            this.setState({
-              loggedIn: true
-            });
-          })
-          .catch((error) => {
-            console.log('Error');
-          });
+      .then(() => {
+        this.setState({
+          loggedIn: true
+        });
       })
       .catch((error) => {
         this.setState({
