@@ -19,7 +19,6 @@ export default class DojoIblMobile extends Component {
     super(props);
 
     this.state = {
-      accessToken: 'No access token',
       loggedIn: false
     };
 
@@ -33,22 +32,22 @@ export default class DojoIblMobile extends Component {
       .then((tokens) => {
         console.log(tokens)
 
-        if (tokens && !Auth.accessTokenExpired(tokens)) {
+        if (tokens && Auth.accessTokenExpired(tokens)) {
           this.setState({
-            loggedIn: true
+            loggedIn: true,
+            accessToken: tokens.accessToken
           });
-        } else if (tokens && Auth.accessTokenExpired(tokens)) {
-          this.setState({
-            loggedIn: true
-          });
-
-          Auth.refreshTokens(tokens).catch((error) => {
-            console.log(error);
-
-            this.setState({
-              loggedIn: false
+        } else if (tokens && !Auth.accessTokenExpired(tokens)) {
+          Auth.refreshTokens(tokens)
+            .then((tokens) => {
+              this.setState({
+                loggedIn: true,
+                accessToken: tokens.accessToken
+              });
+            })
+            .catch((error) => {
+              console.log(error);
             });
-          });
         } else {
           Linking.addEventListener('url', this.handleAuthToken);
         }
@@ -64,6 +63,7 @@ export default class DojoIblMobile extends Component {
 
   openLoginPage() {
     Linking.openURL('https://wespot-arlearn.appspot.com/Login.html?client_id=dojo-ibl&redirect_uri=dojoiblmobile://dojo-ibl.appspot.com/oauth/wespot&response_type=code&scope=profile+email')
+      .catch((error) => {});
   }
 
   handleAuthToken(event) {
@@ -79,9 +79,10 @@ export default class DojoIblMobile extends Component {
 
         return Auth.saveTokens(authToken, json.access_token, expiresAt);
       })
-      .then(() => {
+      .then((tokens) => {
         this.setState({
-          loggedIn: true
+          loggedIn: true,
+          accessToken: tokens.accessToken
         });
       })
       .catch((error) => {
@@ -107,7 +108,7 @@ export default class DojoIblMobile extends Component {
     if (!this.state.loggedIn) {
       return <LoginPage openLoginPage={this.openLoginPage} />;
     } else {
-      return <ProfilePage logout={this.logout}/>;
+      return <ProfilePage logout={this.logout} accessToken={this.state.accessToken} />;
     }
   }
 }

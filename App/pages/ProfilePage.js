@@ -8,6 +8,12 @@ import {
 import { globalStyles } from '../styles/globalStyles';
 
 export default class ProfilePage extends Component {
+  constructor(props) {
+    super(props);
+
+    console.log(this.props.accessToken)
+  }
+
   render() {
     return (
       <View style={globalStyles.container}>

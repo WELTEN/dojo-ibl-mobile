@@ -30,7 +30,14 @@ export default class Auth {
         authToken: authToken,
         accessToken: accessToken,
         expiresAt: expiresAt
-      }));
+      }))
+      .then(() => {
+        return {
+          authToken: authToken,
+          accessToken: accessToken,
+          expiresAt: expiresAt
+        };
+      });
   }
 
   static getTokens() {
