@@ -3,7 +3,11 @@ import {
   Text,
   View,
   Button,
-  AsyncStorage
+  AsyncStorage,
+  ScrollView,
+  Dimensions,
+  StyleSheet,
+  Image
 } from 'react-native';
 import { globalStyles } from '../styles/globalStyles';
 
@@ -12,8 +16,10 @@ export default class ProfilePage extends Component {
     super(props);
 
     this.state = {
-      profileData: null
+      profileData: {}
     };
+
+    this.getProfilePicture = this.getProfilePicture.bind(this);
   }
 
   componentDidMount() {
@@ -30,23 +36,110 @@ export default class ProfilePage extends Component {
       })
       .then((response) => response.json())
       .then((json) => {
-        console.log(`GoogleLogin auth=${this.props.tokens.accessToken}`)
+        // Temporary fake account JSON because the actual JSON doesn't work yet
+        json = {
+          type: 'org.celstec.arlearn2.beans.account.Account',
+          localId: 'rafaelklaessen',
+          accountType: 5,
+          email: 'rafaelklaessen@agoraroermond.nl',
+          name: 'Rafael Klaessen',
+          givenName: 'Rafael',
+          familyName: 'Klaessen',
+          picture: '',
+          accountLevel: 2,
+          allowTrackLocation: false
+        };
+
+        this.setState({
+          profileData: json
+        });
+
         console.log(json)
       });
   }
 
+  getProfilePicture() {
+    if (typeof this.state.profileData.picture == 'undefined' || this.state.profileData.picture == '') {
+      return (
+        <Image
+          style={styles.headerProfilePicture}
+          source={require('../img/default-profile-picture.png')}
+        />
+      );
+    } else {
+      return (
+        <Image
+          style={styles.headerProfilePicture}
+          source={{uri: this.state.profileData.picture}}
+        />
+      );
+    }
+  }
+
   render() {
     return (
-      <View style={globalStyles.container}>
-        <Text style={globalStyles.title}>Logged in!</Text>
-        <Text style={globalStyles.text}>Logged in with access token: {JSON.stringify(this.props.tokens)}</Text>
-        <Text style={globalStyles.text}>ProfileData: {JSON.stringify(this.state.profileData)}</Text>
-        <Button
-          onPress={this.props.logout}
-          title="Logout"
-          color="#4CAF50"
+      <ScrollView style={{flex: 1, backgroundColor: '#2F4050'}}>
+        <Image
+          style={styles.headerBackground}
+          source={require('../img/material-wallpaper.jpg')}
+          resizeMode='cover'
+        />
+        <View style={styles.header}>
+          {this.getProfilePicture()}
+          <Text style={styles.headerName}>{typeof this.state.profileData.name == 'undefined' ? 'Loading' : this.state.profileData.name}</Text>
+          <Text style={styles.headerEmail}>{typeof this.state.profileData.email == 'undefined' ? 'Loading' : this.state.profileData.email}</Text>
+        </View>
+        <View style={{flex: 1}}>
+          <Text style={globalStyles.text}>Logged in with access token: {JSON.stringify(this.props.tokens)}</Text>
+        </View>
+        <View style={{flex: 1}}>
+          <Text style={globalStyles.text}>ProfileData: {JSON.stringify(this.state.profileData)}</Text>
+        </View>
+        <View style={{flex: 1}}>
+          <Button
+            onPress={this.props.logout}
+            title='Logout'
+            color='#4CAF50'
           />
-      </View>
+        </View>
+      </ScrollView>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  headerBackground: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height * 0.3,
+    backgroundColor: '#FFC107'
+  },
+  header: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    height: Dimensions.get('window').height * 0.3,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  headerProfilePicture: {
+    marginBottom: Dimensions.get('window').height * 0.3 / 20,
+    width: Dimensions.get('window').width * 0.15,
+    height: Dimensions.get('window').width * 0.15,
+    borderRadius: (Dimensions.get('window').width * 0.15) / 2
+  },
+  headerName: {
+    color: '#FFFFFF',
+    backgroundColor: 'transparent',
+    fontWeight: '700',
+    fontSize: 24,
+    width: Dimensions.get('window').width,
+    textAlign: 'center'
+  },
+  headerEmail: {
+    color: '#FFFFFF',
+    backgroundColor: 'transparent',
+    fontSize: 12,
+    opacity: 0.7
+  }
+});

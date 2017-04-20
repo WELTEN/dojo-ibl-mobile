@@ -3,7 +3,7 @@ export const globalStyles = {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#3F51B5',
+    backgroundColor: '#2F4050',
   },
   title: {
     fontSize: 24,
