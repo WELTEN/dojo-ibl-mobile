@@ -28,7 +28,13 @@ export default class DojoIblMobile extends Component {
     this.logoutWithConfirm = this.logoutWithConfirm.bind(this);
   }
 
-  componentDidMount() {
+  componentWillUnmount() {
+    Linking.removeEventListener(this.handleAccessTokenUrl);
+  }
+
+  handleLoggedInState() {
+    Linking.removeEventListener(this.handleAccessTokenUrl);
+
     Auth.getTokens()
       .then((tokens) => {
         if (tokens && !Auth.accessTokenExpired(tokens)) {
@@ -46,10 +52,6 @@ export default class DojoIblMobile extends Component {
       .catch((error) => {
         Alert.alert('Error', error);
       });
-  }
-
-  componentWillUnmount() {
-    Linking.removeEventListener(this.handleAuthToken);
   }
 
   openLoginPage() {
@@ -99,6 +101,8 @@ export default class DojoIblMobile extends Component {
   }
 
   render() {
+    this.handleLoggedInState();
+
     if (!this.state.loggedIn) {
       return <LoginPage openLoginPage={this.openLoginPage} />;
     } else {
