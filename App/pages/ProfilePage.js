@@ -38,20 +38,6 @@ export default class ProfilePage extends Component {
       })
       .then((response) => response.json())
       .then((json) => {
-        // Temporary fake account JSON because the actual JSON doesn't work yet
-        json = {
-          type: 'org.celstec.arlearn2.beans.account.Account',
-          localId: 'rafaelklaessen',
-          accountType: 5,
-          email: 'rafaelklaessen@agoraroermond.nl',
-          name: 'Rafael Klaessen',
-          givenName: 'Rafael',
-          familyName: 'Klaessen',
-          picture: '',
-          accountLevel: 2,
-          allowTrackLocation: false
-        };
-
         this.setState({
           profileData: json
         });
