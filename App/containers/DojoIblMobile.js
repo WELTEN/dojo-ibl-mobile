@@ -24,33 +24,23 @@ export default class DojoIblMobile extends Component {
     };
 
     this.openLoginPage = this.openLoginPage.bind(this);
-    this.handleAuthToken = this.handleAuthToken.bind(this);
+    this.handleAccessTokenUrl = this.handleAccessTokenUrl.bind(this);
     this.logoutWithConfirm = this.logoutWithConfirm.bind(this);
   }
 
   componentDidMount() {
     Auth.getTokens()
       .then((tokens) => {
-        console.log(tokens)
-
         if (tokens && !Auth.accessTokenExpired(tokens)) {
           this.setState({
             loggedIn: true,
             tokens: tokens
           });
         } else if (tokens && Auth.accessTokenExpired(tokens)) {
-          Auth.refreshTokens(tokens)
-            .then((tokens) => {
-              this.setState({
-                loggedIn: true,
-                tokens: tokens
-              });
-            })
-            .catch((error) => {
-              Alert.alert('Error', error);
-            });
+          console.log('Logged in with expired token! A new login is required.');
+          this.logout();
         } else {
-          Linking.addEventListener('url', this.handleAuthToken);
+          Linking.addEventListener('url', this.handleAccessTokenUrl);
         }
       })
       .catch((error) => {
@@ -63,23 +53,17 @@ export default class DojoIblMobile extends Component {
   }
 
   openLoginPage() {
-    Linking.openURL('https://wespot-arlearn.appspot.com/Login.html?client_id=dojo-ibl&redirect_uri=dojoiblmobile://dojo-ibl.appspot.com/oauth/wespot&response_type=code&scope=profile+email')
+    Linking.openURL('https://wespot-arlearn.appspot.com/Login.html?client_id=dojo-ibl&redirect_uri=https://www.rk02.net/dojoiblauthredirect.php&response_type=code&scope=profile+email')
       .catch((error) => {});
   }
 
-  handleAuthToken(event) {
-    const authToken = (event.url).split('code=')[1];
+  handleAccessTokenUrl(event) {
+    const urlData = (event.url).split('/oauth/')[1].split('/');
+    const accessToken = urlData[0];
+    const expiresIn = urlData[2];
+    const expiresAt = Auth.calcExpireAt(expiresIn);
 
-    Auth.getAccessTokenJson(authToken)
-      .then((json) => {
-        this.setState({
-          accessToken: json.access_token
-        });
-
-        const expiresAt = Math.round(Date.now() / 1000) + json.expires_in;
-
-        return Auth.saveTokens(authToken, json.access_token, expiresAt);
-      })
+    Auth.saveTokens(accessToken, expiresAt)
       .then((tokens) => {
         this.setState({
           loggedIn: true,
