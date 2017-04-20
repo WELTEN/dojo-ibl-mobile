@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Alert,
   Text,
   View,
   Button,
@@ -7,7 +8,8 @@ import {
   ScrollView,
   Dimensions,
   StyleSheet,
-  Image
+  Image,
+  TouchableHighlight
 } from 'react-native';
 import { globalStyles } from '../styles/globalStyles';
 
@@ -89,19 +91,10 @@ export default class ProfilePage extends Component {
           <Text style={styles.headerName}>{typeof this.state.profileData.name == 'undefined' ? 'Loading' : this.state.profileData.name}</Text>
           <Text style={styles.headerEmail}>{typeof this.state.profileData.email == 'undefined' ? 'Loading' : this.state.profileData.email}</Text>
         </View>
-        <View style={{flex: 1}}>
-          <Text style={globalStyles.text}>Logged in with access token: {JSON.stringify(this.props.tokens)}</Text>
-        </View>
-        <View style={{flex: 1}}>
-          <Text style={globalStyles.text}>ProfileData: {JSON.stringify(this.state.profileData)}</Text>
-        </View>
-        <View style={{flex: 1}}>
-          <Button
-            onPress={this.props.logout}
-            title='Logout'
-            color='#4CAF50'
-          />
-        </View>
+        <TouchableHighlight onPress={this.props.logout}>
+          <Text style={styles.logoutBtn}>Logout</Text>
+        </TouchableHighlight>
+        <Text style={styles.tasksTitle}>Upcoming activities</Text>
       </ScrollView>
     );
   }
@@ -111,7 +104,6 @@ const styles = StyleSheet.create({
   headerBackground: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height * 0.3,
-    backgroundColor: '#FFC107'
   },
   header: {
     position: 'absolute',
@@ -131,7 +123,7 @@ const styles = StyleSheet.create({
   headerName: {
     color: '#FFFFFF',
     backgroundColor: 'transparent',
-    fontWeight: '700',
+    fontWeight: '300',
     fontSize: 24,
     width: Dimensions.get('window').width,
     textAlign: 'center'
@@ -141,5 +133,17 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     fontSize: 12,
     opacity: 0.7
+  },
+  logoutBtn: {
+    padding: 10,
+    color: '#1AB394',
+    backgroundColor: '#FFFFFF',
+    textAlign: 'center'
+  },
+  tasksTitle: {
+    margin: 20,
+    color: '#FFFFFF',
+    fontSize: 24,
+    fontWeight: '300'
   }
 });

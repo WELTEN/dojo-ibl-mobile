@@ -25,7 +25,7 @@ export default class DojoIblMobile extends Component {
 
     this.openLoginPage = this.openLoginPage.bind(this);
     this.handleAuthToken = this.handleAuthToken.bind(this);
-    this.logout = this.logout.bind(this);
+    this.logoutWithConfirm = this.logoutWithConfirm.bind(this);
   }
 
   componentDidMount() {
@@ -91,6 +91,17 @@ export default class DojoIblMobile extends Component {
       });
   }
 
+  logoutWithConfirm() {
+    Alert.alert(
+      'Are you sure you want to log out?',
+      'Are you sure you want to log out? You\'ll have to log in again to access your data.',
+      [
+        {text: 'Cancel'},
+        {text: 'Logout', onPress: () => this.logout()}
+      ]
+    );
+  }
+
   logout() {
     Auth.removeTokens()
       .then(() => {
@@ -107,7 +118,7 @@ export default class DojoIblMobile extends Component {
     if (!this.state.loggedIn) {
       return <LoginPage openLoginPage={this.openLoginPage} />;
     } else {
-      return <ProfilePage logout={this.logout} tokens={this.state.tokens} />;
+      return <ProfilePage logout={this.logoutWithConfirm} tokens={this.state.tokens} />;
     }
   }
 }
