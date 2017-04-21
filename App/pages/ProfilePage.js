@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import {
-  Alert,
-  Text,
-  View,
-  Button,
-  AsyncStorage,
-  ScrollView,
-  Dimensions,
-  StyleSheet,
   Image,
-  TouchableHighlight
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  View
 } from 'react-native';
 import { globalStyles } from '../styles/globalStyles';
 import { colors } from '../styles/colors';

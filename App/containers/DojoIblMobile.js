@@ -1,16 +1,9 @@
 import React, { Component } from 'react';
 import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-  Linking,
-  Button,
-  AsyncStorage,
-  Alert
+  Alert,
+  Linking
 } from 'react-native';
-import { Config } from '../config';
-import { globalStyles } from '../styles/globalStyles';
+import { config } from '../config';
 import Auth from '../lib/Auth';
 import LoginPage from '../pages/LoginPage';
 import ProfilePage from '../pages/ProfilePage';
@@ -55,7 +48,7 @@ export default class DojoIblMobile extends Component {
   }
 
   openLoginPage() {
-    Linking.openURL('https://wespot-arlearn.appspot.com/Login.html?client_id=dojo-ibl&redirect_uri=https://www.rk02.net/dojoiblauthredirect.php&response_type=code&scope=profile+email')
+    Linking.openURL(`https://wespot-arlearn.appspot.com/Login.html?client_id=${config.wespot.clientId}&redirect_uri=https://www.rk02.net/dojoiblauthredirect.php&response_type=code&scope=profile+email`)
       .catch((error) => {});
   }
 

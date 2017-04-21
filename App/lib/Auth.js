@@ -1,6 +1,4 @@
-import React, { Component } from 'react';
 import { AsyncStorage } from 'react-native';
-import { Config } from '../config';
 
 export default class Auth {
   static saveTokens(accessToken, expiresAt) {

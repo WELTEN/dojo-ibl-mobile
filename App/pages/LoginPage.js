@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {
+  Button,
   Text,
-  View,
-  Button
+  View
 } from 'react-native';
 import { globalStyles } from '../styles/globalStyles';
 import { colors } from '../styles/colors';
