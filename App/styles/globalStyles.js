@@ -1,9 +1,11 @@
+import { colors } from './colors';
+
 export const globalStyles = {
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#2F4050',
+    backgroundColor: colors.backgroundColor,
   },
   title: {
     fontSize: 24,

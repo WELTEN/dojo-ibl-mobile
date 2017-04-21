@@ -12,6 +12,8 @@ import {
   TouchableHighlight
 } from 'react-native';
 import { globalStyles } from '../styles/globalStyles';
+import { colors } from '../styles/colors';
+import { sizes } from '../styles/sizes';
 
 export default class ProfilePage extends Component {
   constructor(props) {
@@ -88,47 +90,47 @@ export default class ProfilePage extends Component {
 
 const styles = StyleSheet.create({
   headerBackground: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height * 0.3,
+    width: sizes.window.width,
+    height: sizes.header.height,
   },
   header: {
     position: 'absolute',
     top: 0,
     left: 0,
-    height: Dimensions.get('window').height * 0.3,
+    height: sizes.header.height,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
   },
   headerProfilePicture: {
-    marginBottom: Dimensions.get('window').height * 0.3 / 20,
-    width: Dimensions.get('window').width * 0.15,
-    height: Dimensions.get('window').width * 0.15,
-    borderRadius: (Dimensions.get('window').width * 0.15) / 2
+    marginBottom: sizes.header.height / 20,
+    width: sizes.header.profilePicture,
+    height: sizes.header.profilePicture,
+    borderRadius: sizes.header.profilePicture / 2
   },
   headerName: {
-    color: '#FFFFFF',
+    color: colors.textColor,
     backgroundColor: 'transparent',
     fontWeight: '300',
     fontSize: 24,
-    width: Dimensions.get('window').width,
+    width: sizes.window.width,
     textAlign: 'center'
   },
   headerEmail: {
-    color: '#FFFFFF',
+    color: colors.textColor,
     backgroundColor: 'transparent',
     fontSize: 12,
     opacity: 0.7
   },
   logoutBtn: {
     padding: 10,
-    color: '#1AB394',
-    backgroundColor: '#FFFFFF',
+    color: colors.secondaryTextColor,
+    backgroundColor: colors.textColor,
     textAlign: 'center'
   },
   tasksTitle: {
     margin: 20,
-    color: '#FFFFFF',
+    color: colors.textColor,
     fontSize: 24,
     fontWeight: '300'
   }

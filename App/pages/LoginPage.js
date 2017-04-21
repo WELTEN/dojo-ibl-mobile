@@ -5,6 +5,7 @@ import {
   Button
 } from 'react-native';
 import { globalStyles } from '../styles/globalStyles';
+import { colors } from '../styles/colors';
 
 export default class LoginPage extends Component {
   render() {
@@ -18,8 +19,8 @@ export default class LoginPage extends Component {
         </Text>
         <Button
           onPress={this.props.openLoginPage}
-          title="Log in"
-          color="#4CAF50"
+          title='Log in'
+          color={colors.secondaryTextColor}
           />
       </View>
     );
