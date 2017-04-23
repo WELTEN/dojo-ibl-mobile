@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
+  TouchableHighlight,
   View
 } from 'react-native';
 import { globalStyles } from '../styles/globalStyles';
@@ -12,8 +13,12 @@ export default class DrawerContent extends Component {
   render() {
     return (
       <View style={styles.drawerContent}>
-        <Text style={styles.drawerText}>Add inquiry</Text>
-        <Text style={styles.drawerText}>Inquiries</Text>
+        <TouchableHighlight onPress={() => this.props.navigate('AddInquiry')}>
+          <Text style={styles.drawerText}>Add inquiry</Text>
+        </TouchableHighlight>
+        <TouchableHighlight onPress={() => this.props.navigate('AllInquiries')}>
+          <Text style={styles.drawerText}>Inquiries</Text>
+        </TouchableHighlight>
       </View>
     );
   }

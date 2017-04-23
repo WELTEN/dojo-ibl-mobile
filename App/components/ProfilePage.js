@@ -13,6 +13,7 @@ import { sizes } from '../styles/sizes';
 import Drawer from 'react-native-drawer';
 import ProfileHeader from './ProfileHeader';
 import { drawerSettings } from '../config/drawerSettings';
+import DrawerContent from '../components/DrawerContent';
 
 export default class ProfilePage extends Component {
   openDrawer = () => {
@@ -21,7 +22,10 @@ export default class ProfilePage extends Component {
 
   render() {
     return (
-      <Drawer ref={(ref) => this._drawer = ref}  {...drawerSettings}>
+      <Drawer
+        ref={(ref) => this._drawer = ref}
+        {...drawerSettings}
+        content={<DrawerContent navigate={this.props.navigate} />}>
         <ScrollView style={{flex: 1, backgroundColor: '#2F4050'}}>
           <ProfileHeader tokens={this.props.tokens} openDrawer={this.openDrawer} />
           <TouchableHighlight onPress={this.props.logout}>
