@@ -3,6 +3,7 @@ import {
   Image,
   StyleSheet,
   Text,
+  TouchableHighlight,
   View
 } from 'react-native';
 import { globalStyles } from '../styles/globalStyles';
@@ -67,11 +68,17 @@ export default class ProfileHeader extends Component {
           style={styles.headerBackground}
           source={require('../img/material-wallpaper.jpg')}
           resizeMode='cover'
-        />
+          />
         <View style={styles.header}>
           {this.getProfilePicture()}
           <Text style={styles.headerName}>{typeof this.state.profileData.name == 'undefined' ? 'Loading' : this.state.profileData.name}</Text>
           <Text style={styles.headerEmail}>{typeof this.state.profileData.email == 'undefined' ? 'Loading' : this.state.profileData.email}</Text>
+          <TouchableHighlight style={styles.menuBtn} onPress={this.props.openDrawer}>
+            <Image
+              style={styles.menuBtnImg}
+              source={require('../img/menu.png')}
+              />
+          </TouchableHighlight>
         </View>
       </View>
     );
@@ -111,5 +118,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     fontSize: 12,
     opacity: 0.7
+  },
+  menuBtn: {
+    position: 'absolute',
+    top: 20,
+    left: 20
+  },
+  menuBtnImg: {
+    width: 24,
+    height: 16
   }
 });

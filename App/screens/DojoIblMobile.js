@@ -101,10 +101,12 @@ export default class DojoIblMobile extends Component {
   render() {
     this.handleLoggedInState();
 
+    const { navigate } = this.props.navigation;
+
     if (!this.state.loggedIn) {
       return <LoginPage openLoginPage={this.openLoginPage} />;
     } else {
-      return <ProfilePage logout={this.logoutWithConfirm} tokens={this.state.tokens} />;
+      return <ProfilePage logout={this.logoutWithConfirm} tokens={this.state.tokens} navigate={navigate} />;
     }
   }
 }
