@@ -13,6 +13,12 @@ export const globalStyles = {
     textAlign: 'center',
     margin: 10,
   },
+  whiteTitle: {
+    margin: 20,
+    color: colors.textColor,
+    fontSize: 24,
+    fontWeight: '300'
+  },
   text: {
     textAlign: 'center',
     color: 'rgba(255, 255, 255, .7)',

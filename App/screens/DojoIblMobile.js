@@ -47,8 +47,7 @@ export default class DojoIblMobile extends Component {
         }
       })
       .catch((error) => {
-        //Alert.alert('Error', error);
-        console.log(error)
+        Alert.alert('Error', error);
       });
   }
 

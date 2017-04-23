@@ -17,7 +17,7 @@ export default class DrawerContent extends Component {
           <Text style={styles.drawerText}>Add inquiry</Text>
         </TouchableHighlight>
         <TouchableHighlight onPress={() => this.props.navigate('AllInquiries')}>
-          <Text style={styles.drawerText}>Inquiries</Text>
+          <Text style={styles.drawerText}>All inquiries</Text>
         </TouchableHighlight>
       </View>
     );

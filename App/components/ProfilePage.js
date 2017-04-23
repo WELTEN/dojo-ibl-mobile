@@ -31,7 +31,7 @@ export default class ProfilePage extends Component {
           <TouchableHighlight onPress={this.props.logout}>
             <Text style={styles.logoutBtn}>Logout</Text>
           </TouchableHighlight>
-          <Text style={styles.tasksTitle}>Upcoming activities</Text>
+          <Text style={globalStyles.whiteTitle}>Upcoming activities</Text>
         </ScrollView>
       </Drawer>
     );
@@ -44,11 +44,5 @@ const styles = StyleSheet.create({
     color: colors.secondaryTextColor,
     backgroundColor: colors.textColor,
     textAlign: 'center'
-  },
-  tasksTitle: {
-    margin: 20,
-    color: colors.textColor,
-    fontSize: 24,
-    fontWeight: '300'
   }
 });
