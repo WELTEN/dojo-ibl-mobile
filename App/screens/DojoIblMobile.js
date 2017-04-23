@@ -9,6 +9,10 @@ import LoginPage from '../pages/LoginPage';
 import ProfilePage from '../pages/ProfilePage';
 
 export default class DojoIblMobile extends Component {
+  static navigationOptions = {
+    title: 'DojoIblMobile'
+  };
+
   constructor(props) {
     super(props);
 
