@@ -12,31 +12,19 @@ import { colors } from '../styles/colors';
 import { sizes } from '../styles/sizes';
 import Drawer from 'react-native-drawer';
 import ProfileHeader from './ProfileHeader';
+import { drawerSettings } from '../config/drawerSettings'
 
 export default class ProfilePage extends Component {
-  closeControlPanel = () => {
-    this._drawer.close();
-  };
-
-  openControlPanel = () => {
+  openDrawer = () => {
     this._drawer.open();
-  };
+  }
 
   render() {
     return (
-      <Drawer
-        ref={(ref) => this._drawer = ref}
-        type='static'
-        content={<View><Text>woopwoop</Text></View>}
-        openDrawerOffset={0.2}
-        styles={drawerStyles}
-        tapToClose={true}
-        tweenHandler={Drawer.tweenPresets.parallax}
-        closedDrawerOffset={-3}
-        >
+      <Drawer ref={(ref) => this._drawer = ref}  {...drawerSettings}>
         <ScrollView style={{flex: 1, backgroundColor: '#2F4050'}}>
           <ProfileHeader tokens={this.props.tokens} />
-          <TouchableHighlight onPress={this.openControlPanel}>
+          <TouchableHighlight onPress={this.props.logout}>
             <Text style={styles.logoutBtn}>Logout</Text>
           </TouchableHighlight>
           <Text style={styles.tasksTitle}>Upcoming activities</Text>
@@ -44,11 +32,6 @@ export default class ProfilePage extends Component {
       </Drawer>
     );
   }
-}
-
-const drawerStyles = {
-  drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3},
-  main: {paddingLeft: 3},
 }
 
 const styles = StyleSheet.create({
