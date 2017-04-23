@@ -9,6 +9,10 @@ import { colors } from '../styles/colors';
 import { sizes } from '../styles/sizes';
 
 export default class AllInquiries extends Component {
+  static navigationOptions = {
+    title: 'All inquiries'
+  };
+
   render() {
     return (
       <Text>All inquiries</Text>
