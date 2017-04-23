@@ -12,8 +12,8 @@ export default class DrawerContent extends Component {
   render() {
     return (
       <View style={styles.drawerContent}>
-        <Text style={styles.drawerText}>Drawer</Text>
-        <Text style={styles.drawerText}>Drawer2</Text>
+        <Text style={styles.drawerText}>Add inquiry</Text>
+        <Text style={styles.drawerText}>Inquiries</Text>
       </View>
     );
   }
@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.textColor
   },
   drawerText: {
-    color: colors.backgroundColor
+    color: colors.backgroundColor,
+    fontSize: 16
   }
 });
