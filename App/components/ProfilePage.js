@@ -12,7 +12,7 @@ import { colors } from '../styles/colors';
 import { sizes } from '../styles/sizes';
 import Drawer from 'react-native-drawer';
 import ProfileHeader from './ProfileHeader';
-import { drawerSettings } from '../config/drawerSettings'
+import { drawerSettings } from '../config/drawerSettings';
 
 export default class ProfilePage extends Component {
   openDrawer = () => {
@@ -23,7 +23,7 @@ export default class ProfilePage extends Component {
     return (
       <Drawer ref={(ref) => this._drawer = ref}  {...drawerSettings}>
         <ScrollView style={{flex: 1, backgroundColor: '#2F4050'}}>
-          <ProfileHeader tokens={this.props.tokens} />
+          <ProfileHeader tokens={this.props.tokens} openDrawer={this.openDrawer} />
           <TouchableHighlight onPress={this.props.logout}>
             <Text style={styles.logoutBtn}>Logout</Text>
           </TouchableHighlight>
