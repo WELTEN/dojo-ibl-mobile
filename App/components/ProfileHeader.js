@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 import {
   Image,
-  ScrollView,
   StyleSheet,
   Text,
-  TouchableHighlight,
   View
 } from 'react-native';
 import { globalStyles } from '../styles/globalStyles';
 import { colors } from '../styles/colors';
 import { sizes } from '../styles/sizes';
 
-export default class ProfilePage extends Component {
+export default class ProfileHeader extends Component {
   constructor(props) {
     super(props);
 
@@ -64,7 +62,7 @@ export default class ProfilePage extends Component {
 
   render() {
     return (
-      <ScrollView style={{flex: 1, backgroundColor: '#2F4050'}}>
+      <View>
         <Image
           style={styles.headerBackground}
           source={require('../img/material-wallpaper.jpg')}
@@ -75,11 +73,7 @@ export default class ProfilePage extends Component {
           <Text style={styles.headerName}>{typeof this.state.profileData.name == 'undefined' ? 'Loading' : this.state.profileData.name}</Text>
           <Text style={styles.headerEmail}>{typeof this.state.profileData.email == 'undefined' ? 'Loading' : this.state.profileData.email}</Text>
         </View>
-        <TouchableHighlight onPress={this.props.logout}>
-          <Text style={styles.logoutBtn}>Logout</Text>
-        </TouchableHighlight>
-        <Text style={styles.tasksTitle}>Upcoming activities</Text>
-      </ScrollView>
+      </View>
     );
   }
 }
@@ -117,17 +111,5 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     fontSize: 12,
     opacity: 0.7
-  },
-  logoutBtn: {
-    padding: 10,
-    color: colors.secondaryTextColor,
-    backgroundColor: colors.textColor,
-    textAlign: 'center'
-  },
-  tasksTitle: {
-    margin: 20,
-    color: colors.textColor,
-    fontSize: 24,
-    fontWeight: '300'
   }
 });

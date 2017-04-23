@@ -5,10 +5,14 @@ import {
 } from 'react-native';
 import { config } from '../config';
 import Auth from '../lib/Auth';
-import LoginPage from '../pages/LoginPage';
-import ProfilePage from '../pages/ProfilePage';
+import LoginPage from '../components/LoginPage';
+import ProfilePage from '../components/ProfilePage';
 
 export default class DojoIblMobile extends Component {
+  static navigationOptions = {
+    title: 'DojoIblMobile'
+  };
+
   constructor(props) {
     super(props);
 
@@ -43,7 +47,8 @@ export default class DojoIblMobile extends Component {
         }
       })
       .catch((error) => {
-        Alert.alert('Error', error);
+        //Alert.alert('Error', error);
+        console.log(error)
       });
   }
 

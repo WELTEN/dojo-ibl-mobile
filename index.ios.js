@@ -1,4 +1,7 @@
 import { AppRegistry } from 'react-native';
-import DojoIblMobile from './App/containers/DojoIblMobile';
+import { StackNavigator } from 'react-navigation';
+import { routes } from './App/routes';
 
-AppRegistry.registerComponent('DojoIblMobile', () => DojoIblMobile);
+const App = StackNavigator(routes, { initialRouteName: 'Home' });
+
+AppRegistry.registerComponent('DojoIblMobile', () => App);
