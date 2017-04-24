@@ -7,6 +7,8 @@ import { config } from '../config';
 import Auth from '../lib/Auth';
 import LoginPage from '../components/LoginPage';
 import ProfilePage from '../components/ProfilePage';
+import AllInquiries from './AllInquiries';
+import { TabNavigator } from 'react-navigation';
 
 export default class DojoIblMobile extends Component {
   static navigationOptions = {
@@ -23,6 +25,13 @@ export default class DojoIblMobile extends Component {
     this.openLoginPage = this.openLoginPage.bind(this);
     this.handleAccessTokenUrl = this.handleAccessTokenUrl.bind(this);
     this.logoutWithConfirm = this.logoutWithConfirm.bind(this);
+
+    this.TabNav = TabNavigator({
+        ProfilePage: { screen: ProfilePage },
+        AllInquiries: { screen: AllInquiries }
+      }, {
+        initialRouteName: 'ProfilePage'
+      });
   }
 
   componentWillUnmount() {
@@ -47,7 +56,8 @@ export default class DojoIblMobile extends Component {
         }
       })
       .catch((error) => {
-        Alert.alert('Error', error);
+        console.log(error)
+        //Alert.alert('Error', error);
       });
   }
 
@@ -105,7 +115,17 @@ export default class DojoIblMobile extends Component {
     if (!this.state.loggedIn) {
       return <LoginPage openLoginPage={this.openLoginPage} />;
     } else {
-      return <ProfilePage logout={this.logoutWithConfirm} tokens={this.state.tokens} navigate={navigate} />;
+      const TabNav = this.TabNav;
+
+      return (
+        <TabNav
+          screenProps={{
+            logout: this.logoutWithConfirm,
+            tokens: this.state.tokens,
+            navigate: navigate
+          }}
+          />
+      );
     }
   }
 }
