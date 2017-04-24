@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import {
   Alert,
-  Linking
+  Linking,
+  Platform
 } from 'react-native';
 import { config } from '../config';
 import Auth from '../lib/Auth';
 import LoginPage from '../components/LoginPage';
 import ProfilePage from '../components/ProfilePage';
 import AllInquiries from './AllInquiries';
+import { colors } from '../styles/colors';
 import { TabNavigator } from 'react-navigation';
 
 export default class DojoIblMobile extends Component {
@@ -26,11 +28,27 @@ export default class DojoIblMobile extends Component {
     this.handleAccessTokenUrl = this.handleAccessTokenUrl.bind(this);
     this.logoutWithConfirm = this.logoutWithConfirm.bind(this);
 
+    const tabBarOptionsAndroid = {
+      activeTintColor: colors.textColor,
+      inactiveTintColor: 'rgba(255, 255, 255, .7)',
+      style: {
+        backgroundColor: colors.secondaryTextColor
+      },
+      indicatorStyle: {
+        backgroundColor: colors.textColor
+      }
+    };
+    const tabBarOptions = Platform.OS == 'android' ? tabBarOptionsAndroid : {};
+
     this.TabNav = TabNavigator({
         ProfilePage: { screen: ProfilePage },
         AllInquiries: { screen: AllInquiries }
       }, {
-        initialRouteName: 'ProfilePage'
+        initialRouteName: 'ProfilePage',
+        tabBarConfig: {
+          swipeEnabled: false
+        },
+        tabBarOptions: tabBarOptions
       });
   }
 

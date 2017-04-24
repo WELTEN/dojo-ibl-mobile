@@ -13,7 +13,7 @@ import AllInquiriesList from '../components/AllInquiriesList';
 
 export default class AllInquiries extends Component {
   static navigationOptions = {
-    title: 'All inquiries'
+    tabBarLabel: 'All inquiries'
   }
 
   render() {

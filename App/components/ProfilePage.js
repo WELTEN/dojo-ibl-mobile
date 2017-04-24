@@ -13,6 +13,10 @@ import { sizes } from '../styles/sizes';
 import ProfileHeader from './ProfileHeader';
 
 export default class ProfilePage extends Component {
+  static navigationOptions = {
+    tabBarLabel: 'Profile'
+  }
+
   render() {
     return (
       <ScrollView style={{flex: 1, backgroundColor: '#2F4050'}}>
