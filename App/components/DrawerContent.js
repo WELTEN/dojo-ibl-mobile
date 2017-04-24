@@ -17,7 +17,7 @@ export default class DrawerContent extends Component {
           <Text style={styles.drawerText}>Add inquiry</Text>
         </TouchableHighlight>
         <TouchableHighlight onPress={() => this.props.navigate('AllInquiries')}>
-          <Text style={styles.drawerText}>Inquiries</Text>
+          <Text style={styles.drawerText}>All inquiries</Text>
         </TouchableHighlight>
       </View>
     );
@@ -26,7 +26,7 @@ export default class DrawerContent extends Component {
 
 const styles = StyleSheet.create({
   drawerContent: {
-    padding: 10,
+    padding: sizes.offset,
     width: sizes.window.width * 0.8,
     height: sizes.window.height,
     backgroundColor: colors.textColor

@@ -8,5 +8,6 @@ export const sizes = {
   header: {
     height: Dimensions.get('window').height * 0.3,
     profilePicture: Dimensions.get('window').width * 0.15
-  }
+  },
+  offset: 20
 };

@@ -10,7 +10,7 @@ import ProfilePage from '../components/ProfilePage';
 
 export default class DojoIblMobile extends Component {
   static navigationOptions = {
-    title: 'DojoIblMobile'
+    title: 'Home'
   };
 
   constructor(props) {
@@ -47,8 +47,7 @@ export default class DojoIblMobile extends Component {
         }
       })
       .catch((error) => {
-        //Alert.alert('Error', error);
-        console.log(error)
+        Alert.alert('Error', error);
       });
   }
 
