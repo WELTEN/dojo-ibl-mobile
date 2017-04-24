@@ -14,7 +14,8 @@ import { TabNavigator } from 'react-navigation';
 
 export default class DojoIblMobile extends Component {
   static navigationOptions = {
-    title: 'Home'
+    title: 'Home',
+    headerVisible: Platform.OS != 'android'
   };
 
   constructor(props) {
@@ -29,13 +30,13 @@ export default class DojoIblMobile extends Component {
     this.logoutWithConfirm = this.logoutWithConfirm.bind(this);
 
     const tabBarOptionsAndroid = {
-      activeTintColor: colors.textColor,
-      inactiveTintColor: 'rgba(255, 255, 255, .7)',
+      activeTintColor: colors.backgroundColor,
+      inactiveTintColor: 'rgba(47, 64, 80, .7)',
       style: {
-        backgroundColor: colors.secondaryTextColor
+        backgroundColor: colors.textColor
       },
       indicatorStyle: {
-        backgroundColor: colors.textColor
+        backgroundColor: colors.secondaryTextColor
       }
     };
     const tabBarOptions = Platform.OS == 'android' ? tabBarOptionsAndroid : {};
