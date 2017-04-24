@@ -21,10 +21,9 @@ export default class AllInquiriesList extends Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     Auth.getTokens()
       .then((tokens) => {
-        console.log(tokens)
         this.loadInquiries(tokens);
       })
       .catch((error) => {

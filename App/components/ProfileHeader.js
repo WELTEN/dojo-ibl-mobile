@@ -21,7 +21,7 @@ export default class ProfileHeader extends Component {
     this.getProfilePicture = this.getProfilePicture.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.loadProfileData();
   }
 
