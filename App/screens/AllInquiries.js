@@ -17,10 +17,12 @@ export default class AllInquiries extends Component {
   }
 
   render() {
+    const { navigate } = this.props.navigation;
+
     return (
       <ScrollView style={{flex: 1, backgroundColor: '#2F4050'}}>
         <Text style={globalStyles.whiteTitle}>All inquiries</Text>
-        <AllInquiriesList />
+        <AllInquiriesList navigate={navigate} />
       </ScrollView>
     );
   }

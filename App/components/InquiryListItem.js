@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
+  TouchableHighlight,
   View
 } from 'react-native';
 import { globalStyles } from '../styles/globalStyles';
@@ -12,7 +13,6 @@ export default class InquiryListItem extends Component {
   constructor(props) {
     super(props);
 
-    this.inquiryTitle = this.removeHtmlTagsFromString(this.props.inquiry.title);
     this.inquiryDescription = this.removeHtmlTagsFromString(this.props.inquiry.description || '');
   }
 
@@ -23,10 +23,12 @@ export default class InquiryListItem extends Component {
   render() {
     console.log(this.props.inquiry)
     return (
-      <View style={styles.inquiry}>
-        <Text style={styles.inquiryTitle}>{this.inquiryTitle}</Text>
-        {this.inquiryDescription.length != 0 && <Text style={styles.inquiryDescription}>{this.inquiryDescription}</Text>}
-      </View>
+      <TouchableHighlight onPress={this.props.onPress}>
+        <View style={styles.inquiry}>
+          <Text style={styles.inquiryTitle}>{this.props.inquiry.title}</Text>
+          {this.inquiryDescription.length != 0 && <Text style={styles.inquiryDescription}>{this.inquiryDescription}</Text>}
+        </View>
+      </TouchableHighlight>
     );
   }
 }

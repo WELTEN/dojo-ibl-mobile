@@ -55,7 +55,12 @@ export default class AllInquiriesList extends Component {
       <View style={styles.container}>
         <ListView
           dataSource={this.state.inquiries}
-          renderRow={(inquiry) => <InquiryListItem inquiry={inquiry} />}
+          renderRow={(inquiry) =>
+            <InquiryListItem
+              inquiry={inquiry}
+              onPress={() => this.props.navigate('Inquiry', { inquiry: inquiry })}
+              />
+          }
           enableEmptySections={true}
           />
       </View>
