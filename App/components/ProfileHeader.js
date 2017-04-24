@@ -73,12 +73,6 @@ export default class ProfileHeader extends Component {
           {this.getProfilePicture()}
           <Text style={styles.headerName}>{typeof this.state.profileData.name == 'undefined' ? 'Loading' : this.state.profileData.name}</Text>
           <Text style={styles.headerEmail}>{typeof this.state.profileData.email == 'undefined' ? 'Loading' : this.state.profileData.email}</Text>
-          <TouchableHighlight style={styles.menuBtn} onPress={this.props.openDrawer}>
-            <Image
-              style={styles.menuBtnImg}
-              source={require('../img/menu.png')}
-              />
-          </TouchableHighlight>
         </View>
       </View>
     );
