@@ -26,7 +26,7 @@ export default class DrawerContent extends Component {
 
 const styles = StyleSheet.create({
   drawerContent: {
-    padding: 10,
+    padding: sizes.offset,
     width: sizes.window.width * 0.8,
     height: sizes.window.height,
     backgroundColor: colors.textColor

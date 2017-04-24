@@ -121,8 +121,8 @@ const styles = StyleSheet.create({
   },
   menuBtn: {
     position: 'absolute',
-    top: 20,
-    left: 20
+    top: sizes.offset,
+    left: sizes.offset
   },
   menuBtnImg: {
     width: 24,
