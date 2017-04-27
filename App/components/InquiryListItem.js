@@ -21,7 +21,6 @@ export default class InquiryListItem extends Component {
   }
 
   render() {
-    console.log(this.props.inquiry)
     return (
       <TouchableHighlight onPress={this.props.onPress}>
         <View style={styles.inquiry}>

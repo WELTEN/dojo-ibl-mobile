@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
 import {
   Alert,
-  Linking
+  Linking,
+  Platform
 } from 'react-native';
 import { config } from '../config';
 import Auth from '../lib/Auth';
 import LoginPage from '../components/LoginPage';
 import ProfilePage from '../components/ProfilePage';
+import AllInquiries from './AllInquiries';
+import { colors } from '../styles/colors';
+import { TabNavigator } from 'react-navigation';
 
 export default class DojoIblMobile extends Component {
   static navigationOptions = {
-    title: 'Home'
+    title: 'Home',
+    header: Platform.OS == 'android' ? null : undefined
   };
 
   constructor(props) {
@@ -23,6 +28,27 @@ export default class DojoIblMobile extends Component {
     this.openLoginPage = this.openLoginPage.bind(this);
     this.handleAccessTokenUrl = this.handleAccessTokenUrl.bind(this);
     this.logoutWithConfirm = this.logoutWithConfirm.bind(this);
+
+    const tabBarOptionsAndroid = {
+      activeTintColor: colors.backgroundColor,
+      inactiveTintColor: 'rgba(47, 64, 80, .7)',
+      pressColor: colors.secondaryTextColor,
+      style: {
+        backgroundColor: colors.textColor
+      },
+      indicatorStyle: {
+        backgroundColor: colors.secondaryTextColor
+      }
+    };
+    const tabBarOptions = Platform.OS == 'android' ? tabBarOptionsAndroid : {};
+
+    this.TabNav = TabNavigator({
+        ProfilePage: { screen: ProfilePage },
+        AllInquiries: { screen: AllInquiries }
+      }, {
+        initialRouteName: 'ProfilePage',
+        tabBarOptions: tabBarOptions
+      });
   }
 
   componentWillUnmount() {
@@ -47,6 +73,7 @@ export default class DojoIblMobile extends Component {
         }
       })
       .catch((error) => {
+        console.log(error)
         Alert.alert('Error', error);
       });
   }
@@ -105,7 +132,17 @@ export default class DojoIblMobile extends Component {
     if (!this.state.loggedIn) {
       return <LoginPage openLoginPage={this.openLoginPage} />;
     } else {
-      return <ProfilePage logout={this.logoutWithConfirm} tokens={this.state.tokens} navigate={navigate} />;
+      const TabNav = this.TabNav;
+
+      return (
+        <TabNav
+          screenProps={{
+            logout: this.logoutWithConfirm,
+            tokens: this.state.tokens,
+            navigate: navigate
+          }}
+          />
+      );
     }
   }
 }

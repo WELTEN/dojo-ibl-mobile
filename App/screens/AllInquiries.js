@@ -13,16 +13,14 @@ import AllInquiriesList from '../components/AllInquiriesList';
 
 export default class AllInquiries extends Component {
   static navigationOptions = {
-    title: 'All inquiries'
+    tabBarLabel: 'All inquiries'
   }
 
   render() {
-    const { navigate } = this.props.navigation;
-
     return (
       <ScrollView style={{flex: 1, backgroundColor: '#2F4050'}}>
         <Text style={globalStyles.whiteTitle}>All inquiries</Text>
-        <AllInquiriesList navigate={navigate} />
+        <AllInquiriesList navigate={this.props.screenProps.navigate} />
       </ScrollView>
     );
   }
