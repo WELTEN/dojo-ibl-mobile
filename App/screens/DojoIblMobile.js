@@ -15,7 +15,7 @@ import { TabNavigator } from 'react-navigation';
 export default class DojoIblMobile extends Component {
   static navigationOptions = {
     title: 'Home',
-    headerVisible: Platform.OS != 'android'
+    header: Platform.OS == 'android' ? null : undefined
   };
 
   constructor(props) {
@@ -32,6 +32,7 @@ export default class DojoIblMobile extends Component {
     const tabBarOptionsAndroid = {
       activeTintColor: colors.backgroundColor,
       inactiveTintColor: 'rgba(47, 64, 80, .7)',
+      pressColor: colors.secondaryTextColor,
       style: {
         backgroundColor: colors.textColor
       },
@@ -46,9 +47,6 @@ export default class DojoIblMobile extends Component {
         AllInquiries: { screen: AllInquiries }
       }, {
         initialRouteName: 'ProfilePage',
-        tabBarConfig: {
-          swipeEnabled: false
-        },
         tabBarOptions: tabBarOptions
       });
   }
@@ -76,7 +74,7 @@ export default class DojoIblMobile extends Component {
       })
       .catch((error) => {
         console.log(error)
-        //Alert.alert('Error', error);
+        Alert.alert('Error', error);
       });
   }
 
