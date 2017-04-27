@@ -20,7 +20,7 @@ export default class AllInquiries extends Component {
     return (
       <ScrollView style={{flex: 1, backgroundColor: '#2F4050'}}>
         <Text style={globalStyles.whiteTitle}>All inquiries</Text>
-        <AllInquiriesList navigate={this.props.screenProps.navigate} />
+        <AllInquiriesList navigate={this.props.screenProps.navigate} tokens={this.props.screenProps.tokens} />
       </ScrollView>
     );
   }

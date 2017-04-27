@@ -22,13 +22,7 @@ export default class AllInquiriesList extends Component {
   }
 
   componentWillMount() {
-    Auth.getTokens()
-      .then((tokens) => {
-        this.loadInquiries(tokens);
-      })
-      .catch((error) => {
-        Alert.alert('Error', error);
-      });
+    this.loadInquiries(this.props.tokens);
   }
 
   loadInquiries(tokens) {
