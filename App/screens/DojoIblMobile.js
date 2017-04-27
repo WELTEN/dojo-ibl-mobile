@@ -47,6 +47,7 @@ export default class DojoIblMobile extends Component {
         AllInquiries: { screen: AllInquiries }
       }, {
         initialRouteName: 'ProfilePage',
+        lazy: true,
         tabBarOptions: tabBarOptions
       });
   }

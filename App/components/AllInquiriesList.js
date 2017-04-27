@@ -63,7 +63,7 @@ export default class AllInquiriesList extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginLeft: 20,
-    marginRight: 20
+    marginLeft: sizes.offset,
+    marginRight: sizes.offset
   }
 });

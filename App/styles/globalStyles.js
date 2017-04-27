@@ -8,6 +8,10 @@ export const globalStyles = {
     alignItems: 'center',
     backgroundColor: colors.backgroundColor,
   },
+  containerScrollView: {
+    flex: 1,
+    backgroundColor: colors.backgroundColor
+  },
   title: {
     margin: 10,
     fontSize: 24,
@@ -21,8 +25,14 @@ export const globalStyles = {
     fontWeight: '300'
   },
   text: {
+    marginBottom: 10,
     textAlign: 'center',
-    color: 'rgba(255, 255, 255, .7)',
-    marginBottom: 5,
+    color: 'rgba(255, 255, 255, .7)'
+  },
+  leftText: {
+    marginBottom: 10,
+    marginLeft: sizes.offset,
+    marginRight: sizes.offset,
+    color: 'rgba(255, 255, 255, .7)'
   }
 };

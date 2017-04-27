@@ -18,7 +18,7 @@ export default class AllInquiries extends Component {
 
   render() {
     return (
-      <ScrollView style={{flex: 1, backgroundColor: '#2F4050'}}>
+      <ScrollView style={globalStyles.containerScrollView}>
         <Text style={globalStyles.whiteTitle}>All inquiries</Text>
         <AllInquiriesList navigate={this.props.screenProps.navigate} tokens={this.props.screenProps.tokens} />
       </ScrollView>
