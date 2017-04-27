@@ -25,14 +25,14 @@ export const globalStyles = {
     fontWeight: '300'
   },
   text: {
-    marginBottom: 10,
+    marginBottom: sizes.offset,
     textAlign: 'center',
-    color: 'rgba(255, 255, 255, .7)'
+    color: colors.textColor
   },
   leftText: {
-    marginBottom: 10,
+    marginBottom: sizes.offset,
     marginLeft: sizes.offset,
     marginRight: sizes.offset,
-    color: 'rgba(255, 255, 255, .7)'
+    color: colors.textColor
   }
 };

@@ -32,11 +32,12 @@ export default class Inquiry extends Component {
     return (
       <ScrollView style={globalStyles.containerScrollView}>
         <Text style={globalStyles.whiteTitle}>{this.inquiry.title}</Text>
-        <Text style={globalStyles.leftText}>
-          {this.removeHtmlTagsFromString(this.inquiry.description)}
-        </Text>
+        {this.inquiry.description &&
+          <Text style={globalStyles.leftText}>
+            {this.removeHtmlTagsFromString(this.inquiry.description)}
+          </Text>
+        }
         <ListView
-          style={styles.phaseList}
           dataSource={this.phases}
           renderRow={(phase) =>
             <Phase phase={phase} />
@@ -47,10 +48,3 @@ export default class Inquiry extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  phaseList: {
-    marginLeft: sizes.offset,
-    marginRight: sizes.offset
-  }
-});

@@ -25,7 +25,11 @@ export default class InquiryListItem extends Component {
       <TouchableHighlight onPress={this.props.onPress}>
         <View style={styles.inquiry}>
           <Text style={styles.inquiryTitle}>{this.props.inquiry.title}</Text>
-          {this.inquiryDescription.length != 0 && <Text style={styles.inquiryDescription}>{this.inquiryDescription}</Text>}
+          {this.inquiryDescription.length != 0 &&
+            <Text style={styles.inquiryDescription}>
+              {this.inquiryDescription}
+            </Text>
+          }
         </View>
       </TouchableHighlight>
     );
@@ -36,8 +40,7 @@ const styles = StyleSheet.create({
   inquiry: {
     marginBottom: sizes.offset / 2,
     padding: sizes.offset / 2,
-    backgroundColor: 'white',
-    opacity: 0.8,
+    backgroundColor: 'rgba(255, 255, 255, .8)',
     borderRadius: 2
   },
   inquiryTitle: {
