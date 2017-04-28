@@ -11,15 +11,7 @@ import { colors } from '../styles/colors';
 import { sizes } from '../styles/sizes';
 
 export default class ProfileHeader extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      profileData: {}
-    };
-
-    this.getProfilePicture = this.getProfilePicture.bind(this);
-  }
+  state = { profileData: {} };
 
   componentWillMount() {
     this.loadProfileData();
@@ -43,7 +35,7 @@ export default class ProfileHeader extends Component {
       });
   }
 
-  getProfilePicture() {
+  getProfilePicture = () => {
     if (typeof this.state.profileData.picture == 'undefined' || this.state.profileData.picture == '') {
       return (
         <Image

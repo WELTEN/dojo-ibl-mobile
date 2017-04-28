@@ -18,39 +18,28 @@ export default class DojoIblMobile extends Component {
     header: Platform.OS == 'android' ? null : undefined
   };
 
-  constructor(props) {
-    super(props);
+  state = { loggedIn: false };
 
-    this.state = {
-      loggedIn: false
-    };
+  tabBarOptionsAndroid = {
+    activeTintColor: colors.backgroundColor,
+    inactiveTintColor: 'rgba(47, 64, 80, .7)',
+    pressColor: colors.secondaryTextColor,
+    style: {
+      backgroundColor: colors.textColor
+    },
+    indicatorStyle: {
+      backgroundColor: colors.secondaryTextColor
+    }
+  };
 
-    this.openLoginPage = this.openLoginPage.bind(this);
-    this.handleAccessTokenUrl = this.handleAccessTokenUrl.bind(this);
-    this.logoutWithConfirm = this.logoutWithConfirm.bind(this);
-
-    const tabBarOptionsAndroid = {
-      activeTintColor: colors.backgroundColor,
-      inactiveTintColor: 'rgba(47, 64, 80, .7)',
-      pressColor: colors.secondaryTextColor,
-      style: {
-        backgroundColor: colors.textColor
-      },
-      indicatorStyle: {
-        backgroundColor: colors.secondaryTextColor
-      }
-    };
-    const tabBarOptions = Platform.OS == 'android' ? tabBarOptionsAndroid : {};
-
-    this.TabNav = TabNavigator({
-        ProfilePage: { screen: ProfilePage },
-        AllInquiries: { screen: AllInquiries }
-      }, {
-        initialRouteName: 'ProfilePage',
-        lazy: true,
-        tabBarOptions: tabBarOptions
-      });
-  }
+  TabNav = TabNavigator({
+      ProfilePage: { screen: ProfilePage },
+      AllInquiries: { screen: AllInquiries }
+    }, {
+      initialRouteName: 'ProfilePage',
+      lazy: true,
+      tabBarOptions: Platform.OS == 'android' ? tabBarOptionsAndroid : {}
+    });
 
   componentWillUnmount() {
     Linking.removeEventListener(this.handleAccessTokenUrl);
@@ -79,12 +68,12 @@ export default class DojoIblMobile extends Component {
       });
   }
 
-  openLoginPage() {
+  openLoginPage = () => {
     Linking.openURL(`https://wespot-arlearn.appspot.com/Login.html?client_id=${config.wespot.clientId}&redirect_uri=https://www.rk02.net/dojoiblauthredirect.php&response_type=code&scope=profile+email`)
       .catch((error) => {});
   }
 
-  handleAccessTokenUrl(event) {
+  handleAccessTokenUrl = (event) => {
     const urlData = (event.url).split('/oauth/')[1].split('/');
     const accessToken = urlData[0];
     const expiresIn = urlData[2];
@@ -102,7 +91,7 @@ export default class DojoIblMobile extends Component {
       });
   }
 
-  logoutWithConfirm() {
+  logoutWithConfirm = () => {
     Alert.alert(
       'Are you sure you want to log out?',
       'Are you sure you want to log out? You\'ll have to log in again to access your data.',

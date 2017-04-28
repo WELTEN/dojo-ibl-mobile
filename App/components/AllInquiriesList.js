@@ -12,14 +12,10 @@ import Auth from '../lib/Auth';
 import InquiryListItem from './InquiryListItem';
 
 export default class AllInquiriesList extends Component {
-  constructor(props) {
-    super(props);
-
-    this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    this.state = {
-      inquiries: this.ds.cloneWithRows([])
-    };
-  }
+  ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+  state = {
+    inquiries: this.ds.cloneWithRows([])
+  };
 
   componentWillMount() {
     this.loadInquiries(this.props.tokens);

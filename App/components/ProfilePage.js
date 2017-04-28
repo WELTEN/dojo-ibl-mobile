@@ -15,7 +15,7 @@ import ProfileHeader from './ProfileHeader';
 export default class ProfilePage extends Component {
   static navigationOptions = {
     tabBarLabel: 'Profile'
-  }
+  };
 
   render() {
     return (
