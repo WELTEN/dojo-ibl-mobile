@@ -9,6 +9,8 @@ import {
 import { globalStyles } from '../styles/globalStyles';
 import { colors } from '../styles/colors';
 import { sizes } from '../styles/sizes';
+import materialWallpaper from '../img/material-wallpaper.jpg';
+import defaultProfilePicture from '../img/default-profile-picture.png';
 
 export default class ProfileHeader extends Component {
   state = { profileData: {} };
@@ -40,7 +42,7 @@ export default class ProfileHeader extends Component {
       return (
         <Image
           style={styles.headerProfilePicture}
-          source={require('../img/default-profile-picture.png')}
+          source={defaultProfilePicture}
         />
       );
     } else {
@@ -58,7 +60,7 @@ export default class ProfileHeader extends Component {
       <View>
         <Image
           style={styles.headerBackground}
-          source={require('../img/material-wallpaper.jpg')}
+          source={materialWallpaper}
           resizeMode='cover'
           />
         <View style={styles.header}>

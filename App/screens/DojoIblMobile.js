@@ -38,7 +38,7 @@ export default class DojoIblMobile extends Component {
     }, {
       initialRouteName: 'ProfilePage',
       lazy: true,
-      tabBarOptions: Platform.OS == 'android' ? tabBarOptionsAndroid : {}
+      tabBarOptions: Platform.OS == 'android' ? this.tabBarOptionsAndroid : {}
     });
 
   componentWillUnmount() {
