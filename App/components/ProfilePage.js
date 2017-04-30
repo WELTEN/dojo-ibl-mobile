@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   Image,
   ScrollView,
@@ -12,10 +12,12 @@ import { colors } from '../styles/colors';
 import { sizes } from '../styles/sizes';
 import ProfileHeader from './ProfileHeader';
 
-export default class ProfilePage extends Component {
+export default class ProfilePage extends PureComponent {
   static navigationOptions = {
     tabBarLabel: 'Profile'
   };
+
+  shouldComponentUpdate() { return false; }
 
   render() {
     return (
