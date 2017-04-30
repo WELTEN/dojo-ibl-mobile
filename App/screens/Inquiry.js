@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  ListView,
+  FlatList,
   ScrollView,
   StyleSheet,
   Text,
@@ -18,8 +18,6 @@ export default class Inquiry extends Component {
   });
 
   inquiry = this.props.navigation.state.params.inquiry;
-  ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-  phases = this.ds.cloneWithRows(this.inquiry.phases);
 
   render() {
     return (
@@ -30,13 +28,13 @@ export default class Inquiry extends Component {
             {Utils.removeHtmlTagsFromString(this.inquiry.description)}
           </Text>
         }
-        <ListView
-          dataSource={this.phases}
-          renderRow={(phase) =>
-            <Phase phase={phase} />
+        <FlatList
+          data={this.inquiry.phases}
+          renderItem={({item}) =>
+            <Phase phase={item} />
           }
-          enableEmptySections={true}
-          />
+          keyExtractor={(item, index) => index}
+        />
       </ScrollView>
     );
   }
