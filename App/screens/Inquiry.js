@@ -9,6 +9,7 @@ import {
 import { globalStyles } from '../styles/globalStyles';
 import { colors } from '../styles/colors';
 import { sizes } from '../styles/sizes';
+import PhaseList from '../components/PhaseList';
 import Phase from '../components/Phase';
 import Utils from '../lib/Utils';
 
@@ -28,13 +29,7 @@ export default class Inquiry extends Component {
             {Utils.removeHtmlTagsFromString(this.inquiry.description)}
           </Text>
         }
-        <FlatList
-          data={this.inquiry.phases}
-          renderItem={({item}) =>
-            <Phase phase={item} />
-          }
-          keyExtractor={(item, index) => index}
-        />
+        <PhaseList phases={this.inquiry.phases} />
       </ScrollView>
     );
   }
