@@ -22,7 +22,7 @@ export default class DojoIblMobile extends Component {
 
   tabBarOptionsAndroid = {
     activeTintColor: colors.backgroundColor,
-    inactiveTintColor: 'rgba(47, 64, 80, .7)',
+    inactiveTintColor: `rgba(${colors.backgroundColorRgb}, .7)`,
     pressColor: colors.secondaryTextColor,
     style: {
       backgroundColor: colors.textColor

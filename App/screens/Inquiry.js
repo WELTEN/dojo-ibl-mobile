@@ -24,7 +24,7 @@ export default class Inquiry extends Component {
   render() {
     return (
       <ScrollView style={globalStyles.containerScrollView}>
-        <Text style={globalStyles.whiteTitle}>{this.inquiry.title}</Text>
+        <Text style={globalStyles.title}>{this.inquiry.title}</Text>
         {this.inquiry.description &&
           <Text style={globalStyles.leftText}>
             {Utils.removeHtmlTagsFromString(this.inquiry.description)}

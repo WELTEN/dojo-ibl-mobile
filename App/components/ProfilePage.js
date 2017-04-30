@@ -24,7 +24,7 @@ export default class ProfilePage extends Component {
         <TouchableHighlight onPress={this.props.screenProps.logout}>
           <Text style={styles.logoutBtn}>Logout</Text>
         </TouchableHighlight>
-        <Text style={globalStyles.whiteTitle}>Upcoming activities</Text>
+        <Text style={globalStyles.title}>Upcoming activities</Text>
       </ScrollView>
     );
   }

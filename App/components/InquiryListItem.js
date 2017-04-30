@@ -12,7 +12,7 @@ import Utils from '../lib/Utils';
 
 export default class InquiryListItem extends Component {
   inquiryDescription = Utils.removeHtmlTagsFromString(this.props.inquiry.description || '');
-  
+
   render() {
     return (
       <TouchableHighlight onPress={this.props.onPress}>
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   inquiry: {
     marginBottom: sizes.offset / 2,
     padding: sizes.offset / 2,
-    backgroundColor: 'rgba(255, 255, 255, .8)',
+    backgroundColor: `rgba(${colors.textColorRgb}, .8)`,
     borderRadius: 2
   },
   inquiryTitle: {

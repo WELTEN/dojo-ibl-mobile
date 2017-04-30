@@ -11,7 +11,7 @@ export default class LoginPage extends Component {
   render() {
     return (
       <View style={globalStyles.container}>
-        <Text style={globalStyles.title}>
+        <Text style={globalStyles.centeredTitle}>
           Welcome to DojoIblMobile!
         </Text>
         <Text style={globalStyles.text}>

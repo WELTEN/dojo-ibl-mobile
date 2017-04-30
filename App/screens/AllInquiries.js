@@ -19,7 +19,7 @@ export default class AllInquiries extends Component {
   render() {
     return (
       <ScrollView style={globalStyles.containerScrollView}>
-        <Text style={globalStyles.whiteTitle}>All inquiries</Text>
+        <Text style={globalStyles.title}>All inquiries</Text>
         <AllInquiriesList navigate={this.props.screenProps.navigate} tokens={this.props.screenProps.tokens} />
       </ScrollView>
     );

@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingLeft: 20,
     paddingRight: 20,
-    backgroundColor: 'rgba(255, 255, 255, .8)'
+    backgroundColor: `rgba(${colors.textColorRgb}, .8)`
   },
   phaseTitle: {
     fontSize: 18
