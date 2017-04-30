@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  ListView,
+  FlatList,
   StyleSheet,
   Text,
   View
@@ -12,14 +12,9 @@ import Auth from '../lib/Auth';
 import InquiryListItem from './InquiryListItem';
 
 export default class AllInquiriesList extends Component {
-  constructor(props) {
-    super(props);
-
-    this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    this.state = {
-      inquiries: this.ds.cloneWithRows([])
-    };
-  }
+  state = {
+    inquiries: []
+  };
 
   componentWillMount() {
     this.loadInquiries(this.props.tokens);
@@ -36,7 +31,7 @@ export default class AllInquiriesList extends Component {
       .then((response) => response.json())
       .then((json) => {
         this.setState({
-          inquiries: this.ds.cloneWithRows(json.games)
+          inquiries: json.games
         });
 
         console.log(json)
@@ -46,16 +41,16 @@ export default class AllInquiriesList extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <ListView
-          dataSource={this.state.inquiries}
-          renderRow={(inquiry) =>
+        <FlatList
+          data={this.state.inquiries}
+          renderItem={({item}) =>
             <InquiryListItem
-              inquiry={inquiry}
-              onPress={() => this.props.navigate('Inquiry', { inquiry: inquiry })}
-              />
+              inquiry={item}
+              onPress={() => this.props.navigate('Inquiry', { inquiry: item })}
+            />
           }
-          enableEmptySections={true}
-          />
+          keyExtractor={(item, index) => index}
+        />
       </View>
     );
   }
@@ -63,7 +58,7 @@ export default class AllInquiriesList extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginLeft: 20,
-    marginRight: 20
+    marginLeft: sizes.offset,
+    marginRight: sizes.offset
   }
 });

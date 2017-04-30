@@ -9,17 +9,11 @@ import {
 import { globalStyles } from '../styles/globalStyles';
 import { colors } from '../styles/colors';
 import { sizes } from '../styles/sizes';
+import materialWallpaper from '../img/material-wallpaper.jpg';
+import defaultProfilePicture from '../img/default-profile-picture.png';
 
 export default class ProfileHeader extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      profileData: {}
-    };
-
-    this.getProfilePicture = this.getProfilePicture.bind(this);
-  }
+  state = { profileData: {} };
 
   componentWillMount() {
     this.loadProfileData();
@@ -43,12 +37,12 @@ export default class ProfileHeader extends Component {
       });
   }
 
-  getProfilePicture() {
+  getProfilePicture = () => {
     if (typeof this.state.profileData.picture == 'undefined' || this.state.profileData.picture == '') {
       return (
         <Image
           style={styles.headerProfilePicture}
-          source={require('../img/default-profile-picture.png')}
+          source={defaultProfilePicture}
         />
       );
     } else {
@@ -66,7 +60,7 @@ export default class ProfileHeader extends Component {
       <View>
         <Image
           style={styles.headerBackground}
-          source={require('../img/material-wallpaper.jpg')}
+          source={materialWallpaper}
           resizeMode='cover'
           />
         <View style={styles.header}>

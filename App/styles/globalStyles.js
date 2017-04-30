@@ -8,21 +8,31 @@ export const globalStyles = {
     alignItems: 'center',
     backgroundColor: colors.backgroundColor,
   },
-  title: {
-    margin: 10,
-    fontSize: 24,
-    color: 'rgba(255, 255, 255, .7)',
-    textAlign: 'center'
+  containerScrollView: {
+    flex: 1,
+    backgroundColor: colors.backgroundColor
   },
-  whiteTitle: {
+  title: {
     margin: sizes.offset,
     color: colors.textColor,
     fontSize: 24,
     fontWeight: '300'
   },
+  centeredTitle: {
+    margin: 10,
+    fontSize: 24,
+    color: `rgba(${colors.textColorRgb}, .7)`,
+    textAlign: 'center'
+  },
   text: {
+    marginBottom: sizes.offset,
     textAlign: 'center',
-    color: 'rgba(255, 255, 255, .7)',
-    marginBottom: 5,
+    color: colors.textColor
+  },
+  leftText: {
+    marginBottom: sizes.offset,
+    marginLeft: sizes.offset,
+    marginRight: sizes.offset,
+    color: colors.textColor
   }
 };
