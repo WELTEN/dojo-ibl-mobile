@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
-import PhaseListItem from './PhaseListItem';
+import ActivityListItem from './ActivityListItem';
 
-export default function PhaseList(props) {
+export default function ActivityList(props) {
   return (
     <FlatList
-      data={props.phases}
+      data={props.activities.generalItems}
       renderItem={({item, index}) =>
-        <PhaseListItem
-          phase={item}
+        <ActivityListItem
+          activity={item}
           index={index}
-          gameId={props.gameId}
-          tokens={props.tokens}
         />
       }
       keyExtractor={(item, index) => index}

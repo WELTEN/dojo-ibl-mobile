@@ -46,7 +46,7 @@ export default class AllGroupsList extends Component {
           renderItem={({item}) =>
             <GroupListItem
               group={item}
-              onPress={() => this.props.navigate('Group', { group: item })}
+              onPress={() => this.props.navigate('Group', { group: item, tokens: this.props.tokens })}
             />
           }
           keyExtractor={(item, index) => index}

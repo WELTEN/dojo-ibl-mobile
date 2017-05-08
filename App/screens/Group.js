@@ -10,7 +10,6 @@ import { globalStyles } from '../styles/globalStyles';
 import { colors } from '../styles/colors';
 import { sizes } from '../styles/sizes';
 import PhaseList from '../components/PhaseList';
-import Phase from '../components/Phase';
 import Utils from '../lib/Utils';
 
 export default class Group extends Component {
@@ -19,6 +18,7 @@ export default class Group extends Component {
   });
 
   group = this.props.navigation.state.params.group;
+  tokens = this.props.navigation.state.params.tokens;
 
   render() {
     return (
@@ -29,7 +29,11 @@ export default class Group extends Component {
             {Utils.removeHtmlTagsFromString(this.group.game.description)}
           </Text>
         }
-        <PhaseList phases={this.group.game.phases} />
+        <PhaseList
+          phases={this.group.game.phases}
+          gameId={this.group.game.gameId}
+          tokens={this.tokens}
+        />
       </ScrollView>
     );
   }

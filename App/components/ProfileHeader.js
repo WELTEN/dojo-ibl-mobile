@@ -33,7 +33,7 @@ export default class ProfileHeader extends Component {
           profileData: json
         });
 
-        console.log(json)
+        console.log(json);
       });
   }
 
