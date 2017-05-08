@@ -10,6 +10,7 @@ export default function ActivityList(props) {
         <ActivityListItem
           activity={item}
           index={index}
+          onPress={() => props.navigate('Activity', { activity: item, tokens: props.tokens })}
         />
       }
       keyExtractor={(item, index) => index}

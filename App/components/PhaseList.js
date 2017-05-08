@@ -12,6 +12,7 @@ export default function PhaseList(props) {
           index={index}
           gameId={props.gameId}
           tokens={props.tokens}
+          navigate={props.navigate}
         />
       }
       keyExtractor={(item, index) => index}

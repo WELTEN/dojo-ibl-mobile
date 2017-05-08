@@ -12,31 +12,24 @@ import { sizes } from '../styles/sizes';
 import PhaseList from '../components/PhaseList';
 import Utils from '../lib/Utils';
 
-export default class Group extends Component {
+export default class Activity extends Component {
   static navigationOptions = ({ navigation }) => ({
-    title: navigation.state.params.group.title
+    title: navigation.state.params.activity.name
   });
 
-  group = this.props.navigation.state.params.group;
+  activity = this.props.navigation.state.params.activity;
   tokens = this.props.navigation.state.params.tokens;
 
   render() {
-    const { navigate } = this.props.navigation;
 
     return (
       <ScrollView style={globalStyles.containerScrollView}>
-        <Text style={globalStyles.title}>{this.group.title}</Text>
-        {this.group.game.description &&
+        <Text style={globalStyles.title}>{this.activity.name}</Text>
+        {this.activity.richtText &&
           <Text style={globalStyles.leftText}>
-            {Utils.removeHtmlTagsFromString(this.group.game.description)}
+            {Utils.removeHtmlTagsFromString(this.activity.richText)}
           </Text>
         }
-        <PhaseList
-          phases={this.group.game.phases}
-          gameId={this.group.game.gameId}
-          tokens={this.tokens}
-          navigate={navigate}
-        />
       </ScrollView>
     );
   }

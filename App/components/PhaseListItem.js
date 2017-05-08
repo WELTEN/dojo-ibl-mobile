@@ -38,7 +38,11 @@ export default class PhaseListItem extends Component {
     return (
       <View style={styles.phase}>
         <Text style={styles.phaseTitle}>{this.props.phase.title}</Text>
-        <ActivityList activities={this.state.activities} />
+        <ActivityList
+          activities={this.state.activities}
+          navigate={this.props.navigate}
+          tokens={this.props.tokens}
+        />
       </View>
     );
   }
