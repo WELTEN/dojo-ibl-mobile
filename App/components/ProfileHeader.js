@@ -15,7 +15,7 @@ import defaultProfilePicture from '../img/default-profile-picture.png';
 export default class ProfileHeader extends Component {
   state = { profileData: {} };
 
-  componentWillMount() {
+  componentDidMount() {
     this.loadProfileData();
   }
 

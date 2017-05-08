@@ -16,7 +16,7 @@ export default class AllInquiriesList extends Component {
     inquiries: []
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.loadInquiries(this.props.tokens);
   }
 
