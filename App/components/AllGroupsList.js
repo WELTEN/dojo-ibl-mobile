@@ -9,19 +9,19 @@ import { globalStyles } from '../styles/globalStyles';
 import { colors } from '../styles/colors';
 import { sizes } from '../styles/sizes';
 import Auth from '../lib/Auth';
-import InquiryListItem from './InquiryListItem';
+import GroupListItem from './GroupListItem';
 
-export default class AllInquiriesList extends Component {
+export default class AllGroupsList extends Component {
   state = {
-    inquiries: []
+    groups: []
   };
 
   componentDidMount() {
-    this.loadInquiries(this.props.tokens);
+    this.loadGroups(this.props.tokens);
   }
 
-  loadInquiries(tokens) {
-    fetch('https://dojo-ibl.appspot.com/rest/myGames', {
+  loadGroups(tokens) {
+    fetch('https://dojo-ibl.appspot.com/rest/myRuns/participate', {
         method: 'get',
         headers: {
           'Authorization': `GoogleLogin auth=${tokens.accessToken}`,
@@ -31,10 +31,10 @@ export default class AllInquiriesList extends Component {
       .then((response) => response.json())
       .then((json) => {
         this.setState({
-          inquiries: json.games
+          groups: json.runs
         });
 
-        console.log(json)
+        console.log(json);
       });
   }
 
@@ -42,11 +42,11 @@ export default class AllInquiriesList extends Component {
     return (
       <View style={styles.container}>
         <FlatList
-          data={this.state.inquiries}
+          data={this.state.groups}
           renderItem={({item}) =>
-            <InquiryListItem
-              inquiry={item}
-              onPress={() => this.props.navigate('Inquiry', { inquiry: item })}
+            <GroupListItem
+              group={item}
+              onPress={() => this.props.navigate('Group', { group: item })}
             />
           }
           keyExtractor={(item, index) => index}

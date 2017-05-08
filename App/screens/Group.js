@@ -13,23 +13,23 @@ import PhaseList from '../components/PhaseList';
 import Phase from '../components/Phase';
 import Utils from '../lib/Utils';
 
-export default class Inquiry extends Component {
+export default class Group extends Component {
   static navigationOptions = ({ navigation }) => ({
-    title: navigation.state.params.inquiry.title
+    title: navigation.state.params.group.title
   });
 
-  inquiry = this.props.navigation.state.params.inquiry;
+  group = this.props.navigation.state.params.group;
 
   render() {
     return (
       <ScrollView style={globalStyles.containerScrollView}>
-        <Text style={globalStyles.title}>{this.inquiry.title}</Text>
-        {this.inquiry.description &&
+        <Text style={globalStyles.title}>{this.group.title}</Text>
+        {this.group.game.description &&
           <Text style={globalStyles.leftText}>
-            {Utils.removeHtmlTagsFromString(this.inquiry.description)}
+            {Utils.removeHtmlTagsFromString(this.group.game.description)}
           </Text>
         }
-        <PhaseList phases={this.inquiry.phases} />
+        <PhaseList phases={this.group.game.phases} />
       </ScrollView>
     );
   }

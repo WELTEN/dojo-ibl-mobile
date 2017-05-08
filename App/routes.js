@@ -1,9 +1,9 @@
 import DojoIblMobile from './screens/DojoIblMobile';
-import Inquiry from './screens/Inquiry';
-import AllInquiries from './screens/AllInquiries';
+import Group from './screens/Group';
+import AllGroups from './screens/AllGroups';
 
 export const routes = {
   Home: { screen: DojoIblMobile },
-  Inquiry: { screen: Inquiry },
-  AllInquiries: { screen: AllInquiries },
+  Group: { screen: Group },
+  AllGroups: { screen: AllGroups },
 };

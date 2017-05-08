@@ -6,8 +6,8 @@ export default function PhaseList(props) {
   return (
     <FlatList
       data={props.phases}
-      renderItem={({item}) =>
-        <Phase phase={item} />
+      renderItem={({item, index}) =>
+        <Phase phase={item} index={index} />
       }
       keyExtractor={(item, index) => index}
     />

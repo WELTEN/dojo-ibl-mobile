@@ -8,7 +8,7 @@ import { config } from '../config';
 import Auth from '../lib/Auth';
 import LoginPage from '../components/LoginPage';
 import ProfilePage from '../components/ProfilePage';
-import AllInquiries from './AllInquiries';
+import AllGroups from './AllGroups';
 import { colors } from '../styles/colors';
 import { TabNavigator } from 'react-navigation';
 
@@ -34,7 +34,7 @@ export default class DojoIblMobile extends Component {
 
   TabNav = TabNavigator({
       ProfilePage: { screen: ProfilePage },
-      AllInquiries: { screen: AllInquiries }
+      AllGroups: { screen: AllGroups }
     }, {
       initialRouteName: 'ProfilePage',
       lazy: true,

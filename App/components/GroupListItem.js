@@ -10,17 +10,17 @@ import { colors } from '../styles/colors';
 import { sizes } from '../styles/sizes';
 import Utils from '../lib/Utils';
 
-export default class InquiryListItem extends Component {
-  inquiryDescription = Utils.removeHtmlTagsFromString(this.props.inquiry.description || '');
+export default class GroupListItem extends Component {
+  groupDescription = Utils.removeHtmlTagsFromString(this.props.group.game.description || '');
 
   render() {
     return (
       <TouchableHighlight onPress={this.props.onPress}>
-        <View style={styles.inquiry}>
-          <Text style={styles.inquiryTitle}>{this.props.inquiry.title}</Text>
-          {this.inquiryDescription.length != 0 &&
-            <Text style={styles.inquiryDescription}>
-              {this.inquiryDescription}
+        <View style={styles.group}>
+          <Text style={styles.groupTitle}>{this.props.group.title}</Text>
+          {this.groupDescription.length != 0 &&
+            <Text style={styles.groupDescription}>
+              {this.groupDescription}
             </Text>
           }
         </View>
@@ -30,17 +30,17 @@ export default class InquiryListItem extends Component {
 }
 
 const styles = StyleSheet.create({
-  inquiry: {
+  group: {
     marginBottom: sizes.offset / 2,
     padding: sizes.offset / 2,
     backgroundColor: `rgba(${colors.textColorRgb}, .8)`,
     borderRadius: 2
   },
-  inquiryTitle: {
+  groupTitle: {
     fontSize: 18,
     fontWeight: '300'
   },
-  inquiryDescription: {
+  groupDescription: {
     marginTop: 2,
     color: colors.backgroundColor
   }
