@@ -25,7 +25,7 @@ export default class Activity extends Component {
     return (
       <ScrollView style={globalStyles.containerScrollView}>
         <Text style={globalStyles.title}>{this.activity.name}</Text>
-        {this.activity.richtText &&
+        {this.activity.richText &&
           <Text style={globalStyles.leftText}>
             {Utils.removeHtmlTagsFromString(this.activity.richText)}
           </Text>

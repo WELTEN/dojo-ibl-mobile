@@ -58,6 +58,8 @@ const styles = StyleSheet.create({
     backgroundColor: `rgba(${colors.textColorRgb}, .8)`
   },
   phaseTitle: {
+    marginBottom: sizes.offset / 2,
     fontSize: 18,
+    fontWeight: '300'
   }
 });

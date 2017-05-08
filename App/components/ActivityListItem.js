@@ -14,10 +14,10 @@ export default class ActivityListItem extends Component {
   render() {
     return (
       <TouchableHighlight onPress={this.props.onPress}>
-        <View>
-          <Text>{this.props.activity.name}</Text>
+        <View style={styles.activity}>
+          <Text style={styles.activityName}>{this.props.activity.name}</Text>
           {this.props.activity.richText &&
-            <Text>
+            <Text style={styles.activityText}>
               {Utils.removeHtmlTagsFromString(this.props.activity.richText)}
             </Text>
           }
@@ -26,3 +26,21 @@ export default class ActivityListItem extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  activity: {
+    marginBottom: sizes.offset / 2,
+    padding: sizes.offset / 2,
+    backgroundColor: colors.textColor,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: colors.backgroundColor,
+    borderRadius: 2
+  },
+  activityTitle: {
+    fontWeight: '700'
+  },
+  activityText: {
+    marginTop: 2,
+    color: colors.backgroundColor
+  }
+});
