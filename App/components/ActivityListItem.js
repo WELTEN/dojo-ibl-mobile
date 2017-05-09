@@ -29,7 +29,8 @@ export default class ActivityListItem extends Component {
 
 const styles = StyleSheet.create({
   activity: {
-    marginBottom: sizes.offset / 2,
+    marginTop: sizes.offset / 4,
+    marginBottom: sizes.offset / 4,
     padding: sizes.offset / 2,
     backgroundColor: colors.textColor,
     borderWidth: StyleSheet.hairlineWidth,
