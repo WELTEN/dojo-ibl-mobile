@@ -9,7 +9,7 @@ import {
 import { globalStyles } from '../styles/globalStyles';
 import { colors } from '../styles/colors';
 import { sizes } from '../styles/sizes';
-import PhaseList from '../components/PhaseList';
+import CommentList from '../components/CommentList';
 import Utils from '../lib/Utils';
 
 export default class Activity extends Component {
@@ -17,11 +17,35 @@ export default class Activity extends Component {
     title: navigation.state.params.activity.name
   });
 
+  state = { comments: [] };
+
   activity = this.props.navigation.state.params.activity;
+  runId = this.props.navigation.state.params.runId
   tokens = this.props.navigation.state.params.tokens;
 
-  render() {
+  componentDidMount() {
+    this.loadResponses();
+  }
 
+  loadResponses() {
+    fetch(`https://dojo-ibl.appspot.com/rest/response/runId/${this.runId}/itemId/${this.activity.id}`, {
+        method: 'get',
+        headers: {
+          'Authorization': `GoogleLogin auth=${this.tokens.accessToken}`,
+          'Content-Type': 'application/json'
+        }
+      })
+      .then((response) => response.json())
+      .then((json) => {
+        this.setState({
+          comments: json.responses
+        });
+
+        console.log(json);
+      });
+  }
+
+  render() {
     return (
       <ScrollView style={globalStyles.containerScrollView}>
         <Text style={globalStyles.title}>{this.activity.name}</Text>
@@ -30,6 +54,7 @@ export default class Activity extends Component {
             {Utils.removeHtmlTagsFromString(this.activity.richText)}
           </Text>
         }
+        <CommentList comments={this.state.comments} />
       </ScrollView>
     );
   }

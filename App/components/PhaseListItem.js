@@ -42,6 +42,7 @@ export default class PhaseListItem extends Component {
           activities={this.state.activities}
           navigate={this.props.navigate}
           tokens={this.props.tokens}
+          runId={this.props.runId}
         />
       </View>
     );
@@ -50,11 +51,11 @@ export default class PhaseListItem extends Component {
 
 const styles = StyleSheet.create({
   phase: {
-    marginBottom: 10,
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
+    marginBottom: sizes.offset / 2,
+    paddingTop: sizes.offset / 2,
+    paddingBottom: sizes.offset / 2,
+    paddingLeft: sizes.offset,
+    paddingRight: sizes.offset,
     backgroundColor: `rgba(${colors.textColorRgb}, .8)`
   },
   phaseTitle: {

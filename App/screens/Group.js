@@ -34,6 +34,7 @@ export default class Group extends Component {
         <PhaseList
           phases={this.group.game.phases}
           gameId={this.group.game.gameId}
+          runId={this.group.runId}
           tokens={this.tokens}
           navigate={navigate}
         />
