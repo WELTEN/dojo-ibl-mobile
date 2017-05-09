@@ -11,49 +11,20 @@ import { sizes } from '../styles/sizes';
 import Auth from '../lib/Auth';
 import GroupListItem from './GroupListItem';
 
-export default class AllGroupsList extends Component {
-  state = {
-    groups: []
-  };
-
-  componentDidMount() {
-    this.loadGroups(this.props.tokens);
-  }
-
-  loadGroups(tokens) {
-    fetch('https://dojo-ibl.appspot.com/rest/myRuns/participate', {
-        method: 'get',
-        headers: {
-          'Authorization': `GoogleLogin auth=${tokens.accessToken}`,
-          'Content-Type': 'application/json'
-        }
-      })
-      .then((response) => response.json())
-      .then((json) => {
-        this.setState({
-          groups: json.runs
-        });
-
-        console.log(json);
-      });
-  }
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <FlatList
-          data={this.state.groups}
-          renderItem={({item}) =>
-            <GroupListItem
-              group={item}
-              onPress={() => this.props.navigate('Group', { group: item, tokens: this.props.tokens })}
-            />
-          }
-          keyExtractor={(item, index) => index}
+export default function AllGroupsList(props) {
+  return (
+    <FlatList
+      style={styles.container}
+      data={props.groups}
+      renderItem={({item}) =>
+        <GroupListItem
+          group={item}
+          onPress={() => props.navigate('Group', { group: item, tokens: props.tokens })}
         />
-      </View>
-    );
-  }
+      }
+      keyExtractor={(item, index) => index}
+    />
+  );
 }
 
 const styles = StyleSheet.create({
