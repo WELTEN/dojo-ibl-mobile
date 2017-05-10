@@ -74,7 +74,7 @@ export default class Activity extends Component {
             {Utils.removeHtmlTagsFromString(this.activity.richText)}
           </Text>
         }
-        <CommentList comments={this.state.comments} />
+        <CommentList comments={this.state.comments} tokens={this.tokens} />
       </ScrollView>
     );
   }

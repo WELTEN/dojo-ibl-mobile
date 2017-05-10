@@ -8,7 +8,11 @@ export default function CommentList(props) {
     <FlatList
       data={props.comments}
       renderItem={({item, index}) =>
-        <CommentListItem comment={item} comments={props.comments} />
+        <CommentListItem
+          comment={item}
+          comments={props.comments}
+          tokens={props.tokens}
+        />
       }
       keyExtractor={(item, index) => index}
     />

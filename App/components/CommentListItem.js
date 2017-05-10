@@ -8,18 +8,36 @@ import { globalStyles } from '../styles/globalStyles';
 import { colors } from '../styles/colors';
 import { sizes } from '../styles/sizes';
 import Utils from '../lib/Utils';
+import RequestUtils from '../lib/RequestUtils';
 
 export default class CommentListItem extends Component {
+  state = {
+    parentComment: Utils.getParentComment(this.props.comment.parentId, this.props.comments)
+  };
+
+  componentDidMount() {
+    if (!this.state.parentComment && this.props.comment.parentId) {
+      console.log('Parent comment isn\'t loaded yet! Loading it.')
+      RequestUtils.requestWithToken(`response/responseId/${this.props.comment.parentId}`, this.props.tokens)
+        .then((response) => {
+          this.setState({
+            parentComment: response
+          });
+
+          console.log(response);
+        });
+    }
+  }
+
   render() {
-    const parentComment = Utils.getParentComment(this.props.comment.parentId, this.props.comments);
     return (
       <View style={styles.comment}>
         <Text style={styles.commentUsername}>
           {this.props.comment.userEmail.replace('5:', '')}
         </Text>
-        {parentComment &&
+        {this.state.parentComment &&
           <View style={styles.quote}>
-            <Text style={styles.quoteText}>{Utils.removeHtmlTagsFromString(parentComment.responseValue)}</Text>
+            <Text style={styles.quoteText}>{Utils.removeHtmlTagsFromString(this.state.parentComment.responseValue)}</Text>
           </View>
         }
         <Text style={styles.commentDescription}>
