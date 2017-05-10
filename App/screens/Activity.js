@@ -11,6 +11,7 @@ import { colors } from '../styles/colors';
 import { sizes } from '../styles/sizes';
 import CommentList from '../components/CommentList';
 import Utils from '../lib/Utils';
+import RequestUtils from '../lib/RequestUtils';
 
 export default class Activity extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -28,20 +29,13 @@ export default class Activity extends Component {
   }
 
   loadResponses() {
-    fetch(`https://dojo-ibl.appspot.com/rest/response/runId/${this.runId}/itemId/${this.activity.id}`, {
-        method: 'get',
-        headers: {
-          'Authorization': `GoogleLogin auth=${this.tokens.accessToken}`,
-          'Content-Type': 'application/json'
-        }
-      })
-      .then((response) => response.json())
-      .then((json) => {
+    RequestUtils.requestWithToken(`response/runId/${this.runId}/itemId/${this.activity.id}`, this.tokens)
+      .then((responseList) => {
         this.setState({
-          comments: json.responses
+          comments: responseList.responses
         });
 
-        console.log(json);
+        console.log(responseList);
       });
   }
 

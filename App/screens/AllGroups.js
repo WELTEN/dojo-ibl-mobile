@@ -10,6 +10,7 @@ import { globalStyles } from '../styles/globalStyles';
 import { colors } from '../styles/colors';
 import { sizes } from '../styles/sizes';
 import Auth from '../lib/Auth';
+import RequestUtils from '../lib/RequestUtils';
 import AllGroupsList from '../components/AllGroupsList';
 
 export default class AllGroups extends PureComponent {
@@ -43,22 +44,15 @@ export default class AllGroups extends PureComponent {
   }
 
   loadGroups(tokens) {
-    fetch('https://dojo-ibl.appspot.com/rest/myRuns/participate', {
-        method: 'get',
-        headers: {
-          'Authorization': `GoogleLogin auth=${tokens.accessToken}`,
-          'Content-Type': 'application/json'
-        }
-      })
-      .then((response) => response.json())
-      .then((json) => {
+    RequestUtils.requestWithToken('myRuns/participate', tokens)
+      .then((runList) => {
         this.setState({
           refreshing: false,
-          groups: json.runs,
-          serverTime: json.serverTime
+          groups: runList.runs,
+          serverTime: runList.serverTime
         });
 
-        console.log(json);
+        console.log(runList);
       });
   }
 

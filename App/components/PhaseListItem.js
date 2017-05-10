@@ -8,6 +8,7 @@ import { globalStyles } from '../styles/globalStyles';
 import { colors } from '../styles/colors';
 import { sizes } from '../styles/sizes';
 import ActivityList from './ActivityList';
+import RequestUtils from '../lib/RequestUtils';
 
 export default class PhaseListItem extends Component {
   state = { activities: {} };
@@ -17,20 +18,13 @@ export default class PhaseListItem extends Component {
   }
 
   loadActivities() {
-    fetch(`https://dojo-ibl.appspot.com/rest/generalItems/gameId/${this.props.gameId}/section/${this.props.index}`, {
-        method: 'get',
-        headers: {
-          'Authorization': `GoogleLogin auth=${this.props.tokens.accessToken}`,
-          'Content-Type': 'application/json'
-        }
-      })
-      .then((response) => response.json())
-      .then((json) => {
+    RequestUtils.requestWithToken(`generalItems/gameId/${this.props.gameId}/section/${this.props.index}`, this.props.tokens)
+      .then((generalItemList) => {
         this.setState({
-          activities: json
+          activities: generalItemList
         });
 
-        console.log(json);
+        console.log(generalItemList);
       });
   }
 
