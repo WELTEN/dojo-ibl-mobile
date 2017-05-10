@@ -11,12 +11,19 @@ import Utils from '../lib/Utils';
 
 export default class CommentListItem extends Component {
   render() {
-    console.log(this.props.comment)
+    console.log(this.props.comments)
+    const parentComment = Utils.getParentComment(this.props.comment.parentId, this.props.comments);
+    console.log(parentComment)
     return (
       <View style={styles.comment}>
         <Text style={styles.commentUsername}>
           {this.props.comment.userEmail.replace('5:', '')}
         </Text>
+        {parentComment &&
+          <View style={styles.quote}>
+            <Text style={styles.quoteText}>{Utils.removeHtmlTagsFromString(parentComment.responseValue)}</Text>
+          </View>
+        }
         <Text style={styles.commentDescription}>
           {Utils.removeHtmlTagsFromString(this.props.comment.responseValue)}
         </Text>
@@ -40,6 +47,18 @@ const styles = StyleSheet.create({
   },
   commentDescription: {
     marginTop: 2,
+    color: colors.backgroundColor
+  },
+  quote: {
+    marginTop: sizes.offset / 4,
+    marginBottom: sizes.offset / 4,
+    padding: sizes.offset / 2,
+    backgroundColor: `rgba(${colors.backgroundColorRgb}, .1)`,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: colors.backgroundColor,
+    borderRadius: 2
+  },
+  quoteText: {
     color: colors.backgroundColor
   }
 });
