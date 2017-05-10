@@ -11,9 +11,7 @@ import Utils from '../lib/Utils';
 
 export default class CommentListItem extends Component {
   render() {
-    console.log(this.props.comments)
     const parentComment = Utils.getParentComment(this.props.comment.parentId, this.props.comments);
-    console.log(parentComment)
     return (
       <View style={styles.comment}>
         <Text style={styles.commentUsername}>

@@ -24,24 +24,49 @@ export default class Activity extends Component {
   runId = this.props.navigation.state.params.runId
   tokens = this.props.navigation.state.params.tokens;
 
+  requestRunning = false;
+  resumptionToken = '';
+
   componentDidMount() {
-    this.loadResponses();
+    this.loadComments();
   }
 
-  loadResponses() {
-    RequestUtils.requestWithToken(`response/runId/${this.runId}/itemId/${this.activity.id}`, this.tokens)
+  loadComments() {
+    this.requestRunning = true;
+
+    const resumptionTokenParam = this.resumptionToken ? `&resumptionToken=${this.resumptionToken}` : '';
+    RequestUtils.requestWithToken(`response/runId/${this.runId}/itemId/${this.activity.id}?from=0${resumptionTokenParam}`, this.tokens)
       .then((responseList) => {
+        this.requestRunning = false;
+        this.resumptionToken = responseList.resumptionToken;
         this.setState({
-          comments: responseList.responses
+          comments: this.state.comments.concat(responseList.responses)
         });
 
         console.log(responseList);
       });
   }
 
+  onEndReached() {
+    if (!this.requestRunning && typeof this.resumptionToken != 'undefined') {
+      console.log('Loading comments');
+      this.loadComments();
+    }
+  }
+
   render() {
     return (
-      <ScrollView style={globalStyles.containerScrollView}>
+      <ScrollView
+        style={globalStyles.containerScrollView}
+        onScroll={(e) => {
+          const height = e.nativeEvent.contentSize.height;
+          const offset = e.nativeEvent.contentOffset.y;
+          if (sizes.window.height + offset >= height / 2) {
+            this.onEndReached();
+          }
+        }}
+        scrollEventThrottle={0}
+      >
         <Text style={globalStyles.title}>{this.activity.name}</Text>
         {this.activity.richText &&
           <Text style={globalStyles.leftText}>
