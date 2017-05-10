@@ -59,9 +59,10 @@ export default class Activity extends Component {
       <ScrollView
         style={globalStyles.containerScrollView}
         onScroll={(e) => {
+          const windowHeight = sizes.window.height;
           const height = e.nativeEvent.contentSize.height;
-          const offset = e.nativeEvent.contentOffset.y;
-          if (sizes.window.height + offset >= height / 2) {
+          const offsetTop = e.nativeEvent.contentOffset.y;
+          if (windowHeight + offsetTop >= height - (windowHeight / 2)) {
             this.onEndReached();
           }
         }}
