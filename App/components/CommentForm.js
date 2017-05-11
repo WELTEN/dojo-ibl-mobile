@@ -13,7 +13,35 @@ export default class CommentForm extends Component {
   state = { text: '' };
 
   handleSendButton = () => {
-    console.log('Click!');
+    const responseJson = {
+      runId: this.props.runId,
+      generalItemId: this.props.itemId,
+      userEmail: '5:rafaelklaessen',
+      responseValue: this.state.text,
+      lastModificationDate: Date.now(),
+      revoked: false,
+      parentId: 0,
+      nestedResponses: []
+    };
+
+    console.log(responseJson);
+
+    this.setState({ text: '' });
+
+    fetch(`https://dojo-ibl.appspot.com/rest/response`, {
+        method: 'post',
+        headers: {
+          'Authorization': `GoogleLogin auth=${this.props.tokens.accessToken}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(responseJson)
+      })
+      .then((response) => response.json())
+      .then((savedResponse) => {
+        this.props.addNewComment(savedResponse);
+
+        console.log(savedResponse);
+      });
   }
 
   render() {
@@ -21,8 +49,9 @@ export default class CommentForm extends Component {
       <View style={styles.formContainer}>
         <TextInput
           style={styles.textInput}
-          onChangeText={(text) => this.setState({text})}
+          onChangeText={(text) => this.setState({ text: text })}
           value={this.state.text}
+          placeholder="Reply to this activity..."
         />
         <TouchableHighlight
           style={styles.sendButton}

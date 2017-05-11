@@ -55,6 +55,12 @@ export default class Activity extends Component {
     }
   }
 
+  addNewComment = (newComment) => {
+    this.setState({
+      comments: this.state.comments.concat(newComment)
+    });
+  }
+
   render() {
     return (
       <ScrollView
@@ -76,7 +82,12 @@ export default class Activity extends Component {
           </Text>
         }
         <CommentList comments={this.state.comments} tokens={this.tokens} />
-        <CommentForm runId={this.runId} itemId={this.activity.id} />
+        <CommentForm
+          runId={this.runId}
+          itemId={this.activity.id}
+          tokens={this.tokens}
+          addNewComment={this.addNewComment}
+        />
       </ScrollView>
     );
   }
