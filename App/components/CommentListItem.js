@@ -37,6 +37,9 @@ export default class CommentListItem extends Component {
         </Text>
         {this.state.parentComment &&
           <View style={styles.quote}>
+            <Text style={styles.commentUsername}>
+              {this.state.parentComment.userEmail.replace('5:', '')}
+            </Text>
             <Text style={styles.quoteText}>{Utils.removeHtmlTagsFromString(this.state.parentComment.responseValue)}</Text>
           </View>
         }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList } from 'react-native';
 import { sizes } from '../styles/sizes';
 import CommentListItem from './CommentListItem';
 

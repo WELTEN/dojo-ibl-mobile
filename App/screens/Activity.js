@@ -10,6 +10,7 @@ import { globalStyles } from '../styles/globalStyles';
 import { colors } from '../styles/colors';
 import { sizes } from '../styles/sizes';
 import CommentList from '../components/CommentList';
+import CommentForm from '../components/CommentForm';
 import Utils from '../lib/Utils';
 import RequestUtils from '../lib/RequestUtils';
 
@@ -75,6 +76,7 @@ export default class Activity extends Component {
           </Text>
         }
         <CommentList comments={this.state.comments} tokens={this.tokens} />
+        <CommentForm runId={this.runId} itemId={this.activity.id} />
       </ScrollView>
     );
   }
