@@ -9,6 +9,7 @@ import {
 import { globalStyles } from '../styles/globalStyles';
 import { colors } from '../styles/colors';
 import { sizes } from '../styles/sizes';
+import RequestUtils from '../lib/RequestUtils';
 import materialWallpaper from '../img/material-wallpaper.jpg';
 import defaultProfilePicture from '../img/default-profile-picture.png';
 
@@ -20,20 +21,13 @@ export default class ProfileHeader extends Component {
   }
 
   loadProfileData() {
-    fetch('https://dojo-ibl.appspot.com/rest/account/myAccountDetails', {
-        method: 'get',
-        headers: {
-          'Authorization': `GoogleLogin auth=${this.props.tokens.accessToken}`,
-          'Content-Type': 'application/json'
-        }
-      })
-      .then((response) => response.json())
-      .then((json) => {
+    RequestUtils.requestWithToken('account/myAccountDetails', this.props.tokens)
+      .then((profileData) => {
         this.setState({
-          profileData: json
+          profileData: profileData
         });
 
-        console.log(json);
+        console.log(profileData);
       });
   }
 

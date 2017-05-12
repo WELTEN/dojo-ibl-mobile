@@ -21,6 +21,8 @@ export default class Group extends Component {
   tokens = this.props.navigation.state.params.tokens;
 
   render() {
+    const { navigate } = this.props.navigation;
+
     return (
       <ScrollView style={globalStyles.containerScrollView}>
         <Text style={globalStyles.title}>{this.group.title}</Text>
@@ -32,7 +34,9 @@ export default class Group extends Component {
         <PhaseList
           phases={this.group.game.phases}
           gameId={this.group.game.gameId}
+          runId={this.group.runId}
           tokens={this.tokens}
+          navigate={navigate}
         />
       </ScrollView>
     );
