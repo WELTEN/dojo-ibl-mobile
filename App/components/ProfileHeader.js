@@ -23,16 +23,16 @@ export default class ProfileHeader extends Component {
 
   loadProfileData() {
     AsyncStorage.getItem('profile').then((profileData) => {
-      if (profileData == null || typeof profileData == 'undefined') {
-        this.loadProfileDataFromServer();
-      } else {
-        // Profile data can't be changed, so we don't have to do a request to
-        // the server after we've loaded the local data.
-        this.setState({
-          profileData: JSON.parse(profileData)
-        });
-      }
-    });
+        if (profileData == null || typeof profileData == 'undefined') {
+          this.loadProfileDataFromServer();
+        } else {
+          // Profile data can't be changed, so we don't have to do a request to
+          // the server after we've loaded the local data.
+          this.setState({
+            profileData: JSON.parse(profileData)
+          });
+        }
+      });
   }
 
   loadProfileDataFromServer() {

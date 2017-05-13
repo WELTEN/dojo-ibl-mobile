@@ -81,7 +81,11 @@ export default class Activity extends Component {
             {Utils.removeHtmlTagsFromString(this.activity.richText)}
           </Text>
         }
-        <CommentList comments={this.state.comments} tokens={this.tokens} />
+        <CommentList
+          comments={this.state.comments}
+          tokens={this.tokens}
+          addNewComment={this.addNewComment}
+        />
         <CommentForm
           runId={this.runId}
           itemId={this.activity.id}
