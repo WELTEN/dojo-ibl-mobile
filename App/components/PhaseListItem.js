@@ -44,7 +44,8 @@ export default class PhaseListItem extends Component {
           activities: generalItemList
         });
 
-        if (typeof this.activities[this.activitiesKey] == 'undefined') {
+        if (typeof this.activities[this.activitiesKey] == 'undefined'
+            || this.activities[this.activitiesKey].generalItems.length != generalItemList.generalItems.length) {
           this.activities[this.activitiesKey] = generalItemList;
           AsyncStorage.setItem('activities', JSON.stringify(this.activities));
         }

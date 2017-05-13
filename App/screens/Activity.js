@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  AsyncStorage,
   FlatList,
   ScrollView,
   StyleSheet,
@@ -28,11 +29,34 @@ export default class Activity extends Component {
   requestRunning = false;
   resumptionToken = '';
 
+  comments = {};
+  commentsKey = `${this.runId}:${this.activity.id}`;
+
   componentDidMount() {
     this.loadComments();
   }
 
   loadComments() {
+    AsyncStorage.getItem('comments').then((comments) => {
+        if (comments != null && typeof comments != 'undefined') {
+          comments = JSON.parse(comments);
+          this.comments = comments;
+
+          console.log('from storage')
+          console.log(this.comments)
+
+          if (typeof comments[this.commentsKey] != 'undefined') {
+            this.setState({
+              comments: comments[this.commentsKey]
+            });
+          }
+        }
+
+        this.loadCommentsFromServer(true);
+      });
+  }
+
+  loadCommentsFromServer(isInitialRequest = false) {
     this.requestRunning = true;
 
     const resumptionTokenParam = this.resumptionToken ? `&resumptionToken=${this.resumptionToken}` : '';
@@ -40,18 +64,29 @@ export default class Activity extends Component {
       .then((responseList) => {
         this.requestRunning = false;
         this.resumptionToken = responseList.resumptionToken;
+
+        let newComments = [];
+        if (isInitialRequest) {
+          newComments = responseList.responses;
+        } else {
+          newComments = this.state.comments.concat(responseList.responses);
+        }
+
         this.setState({
-          comments: this.state.comments.concat(responseList.responses)
+          comments: newComments
         });
 
-        console.log(responseList);
+        if (isInitialRequest || typeof this.comments[this.commentsKey] == 'undefined') {
+          this.comments[this.commentsKey] = responseList.responses;
+          AsyncStorage.setItem('comments', JSON.stringify(this.comments));
+        }
       });
   }
 
   onEndReached() {
     if (!this.requestRunning && typeof this.resumptionToken != 'undefined') {
       console.log('Loading comments');
-      this.loadComments();
+      this.loadCommentsFromServer();
     }
   }
 
