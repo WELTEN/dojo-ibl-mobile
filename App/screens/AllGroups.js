@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
+  AsyncStorage,
   RefreshControl,
   ScrollView,
   StyleSheet,
@@ -32,7 +33,7 @@ export default class AllGroups extends PureComponent {
   }
 
   componentDidMount() {
-    this.loadGroups(this.props.screenProps.tokens);
+    this.loadGroups();
   }
 
   onRefresh = () => {
@@ -40,10 +41,23 @@ export default class AllGroups extends PureComponent {
       refreshing: true
     });
 
-    this.loadGroups(this.props.screenProps.tokens);
+    this.loadGroupsFromServer(this.props.screenProps.tokens);
   }
 
-  loadGroups(tokens) {
+  loadGroups() {
+    AsyncStorage.getItem('groups').then((groups) => {
+        if (groups != null && typeof groups != 'undefined') {
+          this.setState({
+            groups: JSON.parse(groups),
+            serverTime: 1
+          });
+        }
+
+        this.loadGroupsFromServer(this.props.screenProps.tokens);
+      });
+  }
+
+  loadGroupsFromServer(tokens) {
     RequestUtils.requestWithToken('myRuns/participate', tokens)
       .then((runList) => {
         this.setState({
@@ -52,6 +66,7 @@ export default class AllGroups extends PureComponent {
           serverTime: runList.serverTime
         });
 
+        AsyncStorage.setItem('groups', JSON.stringify(runList.runs));
         console.log(runList);
       });
   }

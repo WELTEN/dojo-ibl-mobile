@@ -20,6 +20,7 @@ export default class CommentListItem extends Component {
       console.log('Parent comment isn\'t loaded yet! Loading it.')
       RequestUtils.requestWithToken(`response/responseId/${this.props.comment.parentId}`, this.props.tokens)
         .then((response) => {
+          this.props.addNewComment(response);
           this.setState({
             parentComment: response
           });

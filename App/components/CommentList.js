@@ -15,6 +15,7 @@ export default function CommentList(props) {
         />
       }
       keyExtractor={(item, index) => index}
+      addNewComment={props.addNewComment}
     />
   );
 }

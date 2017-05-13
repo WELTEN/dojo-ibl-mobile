@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   Alert,
+  AsyncStorage,
   Linking,
   Platform
 } from 'react-native';
@@ -108,9 +109,11 @@ export default class DojoIblMobile extends Component {
         this.setState({
           loggedIn: false
         });
-      })
-      .catch((error) => {
-        Alert.alert('Error', error);
+
+        const itemsToDelete = ['profile'];
+        for (let item of itemsToDelete) {
+          AsyncStorage.removeItem(item);
+        }
       });
   }
 

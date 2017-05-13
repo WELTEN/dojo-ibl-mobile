@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  AsyncStorage,
   Image,
   StyleSheet,
   Text,
@@ -21,13 +22,28 @@ export default class ProfileHeader extends Component {
   }
 
   loadProfileData() {
+    AsyncStorage.getItem('profile').then((profileData) => {
+        if (profileData == null || typeof profileData == 'undefined') {
+          this.loadProfileDataFromServer();
+        } else {
+          // Profile data can't be changed, so we don't have to do a request to
+          // the server after we've loaded the local data.
+          this.setState({
+            profileData: JSON.parse(profileData)
+          });
+        }
+      });
+  }
+
+  loadProfileDataFromServer() {
+    console.log('Loading profile data from server');
     RequestUtils.requestWithToken('account/myAccountDetails', this.props.tokens)
       .then((profileData) => {
         this.setState({
           profileData: profileData
         });
 
-        console.log(profileData);
+        AsyncStorage.setItem('profile', JSON.stringify(profileData));
       });
   }
 

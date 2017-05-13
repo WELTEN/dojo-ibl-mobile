@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  AsyncStorage,
   StyleSheet,
   Text,
   View
@@ -12,19 +13,42 @@ import RequestUtils from '../lib/RequestUtils';
 
 export default class PhaseListItem extends Component {
   state = { activities: {} };
+  activities = {};
+  activitiesKey = `${this.props.gameId}:${this.props.index}`;
 
   componentDidMount() {
     this.loadActivities();
   }
 
   loadActivities() {
+    AsyncStorage.getItem('activities').then((activities) => {
+        if (activities != null && typeof activities != 'undefined') {
+          activities = JSON.parse(activities);
+          this.activities = activities;
+
+          if (typeof activities[this.activitiesKey] != 'undefined') {
+            this.setState({
+              activities: activities[this.activitiesKey]
+            });
+          }
+        }
+
+        this.loadActivitiesFromServer();
+      });
+  }
+
+  loadActivitiesFromServer() {
     RequestUtils.requestWithToken(`generalItems/gameId/${this.props.gameId}/section/${this.props.index}`, this.props.tokens)
       .then((generalItemList) => {
         this.setState({
           activities: generalItemList
         });
 
-        console.log(generalItemList);
+        if (typeof this.activities[this.activitiesKey] == 'undefined'
+            || this.activities[this.activitiesKey].generalItems.length != generalItemList.generalItems.length) {
+          this.activities[this.activitiesKey] = generalItemList;
+          AsyncStorage.setItem('activities', JSON.stringify(this.activities));
+        }
       });
   }
 
