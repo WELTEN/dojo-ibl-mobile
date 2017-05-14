@@ -110,7 +110,7 @@ export default class DojoIblMobile extends Component {
           loggedIn: false
         });
 
-        const itemsToDelete = ['profile'];
+        const itemsToDelete = ['profile', 'groups', 'activities', 'comments'];
         for (let item of itemsToDelete) {
           AsyncStorage.removeItem(item);
         }
