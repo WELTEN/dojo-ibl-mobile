@@ -42,9 +42,6 @@ export default class Activity extends Component {
           comments = JSON.parse(comments);
           this.comments = comments;
 
-          console.log('from storage')
-          console.log(this.comments)
-
           if (typeof comments[this.commentsKey] != 'undefined') {
             this.setState({
               comments: comments[this.commentsKey]
@@ -100,6 +97,7 @@ export default class Activity extends Component {
     return (
       <ScrollView
         style={globalStyles.containerScrollView}
+        keyboardShouldPersistTaps="always"
         onScroll={(e) => {
           const windowHeight = sizes.window.height;
           const height = e.nativeEvent.contentSize.height;

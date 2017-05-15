@@ -3,7 +3,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  TouchableHighlight,
+  TouchableOpacity,
   View
 } from 'react-native';
 import { sizes } from '../styles/sizes';
@@ -13,6 +13,8 @@ export default class CommentForm extends Component {
   state = { text: '' };
 
   handleSendButton = () => {
+    if (!this.state.text.trim()) return;
+
     const responseJson = {
       runId: this.props.runId,
       generalItemId: this.props.itemId,
@@ -53,12 +55,12 @@ export default class CommentForm extends Component {
           value={this.state.text}
           placeholder="Reply to this activity..."
         />
-        <TouchableHighlight
+        <TouchableOpacity
           style={styles.sendButton}
           onPress={this.handleSendButton}
         >
           <Text style={styles.sendButtonText}>Send</Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     );
   }
