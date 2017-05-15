@@ -3,6 +3,7 @@ import {
   Alert,
   AsyncStorage,
   Linking,
+  NetInfo,
   Platform
 } from 'react-native';
 import { config } from '../config';
@@ -115,6 +116,22 @@ export default class DojoIblMobile extends Component {
           AsyncStorage.removeItem(item);
         }
       });
+  }
+
+  componentDidMount() {
+    NetInfo.fetch().done((connectionType) => {
+      this.handleConnectionType(connectionType);
+    });
+    NetInfo.addEventListener('change', this.handleConnectionType);
+  }
+
+  handleConnectionType = (connectionType) => {
+    if (connectionType == 'none') {
+      Alert.alert(
+        'No internet connection',
+        'Without an internet connection, your data won\'t be updated. Reconnect to update.',
+      );
+    }
   }
 
   render() {
