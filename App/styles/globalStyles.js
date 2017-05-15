@@ -13,7 +13,9 @@ export const globalStyles = {
     backgroundColor: colors.backgroundColor
   },
   title: {
-    margin: sizes.offset,
+    marginTop: sizes.offset,
+    marginBottom: sizes.offset,
+    marginLeft: sizes.offset,
     color: colors.textColor,
     fontSize: 24,
     fontWeight: '300'

@@ -19,16 +19,27 @@ export default class Group extends Component {
 
   group = this.props.navigation.state.params.group;
   tokens = this.props.navigation.state.params.tokens;
+  groupTitle = Utils.removeHtmlTagsFromString(this.group.title);
+  gameTitle = Utils.removeHtmlTagsFromString(this.group.game.title);
+  groupDescription = Utils.removeHtmlTagsFromString(this.group.game.description || '');
 
   render() {
     const { navigate } = this.props.navigation;
 
     return (
       <ScrollView style={globalStyles.containerScrollView}>
-        <Text style={globalStyles.title}>{this.group.title}</Text>
+        <View style={styles.titleContainer}>
+          <Text style={globalStyles.title}>
+            {this.groupTitle}
+          </Text>
+          <Text style={styles.gameTitle}>
+            {this.gameTitle}
+          </Text>
+        </View>
+
         {this.group.game.description &&
           <Text style={globalStyles.leftText}>
-            {Utils.removeHtmlTagsFromString(this.group.game.description)}
+            {this.groupDescription}
           </Text>
         }
         <PhaseList
@@ -42,3 +53,16 @@ export default class Group extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  titleContainer: {
+    flexDirection: 'row'
+  },
+  gameTitle: {
+    marginTop: sizes.offset,
+    marginLeft: sizes.offset / 4,
+    color: `rgba(${colors.textColorRgb}, .7)`,
+    fontSize: 24,
+    fontWeight: '300'
+  }
+});
