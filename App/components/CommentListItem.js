@@ -17,15 +17,21 @@ export default class CommentListItem extends Component {
 
   componentDidMount() {
     if (!this.state.parentComment && this.props.comment.parentId) {
-      console.log('Parent comment isn\'t loaded yet! Loading it.')
+      console.log('Parent comment isn\'t loaded yet! Loading it.');
       RequestUtils.requestWithToken(`response/responseId/${this.props.comment.parentId}`, this.props.tokens)
         .then((response) => {
-          this.props.addNewComment(response);
           this.setState({
             parentComment: response
           });
 
           console.log(response);
+        })
+        .catch((error) => {
+          this.setState({
+            parentComment: {
+              responseValue: 'Comment deleted'
+            }
+          });
         });
     }
   }
@@ -38,9 +44,11 @@ export default class CommentListItem extends Component {
         </Text>
         {this.state.parentComment &&
           <View style={styles.quote}>
-            <Text style={styles.commentUsername}>
-              {this.state.parentComment.userEmail.replace('5:', '')}
-            </Text>
+            {this.state.parentComment.userEmail &&
+              <Text style={styles.commentUsername}>
+                {this.state.parentComment.userEmail.replace('5:', '')}
+              </Text>
+            }
             <Text style={styles.quoteText}>{Utils.removeHtmlTagsFromString(this.state.parentComment.responseValue)}</Text>
           </View>
         }

@@ -12,7 +12,6 @@ export default function CommentList(props) {
           comment={item}
           comments={props.comments}
           tokens={props.tokens}
-          addNewComment={props.addNewComment}
         />
       }
       keyExtractor={(item, index) => index}

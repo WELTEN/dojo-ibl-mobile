@@ -117,7 +117,6 @@ export default class Activity extends Component {
         <CommentList
           comments={this.state.comments}
           tokens={this.tokens}
-          addNewComment={this.addNewComment}
         />
         <CommentForm
           runId={this.runId}
