@@ -36,5 +36,9 @@ export const globalStyles = {
     marginLeft: sizes.offset,
     marginRight: sizes.offset,
     color: colors.textColor
+  },
+  noContent: {
+    textAlign: 'center',
+    color: colors.textColor
   }
 };

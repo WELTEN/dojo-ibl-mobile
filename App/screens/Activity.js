@@ -124,10 +124,14 @@ export default class Activity extends Component {
             {Utils.removeHtmlTagsFromString(this.activity.richText)}
           </Text>
         }
-        <CommentList
-          comments={this.state.comments}
-          tokens={this.tokens}
-        />
+        {this.state.comments.length <= 0 && !this.state.animating ? (
+          <Text style={globalStyles.noContent}>No comments</Text>
+        ) : (
+          <CommentList
+            comments={this.state.comments}
+            tokens={this.tokens}
+          />
+        )}
         <ActivityIndicator
           animating={this.state.animating}
           style={styles.activityIndicator}

@@ -45,6 +45,9 @@ export default class AllGroups extends PureComponent {
   }
 
   loadGroups() {
+    this.setState({
+      refreshing: true
+    });
     AsyncStorage.getItem('groups').then((groups) => {
         if (groups != null && typeof groups != 'undefined') {
           this.setState({
@@ -83,11 +86,15 @@ export default class AllGroups extends PureComponent {
         }
       >
         <Text style={globalStyles.title}>All groups</Text>
-        <AllGroupsList
-          navigate={this.props.screenProps.navigate}
-          tokens={this.props.screenProps.tokens}
-          groups={this.state.groups}
-        />
+        {this.state.groups.length <= 0 && !this.state.refreshing ? (
+          <Text style={globalStyles.noContent}>No groups</Text>
+        ) : (
+          <AllGroupsList
+            navigate={this.props.screenProps.navigate}
+            tokens={this.props.screenProps.tokens}
+            groups={this.state.groups}
+          />
+        )}
       </ScrollView>
     );
   }

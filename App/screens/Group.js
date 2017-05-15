@@ -42,13 +42,18 @@ export default class Group extends Component {
             {this.groupDescription}
           </Text>
         }
-        <PhaseList
-          phases={this.group.game.phases}
-          gameId={this.group.game.gameId}
-          runId={this.group.runId}
-          tokens={this.tokens}
-          navigate={navigate}
-        />
+
+        {this.group.game.phases.length <= 0 ? (
+          <Text style={globalStyles.noContent}>No phases</Text>
+        ) : (
+          <PhaseList
+            phases={this.group.game.phases}
+            gameId={this.group.game.gameId}
+            runId={this.group.runId}
+            tokens={this.tokens}
+            navigate={navigate}
+          />
+        )}
       </ScrollView>
     );
   }
