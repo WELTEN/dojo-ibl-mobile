@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  ActivityIndicator,
   AsyncStorage,
   FlatList,
   ScrollView,
@@ -20,7 +21,10 @@ export default class Activity extends Component {
     title: navigation.state.params.activity.name
   });
 
-  state = { comments: [] };
+  state = {
+    animating: true,
+    comments: []
+  };
 
   activity = this.props.navigation.state.params.activity;
   runId = this.props.navigation.state.params.runId
@@ -37,6 +41,7 @@ export default class Activity extends Component {
   }
 
   loadComments() {
+    this.setState({ animating: true });
     AsyncStorage.getItem('comments').then((comments) => {
         if (comments != null && typeof comments != 'undefined') {
           comments = JSON.parse(comments);
@@ -54,6 +59,7 @@ export default class Activity extends Component {
   }
 
   loadCommentsFromServer(isInitialRequest = false) {
+    this.setState({ animating: true });
     this.requestRunning = true;
 
     const resumptionTokenParam = this.resumptionToken ? `&resumptionToken=${this.resumptionToken}` : '';
@@ -77,6 +83,10 @@ export default class Activity extends Component {
           this.comments[this.commentsKey] = responseList.responses;
           AsyncStorage.setItem('comments', JSON.stringify(this.comments));
         }
+
+        this.setState({
+          animating: false
+        });
       });
   }
 
@@ -118,6 +128,11 @@ export default class Activity extends Component {
           comments={this.state.comments}
           tokens={this.tokens}
         />
+        <ActivityIndicator
+          animating={this.state.animating}
+          style={styles.activityIndicator}
+          color={colors.textColor}
+        />
         <CommentForm
           runId={this.runId}
           itemId={this.activity.id}
@@ -128,3 +143,10 @@ export default class Activity extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  activityIndicator: {
+    alignItems: 'center',
+    height: sizes.offset * 2
+  }
+});

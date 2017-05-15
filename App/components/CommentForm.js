@@ -69,8 +69,7 @@ export default class CommentForm extends Component {
 const styles = StyleSheet.create({
   formContainer: {
     flex: 1,
-    flexDirection: 'row',
-    marginTop: sizes.offset
+    flexDirection: 'row'
   },
   textInput: {
     flex: 3,
