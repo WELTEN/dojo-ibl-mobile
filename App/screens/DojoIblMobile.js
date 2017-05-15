@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { config } from '../config';
 import Auth from '../lib/Auth';
+import LoadingPage from '../components/LoadingPage';
 import LoginPage from '../components/LoginPage';
 import ProfilePage from '../components/ProfilePage';
 import AllGroups from './AllGroups';
@@ -20,7 +21,10 @@ export default class DojoIblMobile extends Component {
     header: Platform.OS == 'android' ? null : undefined
   };
 
-  state = { loggedIn: false };
+  state = {
+    loggedIn: false,
+    tokensLoaded: false
+  };
 
   tabBarOptionsAndroid = {
     activeTintColor: colors.backgroundColor,
@@ -52,6 +56,8 @@ export default class DojoIblMobile extends Component {
 
     Auth.getTokens()
       .then((tokens) => {
+        this.setState({ tokensLoaded: true });
+
         if (tokens && !Auth.accessTokenExpired(tokens)) {
           this.setState({
             loggedIn: true,
@@ -136,22 +142,23 @@ export default class DojoIblMobile extends Component {
 
   render() {
     this.handleLoggedInState();
-
     const { navigate } = this.props.navigation;
+
+    if (!this.state.tokensLoaded) {
+      return <LoadingPage />
+    }
 
     if (!this.state.loggedIn) {
       return <LoginPage openLoginPage={this.openLoginPage} />;
     } else {
-      const TabNav = this.TabNav;
-
       return (
-        <TabNav
+        <this.TabNav
           screenProps={{
             logout: this.logoutWithConfirm,
             tokens: this.state.tokens,
             navigate: navigate
           }}
-          />
+        />
       );
     }
   }
