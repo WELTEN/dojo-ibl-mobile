@@ -24,6 +24,16 @@ export default class Group extends Component {
   gameTitle = Utils.removeHtmlTagsFromString(this.group.game.title);
   groupDescription = Utils.removeHtmlTagsFromString(this.group.game.description || '');
 
+  onChatBtnPress = () => {
+    const { navigate } = this.props.navigation;
+
+    navigate('Chat', {
+        groupName: this.groupTitle,
+        runId: this.group.id,
+        tokens: this.tokens
+      });
+  }
+
   render() {
     const { navigate } = this.props.navigation;
 
@@ -44,7 +54,7 @@ export default class Group extends Component {
           </Text>
         }
 
-        <TouchableOpacity style={styles.chatBtn}>
+        <TouchableOpacity style={styles.chatBtn} onPress={this.onChatBtnPress}>
           <Text style={globalStyles.fullWidthBtn}>View chat</Text>
         </TouchableOpacity>
 
