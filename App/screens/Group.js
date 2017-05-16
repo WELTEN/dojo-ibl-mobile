@@ -4,6 +4,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View
 } from 'react-native';
 import { globalStyles } from '../styles/globalStyles';
@@ -43,6 +44,10 @@ export default class Group extends Component {
           </Text>
         }
 
+        <TouchableOpacity style={styles.chatBtn}>
+          <Text style={globalStyles.fullWidthBtn}>View chat</Text>
+        </TouchableOpacity>
+
         {this.group.game.phases.length <= 0 ? (
           <Text style={globalStyles.noContent}>No phases</Text>
         ) : (
@@ -69,5 +74,8 @@ const styles = StyleSheet.create({
     color: `rgba(${colors.textColorRgb}, .7)`,
     fontSize: 24,
     fontWeight: '300'
+  },
+  chatBtn: {
+    marginBottom: sizes.offset
   }
 });
