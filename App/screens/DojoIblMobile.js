@@ -117,6 +117,8 @@ export default class DojoIblMobile extends Component {
           loggedIn: false
         });
 
+        this.handleLoggedInState();
+
         const itemsToDelete = ['profile', 'groups', 'activities', 'comments'];
         for (let item of itemsToDelete) {
           AsyncStorage.removeItem(item);
@@ -125,6 +127,8 @@ export default class DojoIblMobile extends Component {
   }
 
   componentDidMount() {
+    this.handleLoggedInState();
+
     NetInfo.fetch().done((connectionType) => {
       this.handleConnectionType(connectionType);
     });
@@ -141,7 +145,6 @@ export default class DojoIblMobile extends Component {
   }
 
   render() {
-    this.handleLoggedInState();
     const { navigate } = this.props.navigation;
 
     if (!this.state.tokensLoaded) {
