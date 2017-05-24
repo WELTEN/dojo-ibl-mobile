@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { sizes } from '../styles/sizes';
 import { colors } from '../styles/colors';
+import RequestUtils from '../lib/RequestUtils';
 
 export default class ChatForm extends Component {
   state = { text: '' };
@@ -15,7 +16,38 @@ export default class ChatForm extends Component {
   handleSendButton = () => {
     if (!this.state.text.trim()) return;
 
-    this.setState({ text: '' });
+    RequestUtils.requestWithToken(`messages/thread/runId/${this.props.runId}/default`, this.props.tokens)
+      .then((thread) => {
+        return {
+          body: this.state.text,
+          date: Date.now(),
+          deleted: false,
+          runId: this.props.runId,
+          senderId: this.props.currentUser.localId,
+          senderProviderId: 5,
+          subject: 'empty',
+          threadId: thread.threadId
+        };
+      })
+      .then((messageJson) => {
+        this.setState({ text: '' });
+
+        return fetch(`https://dojo-ibl.appspot.com/rest/messages/message`, {
+            method: 'post',
+            headers: {
+              'Authorization': `GoogleLogin auth=${this.props.tokens.accessToken}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(messageJson)
+          })
+      })
+      .then((response) => response.json())
+      .then((savedMessage) => {
+        this.props.addNewMessage(savedMessage);
+
+        console.log(savedMessage);
+      });
+
   }
 
   render() {
@@ -25,7 +57,7 @@ export default class ChatForm extends Component {
           style={styles.textInput}
           onChangeText={(text) => this.setState({ text: text })}
           value={this.state.text}
-          placeholder="Reply to this activity..."
+          placeholder="Type your message here..."
         />
         <TouchableOpacity
           style={styles.sendButton}

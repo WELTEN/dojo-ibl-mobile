@@ -18,12 +18,6 @@ export default function MessageListItem(props) {
 
   const textStyle = isCurrentUser ? { color: colors.textColor } : {}
 
-  console.log(props.message.senderId)
-  console.log(isCurrentUser)
-  console.log(style)
-
-  console.log(`${props.message.senderId} sent this message: ${props.message.body}, is it the current user? ${isCurrentUser}. Current user = ${props.currentUser.localId}`)
-
   return (
     <View style={style}>
       <Text style={textStyle}>{props.message.body}</Text>

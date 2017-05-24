@@ -39,6 +39,14 @@ export default class Chat extends Component {
 
   loadMessages() {
     this.setState({ animating: true });
+    AsyncStorage.getItem('profile').then((profileData) => {
+      if (profileData != null && typeof profileData != 'undefined') {
+        this.setState({
+          currentUser: JSON.parse(profileData)
+        });
+      }
+    })
+
     AsyncStorage.getItem('messages').then((messages) => {
         if (messages != null && typeof messages != 'undefined') {
           messages = JSON.parse(messages);
@@ -98,8 +106,10 @@ export default class Chat extends Component {
    }
 
   addNewMessage = (newMessage) => {
+    const messages = this.state.messages;
+    messages.push(newMessage)
     this.setState({
-      messages: this.state.messages.concat(newMessage)
+      messages: messages
     });
   }
 
@@ -118,10 +128,16 @@ export default class Chat extends Component {
         }}
         scrollEventThrottle={0}
       >
-        <MessageForm addNewMessage={this.addNewMessage} />
+        <MessageForm
+          addNewMessage={this.addNewMessage}
+          runId={this.runId}
+          tokens={this.tokens}
+          currentUser={this.state.currentUser}
+        />
         <MessageList
           messages={this.state.messages}
-          currentUser={{localId: 'rafaelklaessen'}} />
+          currentUser={this.state.currentUser}
+        />
       </InvertibleScrollView>
     );
   }
