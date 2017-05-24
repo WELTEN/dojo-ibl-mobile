@@ -29,7 +29,7 @@ export default class Group extends Component {
 
     navigate('Chat', {
         groupName: this.groupTitle,
-        runId: this.group.id,
+        runId: this.group.runId,
         tokens: this.tokens
       });
   }
