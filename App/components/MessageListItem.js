@@ -14,27 +14,59 @@ export default function MessageListItem(props) {
   const isCurrentUser = props.currentUser.localId == props.message.senderId;
   const style = isCurrentUser
                 ? StyleSheet.flatten([styles.message, styles.currentUserMessage])
-                : styles.message
+                : styles.message;
 
-  const textStyle = isCurrentUser ? { color: colors.textColor } : {}
+  const textStyle = isCurrentUser ? { color: colors.textColor } : {};
+  const dateStyle = isCurrentUser
+                    ? StyleSheet.flatten([styles.messageDate, styles.currentUserMessageDate])
+                    : styles.messageDate;
+
+  const date = new Date(props.message.date);
+
+  let hours = date.getHours();
+  let ampm = hours < 12 ? 'AM' : 'PM';
+  if (ampm == 'PM') hours = hours - 12;
+  let minutes = date.getMinutes();
+  if (minutes.toString().length == 1) minutes = '0' + minutes;
+
+  const dateString = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()} ${hours}:${minutes} ${ampm}`;
 
   return (
-    <View style={style}>
-      <Text style={textStyle}>{props.message.body}</Text>
+    <View>
+      <View style={style}>
+        { !isCurrentUser &&
+          <Text style={styles.messageUsername}>{props.message.senderId}</Text>
+        }
+        <Text style={textStyle}>{props.message.body}</Text>
+      </View>
+      <Text style={dateStyle}>{dateString}</Text>
     </View>
   );
 }
 
 const styles = {
   message: {
-    marginBottom: sizes.offset / 2,
     padding: sizes.offset / 2,
+    paddingTop: sizes.offset / 4,
     width: sizes.window.width * 0.7,
     backgroundColor: colors.textColor,
     borderRadius: sizes.offset / 2
   },
   currentUserMessage: {
     marginLeft: sizes.window.width * 0.3 - sizes.offset,
+    paddingTop: sizes.offset / 2,
     backgroundColor: colors.secondaryTextColor
+  },
+  messageUsername: {
+    marginBottom: sizes.offset / 4,
+    color: colors.backgroundColor
+  },
+  messageDate: {
+    marginTop: sizes.offset / 4,
+    marginBottom: sizes.offset / 4 * 3,
+    color: `rgba(${colors.textColorRgb}, .7)`
+  },
+  currentUserMessageDate: {
+    textAlign: 'right'
   }
 }

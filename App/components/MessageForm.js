@@ -39,7 +39,7 @@ export default class ChatForm extends Component {
               'Content-Type': 'application/json'
             },
             body: JSON.stringify(messageJson)
-          })
+          });
       })
       .then((response) => response.json())
       .then((savedMessage) => {

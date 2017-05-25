@@ -26,7 +26,7 @@ export default class Chat extends Component {
     animating: true,
     currentUser: {},
     messages: []
-  }
+  };
 
   requestRunning = false;
   resumptionToken = '';
@@ -107,7 +107,7 @@ export default class Chat extends Component {
 
   addNewMessage = (newMessage) => {
     const messages = this.state.messages;
-    messages.push(newMessage)
+    messages.push(newMessage);
     this.setState({
       messages: messages
     });
@@ -118,6 +118,7 @@ export default class Chat extends Component {
       <InvertibleScrollView
         inverted
         style={styles.container}
+        keyboardShouldPersistTaps="always"
         onScroll={(e) => {
           const windowHeight = sizes.window.height;
           const height = e.nativeEvent.contentSize.height;

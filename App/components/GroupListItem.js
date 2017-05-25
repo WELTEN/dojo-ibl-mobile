@@ -15,7 +15,6 @@ export default class GroupListItem extends Component {
   gameTitle = Utils.removeHtmlTagsFromString(this.props.group.game.title);
   groupDescription = Utils.removeHtmlTagsFromString(this.props.group.game.description || '');
 
-
   render() {
     return (
       <TouchableHighlight onPress={this.props.onPress}>
