@@ -14,6 +14,38 @@ import ProfilePage from '../components/ProfilePage';
 import AllGroups from './AllGroups';
 import { colors } from '../styles/colors';
 import { TabNavigator } from 'react-navigation';
+import PushNotification from 'react-native-push-notification';
+
+PushNotification.configure({
+  onRegister: (token) => {
+    console.log('TOKEN:', token);
+  },
+
+  onNotification: (notification) => {
+    console.log('NOTIFICATION:', notification);
+  },
+
+  senderID: 'YOUR GCM SENDER ID',
+
+  permissions: {
+    alert: true,
+    badge: true,
+    sound: true
+  },
+
+  popInitialNotification: true,
+  requestPermissions: true,
+});
+
+function sendNotif() {
+  console.log('Sending the notification')
+  PushNotification.localNotificationSchedule({
+    title: 'Test',
+    message: 'Testing!',
+    number: '1',
+    date: new Date(Date.now() + 10000)
+  });
+}
 
 export default class DojoIblMobile extends Component {
   static navigationOptions = {
@@ -100,6 +132,7 @@ export default class DojoIblMobile extends Component {
   }
 
   logoutWithConfirm = () => {
+    sendNotif();
     Alert.alert(
       'Are you sure you want to log out?',
       'Are you sure you want to log out? You\'ll have to log in again to access your data.',
