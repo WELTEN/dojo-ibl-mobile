@@ -4,6 +4,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View
 } from 'react-native';
 import { globalStyles } from '../styles/globalStyles';
@@ -22,6 +23,16 @@ export default class Group extends Component {
   groupTitle = Utils.removeHtmlTagsFromString(this.group.title);
   gameTitle = Utils.removeHtmlTagsFromString(this.group.game.title);
   groupDescription = Utils.removeHtmlTagsFromString(this.group.game.description || '');
+
+  onChatBtnPress = () => {
+    const { navigate } = this.props.navigation;
+
+    navigate('Chat', {
+        groupName: this.groupTitle,
+        runId: this.group.runId,
+        tokens: this.tokens
+      });
+  }
 
   render() {
     const { navigate } = this.props.navigation;
@@ -42,6 +53,10 @@ export default class Group extends Component {
             {this.groupDescription}
           </Text>
         }
+
+        <TouchableOpacity style={styles.chatBtn} onPress={this.onChatBtnPress}>
+          <Text style={globalStyles.fullWidthBtn}>View chat</Text>
+        </TouchableOpacity>
 
         {this.group.game.phases.length <= 0 ? (
           <Text style={globalStyles.noContent}>No phases</Text>
@@ -69,5 +84,8 @@ const styles = StyleSheet.create({
     color: `rgba(${colors.textColorRgb}, .7)`,
     fontSize: 24,
     fontWeight: '300'
+  },
+  chatBtn: {
+    marginBottom: sizes.offset
   }
 });

@@ -7,7 +7,7 @@ export default function CommentList(props) {
   return (
     <FlatList
       data={props.comments}
-      renderItem={({item, index}) =>
+      renderItem={({item}) =>
         <CommentListItem
           comment={item}
           comments={props.comments}

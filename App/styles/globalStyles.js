@@ -40,5 +40,11 @@ export const globalStyles = {
   noContent: {
     textAlign: 'center',
     color: colors.textColor
+  },
+  fullWidthBtn: {
+    padding: 10,
+    color: colors.secondaryTextColor,
+    backgroundColor: colors.textColor,
+    textAlign: 'center'
   }
 };
