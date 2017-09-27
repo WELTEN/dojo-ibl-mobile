@@ -1,4 +1,5 @@
 {
-  "name": "DojoIblMobile",
-  "displayName": "DojoIblMobile"
+  "expo": {
+    "sdkVersion": "20.0.0"
+  }
 }
