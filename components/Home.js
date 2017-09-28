@@ -54,7 +54,7 @@ export default class Home extends Component {
 
   handleGoogleUser = (user) => {
     if (user) {
-      this.setState({ loggedIn: true, loading: false, user });
+      this.setState({ loggedIn: true, loading: false, user, error: '' });
       this.authGoogleUser(user);
     } else {
       this.setState({ loggedIn: false, loading: false, user: null });

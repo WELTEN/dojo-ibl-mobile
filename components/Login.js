@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Dimensions, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import RenderIfTrue from './RenderIfTrue';
+import BackgroundImage from './BackgroundImage';
 import glamorous from 'glamorous-native';
 
-const { width, height } = Dimensions.get('window');
+const itemWidth = Dimensions.get('window').width - 82;
 
 const Container = glamorous.view({
   flex: 1,
@@ -12,25 +14,7 @@ const Container = glamorous.view({
   backgroundColor: 'black'
 });
 
-const BgImage = glamorous.image({
-  flex: 1,
-  alignSelf: 'stretch',
-  width: null,
-  opacity: .6
-});
-
-const Error = glamorous.text({
-  color: 'red'
-});
-
-const Title = glamorous.text({
-  marginBottom: 24,
-  color: 'white',
-  fontSize: 36,
-  backgroundColor: 'transparent'
-});
-
-const Absolute = glamorous.view({
+const Content = glamorous.view({
   position: 'absolute',
   top: 0,
   left: 0,
@@ -41,35 +25,53 @@ const Absolute = glamorous.view({
   alignItems: 'center'
 });
 
+const Title = glamorous.text({
+  marginBottom: 24,
+  color: 'white',
+  fontSize: 36,
+  fontWeight: 'bold',
+  backgroundColor: 'transparent'
+});
+
+const standardText = {
+  fontSize: 16,
+  fontWeight: 'bold'
+};
+
+const Input = glamorous.textInput(standardText, {
+  marginBottom: 12,
+  padding: 12,
+  width: itemWidth,
+  color: 'white',
+  backgroundColor: 'rgba(255, 255, 255, .3)',
+  borderRadius: 20
+});
+
+const WhiteText = glamorous.text(standardText, {
+  color: 'white',
+  backgroundColor: 'transparent'
+});
+
+const ErrorText = glamorous(WhiteText)({
+  marginBottom: 12,
+  width: itemWidth
+});
+
 const Button = glamorous.touchableOpacity({
   marginBottom: 12,
   padding: 12,
-  width: width - 96,
+  width: itemWidth,
   alignItems: 'center',
   backgroundColor: 'white',
   borderRadius: 20
 });
 
 const GoogleButton = glamorous(Button)({
+  marginTop: 12,
   backgroundColor: 'red'
 });
 
-const ButtonText = glamorous.text({
-  fontWeight: 'bold'
-});
-
-const WhiteText = glamorous(ButtonText)({
-  color: 'white'
-});
-
-const Input = glamorous.textInput({
-  marginBottom: 12,
-  padding: 12,
-  width: width - 96,
-  color: 'white',
-  backgroundColor: 'rgba(255, 255, 255, .3)',
-  borderRadius: 20
-});
+const ButtonText = glamorous.text(standardText);
 
 export default class Login extends Component {
   state = {
@@ -81,8 +83,8 @@ export default class Login extends Component {
 
   render = () => (
     <Container>
-      <BgImage source={require('../images/login.jpg')} />
-      <Absolute>
+      <BackgroundImage source={require('../images/login.jpg')} />
+      <Content>
         <Title>DojoIBL</Title>
         <Input
           placeholder="Email"
@@ -97,14 +99,16 @@ export default class Login extends Component {
           value={this.state.password}
           onChangeText={password => this.setState({ password })}
         />
+        <RenderIfTrue expression={this.props.error}>
+          <ErrorText>{this.props.error}</ErrorText>
+        </RenderIfTrue>
         <Button onPress={this.onSubmit}>
           <ButtonText>Login</ButtonText>
         </Button>
-        <Error>{this.props.error}</Error>
         <GoogleButton onPress={this.props.onLogin}>
           <WhiteText>Login with Google</WhiteText>
         </GoogleButton>
-      </Absolute>
+      </Content>
     </Container>
   );
 }
