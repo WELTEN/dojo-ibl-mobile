@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, TouchableHighlight } from 'react-native';
+import { Text, TouchableHighlight, TextInput } from 'react-native';
 import glamorous from 'glamorous-native';
 import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
 import * as firebase from 'firebase';
@@ -18,7 +18,9 @@ export default class Home extends Component {
 
   state = {
     loggedIn: false,
-    loading: true
+    loading: true,
+    email: '',
+    password: ''
   };
 
   componentWillMount() {
@@ -36,13 +38,13 @@ export default class Home extends Component {
   handleUser = (user) => {
     if (user) {
       this.setState({ loggedIn: true, loading: false, user });
-      this.authUser(user);
+      this.authGoogleUser(user);
     } else {
       this.setState({ loggedIn: false, loading: false, user: null });
     }
   }
 
-  authUser = (user) => {
+  authGoogleUser = (user) => {
     const unsubscribe = firebase.auth().onAuthStateChanged((firebaseUser) => {
       unsubscribe();
       if (!this.isUserEqual(user, firebaseUser)) {
@@ -62,12 +64,22 @@ export default class Home extends Component {
       const providerData = firebaseUser.providerData;
       for (let i = 0; i < providerData.length; i++) {
         if (providerData[i].providerId === firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
-            providerData[i].uid === googleUser.getBasicProfile().getId()) {
+            providerData[i].uid === user.id) {
           return true;
         }
       }
     }
     return false;
+  }
+
+  onSubmit = () => this.authUser(this.state.email, this.state.password);
+
+  authUser = (email, password) => {
+    firebase.auth().signInWithEmailAndPassword(email, password).then((user) => {
+      this.setState({ loggedIn: true, loading: false, user });
+    }).catch(function(error) {
+      console.log(error)
+    });
   }
 
   onLogin = () => {
@@ -93,8 +105,23 @@ export default class Home extends Component {
       return (
         <Container>
           <Text>DojoIBL</Text>
-          <TouchableHighlight onPress={this.onLogin}>
+          <TextInput
+            style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+            placeholder="username"
+            value={this.state.email}
+            onChangeText={email => this.setState({ email })}
+          />
+          <TextInput
+            style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+            placeholder="password"
+            value={this.state.password}
+            onChangeText={password => this.setState({ password })}
+          />
+          <TouchableHighlight onPress={this.onSubmit}>
             <Text>Login</Text>
+          </TouchableHighlight>
+          <TouchableHighlight onPress={this.onLogin}>
+            <Text>Login with Google</Text>
           </TouchableHighlight>
         </Container>
       );
