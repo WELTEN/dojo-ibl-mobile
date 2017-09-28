@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text } from 'react-native';
 import glamorous from 'glamorous-native';
+import { GoogleSignin } from 'react-native-google-signin';
 
 const Container = glamorous.view({
   flex: 1,
@@ -16,9 +17,12 @@ export default class Home extends Component {
 
   render = () => (
     <Container>
-      <Text>Open up App.js to start working on your app!</Text>
-      <Text>Changes you make will automatically reload.</Text>
-      <Text>Shake your phone to open the developer menu.</Text>
+      <Text>DojoIBL</Text>
+      <GoogleSigninButton
+        size={GoogleSigninButton.Size.Icon}
+        color={GoogleSigninButton.Color.Dark}
+        onPress={() => alert('kes')}
+      />
     </Container>
   );
 }
