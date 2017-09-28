@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>518897628174-u6ufotog815h8nm5lbibm8inictcvsh2.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.518897628174-u6ufotog815h8nm5lbibm8inictcvsh2</string>
+	<key>API_KEY</key>
+	<string>AIzaSyD_WHLZL6EzSRNxT_nRXg951DDlMR-uWRE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>518897628174</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.reactjs.native.example.DojoIblMobile</string>
+	<key>PROJECT_ID</key>
+	<string>dojo-ibl</string>
+	<key>STORAGE_BUCKET</key>
+	<string>dojo-ibl.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<false/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:518897628174:ios:d9b6091568efad31</string>
+	<key>DATABASE_URL</key>
+	<string>https://dojo-ibl.firebaseio.com</string>
+</dict>
+</plist>
