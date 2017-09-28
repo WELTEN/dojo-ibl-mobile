@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, TouchableHighlight, TextInput } from 'react-native';
+import { AsyncStorage, Text, TouchableHighlight, TextInput } from 'react-native';
 import glamorous from 'glamorous-native';
 import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
 import * as firebase from 'firebase';
@@ -24,18 +24,41 @@ export default class Home extends Component {
   };
 
   componentWillMount() {
+    this.setupGoogleSignin().then(() => {
+      GoogleSignin.currentUserAsync().then(this.handleGoogleUser);
+    });
+
+    this.getUserFromStorage().then(([ email, password ]) => {
+      if (email && password) this.authUser(email, password);
+    });
+  }
+
+  setupGoogleSignin = () =>
     GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
       GoogleSignin.configure({
         iosClientId: '518897628174-u6ufotog815h8nm5lbibm8inictcvsh2.apps.googleusercontent.com',
         webClientId: '518897628174-u6ufotog815h8nm5lbibm8inictcvsh2.apps.googleusercontent.com'
       });
-      GoogleSignin.currentUserAsync().then(this.handleUser);
     }).catch((err) => {
       alert(`Play services error, ${err.code}, ${err.message}`);
     });
-  }
 
-  handleUser = (user) => {
+  getUserFromStorage = () => Promise.all([
+    AsyncStorage.getItem('email'),
+    AsyncStorage.getItem('password')
+  ]);
+
+  setUserInStorage = (email, password) => Promise.all([
+    AsyncStorage.setItem('email', email),
+    AsyncStorage.setItem('password', password)
+  ]);
+
+  deleteUserFromStorage = () => Promise.all([
+    AsyncStorage.removeItem('email'),
+    AsyncStorage.removeItem('password')
+  ]);
+
+  handleGoogleUser = (user) => {
     if (user) {
       this.setState({ loggedIn: true, loading: false, user });
       this.authGoogleUser(user);
@@ -45,31 +68,12 @@ export default class Home extends Component {
   }
 
   authGoogleUser = (user) => {
-    const unsubscribe = firebase.auth().onAuthStateChanged((firebaseUser) => {
-      unsubscribe();
-      if (!this.isUserEqual(user, firebaseUser)) {
-        const credential = firebase.auth.GoogleAuthProvider.credential(user.idToken);
+    if (firebase.auth().currentUser) firebase.auth().signOut();
 
-        firebase.auth().signInWithCredential(credential).catch((error) => {
-          console.log(error);
-        });
-      } else {
-        console.log('User already signed-in Firebase.');
-      }
+    const credential = firebase.auth.GoogleAuthProvider.credential(user.idToken);
+    firebase.auth().signInWithCredential(credential).catch((error) => {
+      console.log(error);
     });
-  }
-
-  isUserEqual = (user, firebaseUser) => {
-    if (firebaseUser) {
-      const providerData = firebaseUser.providerData;
-      for (let i = 0; i < providerData.length; i++) {
-        if (providerData[i].providerId === firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
-            providerData[i].uid === user.id) {
-          return true;
-        }
-      }
-    }
-    return false;
   }
 
   onSubmit = () => this.authUser(this.state.email, this.state.password);
@@ -77,18 +81,20 @@ export default class Home extends Component {
   authUser = (email, password) => {
     firebase.auth().signInWithEmailAndPassword(email, password).then((user) => {
       this.setState({ loggedIn: true, loading: false, user });
-    }).catch(function(error) {
+      this.setUserInStorage(email, password);
+    }).catch((error) => {
       console.log(error)
     });
   }
 
   onLogin = () => {
-    GoogleSignin.signIn().then(this.handleUser);
+    GoogleSignin.signIn().then(this.handleGoogleUser);
   }
 
   onLogout = () => {
     firebase.auth().signOut();
-    GoogleSignin.signOut().then(this.handleUser);
+    this.deleteUserFromStorage();
+    GoogleSignin.signOut().then(this.handleGoogleUser);
   }
 
   render() {
