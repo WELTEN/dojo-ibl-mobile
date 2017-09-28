@@ -9,7 +9,8 @@ firebase.initializeApp(firebaseConfig);
 const App = StackNavigator({
   Home: { screen: Home }
 }, {
-  intialRouteName: 'Home'
+  intialRouteName: 'Home',
+  headerMode: 'screen'
 });
 
 export default App;

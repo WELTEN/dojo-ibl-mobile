@@ -1,8 +1,18 @@
 import React, { Component } from 'react';
-import { AsyncStorage, Text, TouchableHighlight, TextInput } from 'react-native';
+import {
+  AsyncStorage,
+  Text,
+  TouchableHighlight
+} from 'react-native';
 import glamorous from 'glamorous-native';
-import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
+import { GoogleSignin } from 'react-native-google-signin';
+import {
+  getUserFromStorage,
+  setUserInStorage,
+  deleteUserFromStorage
+} from '../lib/Storage';
 import * as firebase from 'firebase';
+import Login from './Login';
 
 const Container = glamorous.view({
   flex: 1,
@@ -13,14 +23,13 @@ const Container = glamorous.view({
 
 export default class Home extends Component {
   static navigationOptions = {
-    title: 'Home'
+    title: 'Home',
+    header: null
   };
 
   state = {
     loggedIn: false,
-    loading: true,
-    email: '',
-    password: ''
+    loading: true
   };
 
   componentWillMount() {
@@ -28,7 +37,7 @@ export default class Home extends Component {
       GoogleSignin.currentUserAsync().then(this.handleGoogleUser);
     });
 
-    this.getUserFromStorage().then(([ email, password ]) => {
+    getUserFromStorage().then(([ email, password ]) => {
       if (email && password) this.authUser(email, password);
     });
   }
@@ -42,21 +51,6 @@ export default class Home extends Component {
     }).catch((err) => {
       alert(`Play services error, ${err.code}, ${err.message}`);
     });
-
-  getUserFromStorage = () => Promise.all([
-    AsyncStorage.getItem('email'),
-    AsyncStorage.getItem('password')
-  ]);
-
-  setUserInStorage = (email, password) => Promise.all([
-    AsyncStorage.setItem('email', email),
-    AsyncStorage.setItem('password', password)
-  ]);
-
-  deleteUserFromStorage = () => Promise.all([
-    AsyncStorage.removeItem('email'),
-    AsyncStorage.removeItem('password')
-  ]);
 
   handleGoogleUser = (user) => {
     if (user) {
@@ -76,24 +70,24 @@ export default class Home extends Component {
     });
   }
 
-  onSubmit = () => this.authUser(this.state.email, this.state.password);
-
   authUser = (email, password) => {
     firebase.auth().signInWithEmailAndPassword(email, password).then((user) => {
-      this.setState({ loggedIn: true, loading: false, user });
-      this.setUserInStorage(email, password);
+      this.setState({ loggedIn: true, loading: false, error: '', user });
+      setUserInStorage(email, password);
     }).catch((error) => {
-      console.log(error)
+      this.setState({ error: error.message });
     });
   }
 
   onLogin = () => {
-    GoogleSignin.signIn().then(this.handleGoogleUser);
+    GoogleSignin.signIn()
+      .then(this.handleGoogleUser)
+      .catch(console.log);
   }
 
   onLogout = () => {
     firebase.auth().signOut();
-    this.deleteUserFromStorage();
+    deleteUserFromStorage();
     GoogleSignin.signOut().then(this.handleGoogleUser);
   }
 
@@ -109,27 +103,11 @@ export default class Home extends Component {
       );
     } else {
       return (
-        <Container>
-          <Text>DojoIBL</Text>
-          <TextInput
-            style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-            placeholder="username"
-            value={this.state.email}
-            onChangeText={email => this.setState({ email })}
-          />
-          <TextInput
-            style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-            placeholder="password"
-            value={this.state.password}
-            onChangeText={password => this.setState({ password })}
-          />
-          <TouchableHighlight onPress={this.onSubmit}>
-            <Text>Login</Text>
-          </TouchableHighlight>
-          <TouchableHighlight onPress={this.onLogin}>
-            <Text>Login with Google</Text>
-          </TouchableHighlight>
-        </Container>
+        <Login
+          onLogin={this.onLogin}
+          onSubmit={this.authUser}
+          error={this.state.error}
+        />
       );
     }
   }
