@@ -9,6 +9,7 @@ import {
 import * as firebase from 'firebase';
 import Home from './Home';
 import Login from './Login';
+import LoadingScreen from './LoadingScreen';
 
 const Container = glamorous.view({
   flex: 1,
@@ -36,6 +37,7 @@ export default class DojoIblMobile extends Component {
 
     getUserFromStorage().then(([ email, password ]) => {
       if (email && password) this.authUser(email, password);
+      else this.setState({ loading: false });
     });
   }
 
@@ -54,7 +56,7 @@ export default class DojoIblMobile extends Component {
       this.setState({ loggedIn: true, loading: false, user, error: '' });
       this.authGoogleUser(user);
     } else {
-      this.setState({ loggedIn: false, loading: false, user: null });
+      this.setState({ loggedIn: false, user: null });
     }
   }
 
@@ -89,16 +91,20 @@ export default class DojoIblMobile extends Component {
   }
 
   render() {
-    if (this.state.loggedIn) {
-      return <Home user={this.state.user} onLogout={this.onLogout} />;
+    if (this.state.loading) {
+      return <LoadingScreen />
     } else {
-      return (
-        <Login
-          onLogin={this.onLogin}
-          onSubmit={this.authUser}
-          error={this.state.error}
-        />
-      );
+      if (this.state.loggedIn) {
+        return <Home user={this.state.user} onLogout={this.onLogout} />;
+      } else {
+        return (
+          <Login
+            onLogin={this.onLogin}
+            onSubmit={this.authUser}
+            error={this.state.error}
+          />
+        );
+      }
     }
   }
 }

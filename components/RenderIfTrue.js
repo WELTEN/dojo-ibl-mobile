@@ -8,7 +8,7 @@ const RenderIfTrue = ({ expression, children }) => {
 }
 
 RenderIfTrue.propTypes = {
-  expression: PropTypes.any.isRequired,
+  expression: PropTypes.any,
   children: PropTypes.any.isRequired
 };
 
