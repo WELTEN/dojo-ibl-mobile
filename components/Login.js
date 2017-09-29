@@ -1,18 +1,11 @@
 import React, { Component } from 'react';
-import { Dimensions, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { Dimensions } from 'react-native';
 import RenderIfTrue from './RenderIfTrue';
+import Container from './Container';
 import BackgroundImage from './BackgroundImage';
 import glamorous from 'glamorous-native';
 
 const itemWidth = Dimensions.get('window').width - 82;
-
-const Container = glamorous.view({
-  flex: 1,
-  backgroundColor: '#FFFFFF',
-  alignItems: 'center',
-  justifyContent: 'center',
-  backgroundColor: 'black'
-});
 
 const Content = glamorous.view({
   position: 'absolute',
@@ -34,7 +27,7 @@ const Title = glamorous.text({
 });
 
 const standardText = {
-  fontSize: 16,
+  fontSize: 14,
   fontWeight: 'bold'
 };
 
@@ -82,8 +75,8 @@ export default class Login extends Component {
   onSubmit = () => this.props.onSubmit(this.state.email, this.state.password);
 
   render = () => (
-    <Container>
-      <BackgroundImage source={require('../images/login.jpg')} />
+    <Container bgColor="black">
+      <BackgroundImage source={require('../images/bg.jpg')} />
       <Content>
         <Title>DojoIBL</Title>
         <Input
