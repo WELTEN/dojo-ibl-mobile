@@ -1,6 +1,8 @@
 import React from 'react';
-import { Dimensions, View, Image, Text } from 'react-native';
+import { Dimensions, View } from 'react-native';
 import glamorous from 'glamorous-native';
+import PropTypes from 'prop-types';
+import RenderIfTrue from '../RenderIfTrue';
 
 const width = Dimensions.get('window').width;
 
@@ -10,6 +12,7 @@ const Header = glamorous.view({
   paddingLeft: 24,
   paddingRight: 24,
   width,
+  height: 144,
   backgroundColor: 'black',
   alignItems: 'center',
   flexDirection: 'row'
@@ -62,12 +65,25 @@ const UserHeader = ({ user, onLogout }) => (
     <LogoutButton onPress={onLogout}>
       <LogoutIcon source={require('../../images/logout.png')} />
     </LogoutButton>
-    <Picture source={{ uri: user.photo }} />
+    <RenderIfTrue expression={user.photo || user.photoURL}>
+      <Picture source={{ uri: user.photo || user.photoURL }} />
+    </RenderIfTrue>
     <View>
-      <Name>{user.name}</Name>
+      <Name>{user.name || user.displayName}</Name>
       <Email>{user.email}</Email>
     </View>
   </Header>
 );
+
+UserHeader.propTypes = {
+  user: PropTypes.shape({
+    photo: PropTypes.string,
+    photoUrl: PropTypes.string,
+    name: PropTypes.string,
+    displayName: PropTypes.string,
+    email: PropTypes.string.isRequired
+  }).isRequired,
+  onLogout: PropTypes.func.isRequired
+};
 
 export default UserHeader;

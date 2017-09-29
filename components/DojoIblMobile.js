@@ -25,7 +25,8 @@ export default class DojoIblMobile extends Component {
 
   state = {
     loggedIn: false,
-    loading: true
+    loading: true,
+    error: ''
   };
 
   componentWillMount() {

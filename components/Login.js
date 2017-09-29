@@ -4,6 +4,7 @@ import RenderIfTrue from './RenderIfTrue';
 import Container from './Container';
 import BackgroundImage from './BackgroundImage';
 import glamorous from 'glamorous-native';
+import PropTypes from 'prop-types';
 
 const itemWidth = Dimensions.get('window').width - 82;
 
@@ -106,3 +107,9 @@ export default class Login extends Component {
     </Container>
   );
 }
+
+Login.propTypes = {
+  onLogin: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  error: PropTypes.string.isRequired
+};
