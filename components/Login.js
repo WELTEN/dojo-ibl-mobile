@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Dimensions } from 'react-native';
+import { StatusBar, Dimensions } from 'react-native';
 import RenderIfTrue from './RenderIfTrue';
 import Container from './Container';
 import BackgroundImage from './BackgroundImage';
@@ -76,6 +76,7 @@ export default class Login extends Component {
 
   render = () => (
     <Container bgColor="black">
+      <StatusBar barStyle="light-content" />
       <BackgroundImage source={require('../images/bg.jpg')} />
       <Content>
         <Title>DojoIBL</Title>

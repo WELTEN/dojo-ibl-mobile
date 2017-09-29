@@ -5,8 +5,8 @@ import glamorous from 'glamorous-native';
 const width = Dimensions.get('window').width;
 
 const Header = glamorous.view({
-  paddingTop: 44,
-  paddingBottom: 32,
+  paddingTop: 50,
+  paddingBottom: 38,
   paddingLeft: 24,
   paddingRight: 24,
   width,
@@ -20,8 +20,19 @@ const BackgroundImage = glamorous.image({
   top: 0,
   left: 0,
   width,
-  height: 132,
+  height: 144,
   opacity: .6
+});
+
+const LogoutButton = glamorous.touchableOpacity({
+  position: 'absolute',
+  top: 36,
+  right: 24
+});
+
+const LogoutIcon = glamorous.image({
+  width: 16,
+  height: 16
 });
 
 const Picture = glamorous.image({
@@ -45,9 +56,12 @@ const Email = glamorous.text({
   backgroundColor: 'transparent'
 });
 
-const UserHeader = ({ user }) => (
+const UserHeader = ({ user, onLogout }) => (
   <Header>
     <BackgroundImage source={require('../../images/bg.jpg')} />
+    <LogoutButton onPress={onLogout}>
+      <LogoutIcon source={require('../../images/logout.png')} />
+    </LogoutButton>
     <Picture source={{ uri: user.photo }} />
     <View>
       <Name>{user.name}</Name>
