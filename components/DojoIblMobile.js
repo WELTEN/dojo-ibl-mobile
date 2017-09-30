@@ -4,7 +4,10 @@ import { GoogleSignin } from 'react-native-google-signin';
 import {
   getUserFromStorage,
   setUserInStorage,
-  deleteUserFromStorage
+  deleteUserFromStorage,
+  setTokenInStorage,
+  deleteTokenFromStorage,
+  getTokenFromStorage
 } from '../lib/Storage';
 import * as firebase from 'firebase';
 import Home from './Home';
@@ -27,6 +30,7 @@ export default class DojoIblMobile extends Component {
   state = {
     loggedIn: false,
     loading: true,
+    token: null,
     error: ''
   };
 
@@ -47,13 +51,13 @@ export default class DojoIblMobile extends Component {
         iosClientId: '518897628174-u6ufotog815h8nm5lbibm8inictcvsh2.apps.googleusercontent.com',
         webClientId: '518897628174-u6ufotog815h8nm5lbibm8inictcvsh2.apps.googleusercontent.com'
       });
-    }).catch((err) => {
-      alert(`Play services error, ${err.code}, ${err.message}`);
+    }).catch((error) => {
+      alert(`Play services error, ${error.code}, ${error.message}`);
     });
 
   handleGoogleUser = (user) => {
     if (user) {
-      this.setState({ loggedIn: true, loading: false, user, error: '' });
+      this.setState({ error: '' });
       this.authGoogleUser(user);
     } else {
       this.setState({ loggedIn: false, user: null });
@@ -64,18 +68,38 @@ export default class DojoIblMobile extends Component {
     if (firebase.auth().currentUser) firebase.auth().signOut();
 
     const credential = firebase.auth.GoogleAuthProvider.credential(user.idToken);
-    firebase.auth().signInWithCredential(credential).catch((error) => {
+    firebase.auth().signInWithCredential(credential).then((user) => {
+      this.setState({ loggedIn: true, user });
+      this.authWithServer(user.He);
+    }).catch((error) => {
       console.log(error);
     });
   }
 
   authUser = (email, password) => {
     firebase.auth().signInWithEmailAndPassword(email, password).then((user) => {
-      this.setState({ loggedIn: true, loading: false, error: '', user });
+      this.setState({ loggedIn: true, error: '', user });
       setUserInStorage(email, password);
+      this.authWithServer(user.He);
     }).catch((error) => {
       this.setState({ error: error.message });
     });
+  }
+
+  authWithServer = (accessToken) => {
+    deleteTokenFromStorage();
+    fetch('https://dojo-ibl.appspot.com/rest/oauth/authenticate', {
+        method: 'POST',
+        headers: {
+          'Authorization': accessToken,
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(({ token }) => {
+        this.setState({ loading: false, token });
+        setTokenInStorage(token);
+      });
   }
 
   onLogin = () => {
@@ -87,6 +111,7 @@ export default class DojoIblMobile extends Component {
   onLogout = () => {
     firebase.auth().signOut();
     deleteUserFromStorage();
+    deleteTokenFromStorage();
     GoogleSignin.signOut().then(this.handleGoogleUser);
   }
 
@@ -94,8 +119,14 @@ export default class DojoIblMobile extends Component {
     if (this.state.loading) {
       return <LoadingScreen />
     } else {
-      if (this.state.loggedIn) {
-        return <Home user={this.state.user} onLogout={this.onLogout} />;
+      if (this.state.loggedIn && this.state.token) {
+        return (
+          <Home
+            user={this.state.user}
+            token={this.state.token}
+            onLogout={this.onLogout}
+          />
+        );
       } else {
         return (
           <Login

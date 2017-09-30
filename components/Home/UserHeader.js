@@ -65,11 +65,11 @@ const UserHeader = ({ user, onLogout }) => (
     <LogoutButton onPress={onLogout}>
       <LogoutIcon source={require('../../images/logout.png')} />
     </LogoutButton>
-    <RenderIfTrue expression={user.photo || user.photoURL}>
-      <Picture source={{ uri: user.photo || user.photoURL }} />
+    <RenderIfTrue expression={user.photoURL}>
+      <Picture source={{ uri: user.photoURL }} />
     </RenderIfTrue>
     <View>
-      <Name>{user.name || user.displayName}</Name>
+      <Name>{user.displayName}</Name>
       <Email>{user.email}</Email>
     </View>
   </Header>
@@ -77,10 +77,8 @@ const UserHeader = ({ user, onLogout }) => (
 
 UserHeader.propTypes = {
   user: PropTypes.shape({
-    photo: PropTypes.string,
     photoUrl: PropTypes.string,
-    name: PropTypes.string,
-    displayName: PropTypes.string,
+    displayName: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired
   }).isRequired,
   onLogout: PropTypes.func.isRequired
