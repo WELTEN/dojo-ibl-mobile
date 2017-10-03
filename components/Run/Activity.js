@@ -8,10 +8,13 @@ const Item = glamorous.view({
   paddingTop: 12,
   paddingBottom: 12,
   borderBottomWidth: 2,
-  borderBottomColor: '#E0E0E0'
+  borderBottomColor: '#E0E0E0',
+  flexDirection: 'row'
 }, ({ isLast }) => {
   if (isLast) return [{ marginBottom: 8, borderBottomWidth: 0 }];
 });
+
+const Content = glamorous.view({ flex: 1 });
 
 const Title = glamorous.text({
   color: '#757575',
@@ -28,11 +31,25 @@ const Time = glamorous.text({
   fontWeight: 'bold'
 });
 
+const ViewButton = glamorous.touchableOpacity({
+  justifyContent: 'center'
+});
+
+const ButtonText = glamorous.text({
+  color: '#2196F3',
+  fontWeight: 'bold'
+});
+
 const Activity = ({ activity, navigate, isLast }) => (
   <Item isLast={isLast}>
-    <Title>{activity.name}</Title>
-    <Description>{activity.description}</Description>
-    <Time>{moment(activity.timestamp).fromNow()}</Time>
+    <Content>
+      <Title>{activity.name}</Title>
+      <Description>{activity.description}</Description>
+      <Time>{moment(activity.timestamp).fromNow()}</Time>
+    </Content>
+    <ViewButton onPress={() => navigate('Home')}>
+      <ButtonText>View</ButtonText>
+    </ViewButton>
   </Item>
 );
 

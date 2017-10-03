@@ -29,13 +29,12 @@ const Code = glamorous.text({
   fontWeight: 'normal'
 });
 
-const OpenButton = glamorous.touchableOpacity({
+const ViewButton = glamorous.touchableOpacity({
   marginTop: 4
 });
 
 const ButtonText = glamorous.text({
   color: '#2196F3',
-  fontSize: 14,
   fontWeight: 'bold'
 });
 
@@ -50,9 +49,9 @@ const Run = ({ run, navigate }) => (
         <Code>{run.code}</Code>
       }
     </TitleContainer>
-    <OpenButton onPress={() => navigate('Run', { run })}>
-      <ButtonText>Open</ButtonText>
-    </OpenButton>
+    <ViewButton onPress={() => navigate('Run', { run })}>
+      <ButtonText>View</ButtonText>
+    </ViewButton>
   </Item>
 );
 
