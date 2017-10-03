@@ -16,12 +16,12 @@ const Title = glamorous.text({
 });
 
 const Home = ({ user, token, onLogout }) => (
-  <ScrollView style={{ backgroundColor: 'white' }}>
+  <Container>
     <StatusBar barStyle="light-content" />
     <UserHeader user={user} onLogout={onLogout} />
     <Title>Inquiries</Title>
     <RunList token={token} />
-  </ScrollView>
+  </Container>
 );
 
 Home.propTypes = {

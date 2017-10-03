@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { FlatList } from 'react-native';
 import Run from './Run';
 import PropTypes from 'prop-types';
 
 export default class RunList extends Component {
   state = {
-    runs: []
+    runs: [],
+    refreshing: true
   };
 
-  componentDidMount() {
+  componentDidMount = this.getRuns;
+
+  getRuns() {
     fetch('https://dojo-ibl.appspot.com/rest/myRuns/participate/', {
         method: 'GET',
         headers: {
@@ -18,16 +21,23 @@ export default class RunList extends Component {
       .then(response => response.json())
       .then(({ runs }) => {
         runs = runs.filter(run => !run.deleted)
-        this.setState({ runs });
+        this.setState({ runs, refreshing: false });
       });
   }
 
+  onRefresh = () => {
+    this.setState({ refreshing: true });
+    this.getRuns();
+  }
+
   render = () => (
-    <View>
-      {this.state.runs.map((run) => (
-        <Run run={run} key={run.runId} />
-      ))}
-    </View>
+    <FlatList
+      data={this.state.runs}
+      keyExtractor={run => run.runId}
+      renderItem={({ item }) => <Run run={item} />}
+      onRefresh={this.onRefresh}
+      refreshing={this.state.refreshing}
+    />
   );
 }
 
