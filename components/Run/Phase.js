@@ -12,7 +12,6 @@ const Item = glamorous.view({
 });
 
 const Title = glamorous.text({
-  color: '#757575',
   fontSize: 20,
   fontWeight: 'bold'
 });
@@ -40,8 +39,12 @@ export default class Phase extends Component {
       <FlatList
         data={this.state.activities}
         keyExtractor={(activity) => activity.id}
-        renderItem={({ item }) => (
-          <Activity activity={item} navigate={this.props.navigate} />
+        renderItem={({ item, index }) => (
+          <Activity
+            activity={item}
+            navigate={this.props.navigate}
+            isLast={index == this.state.activities.length - 1}
+          />
         )}
         refreshing={this.state.refreshing}
       />
