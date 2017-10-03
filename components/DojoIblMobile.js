@@ -10,6 +10,7 @@ import {
   getTokenFromStorage
 } from '../lib/Storage';
 import * as firebase from 'firebase';
+import PropTypes from 'prop-types';
 import Home from './Home';
 import Login from './Login';
 import LoadingScreen from './LoadingScreen';
@@ -125,6 +126,7 @@ export default class DojoIblMobile extends Component {
             user={this.state.user}
             token={this.state.token}
             onLogout={this.onLogout}
+            navigate={this.props.navigation.navigate}
           />
         );
       } else {
@@ -139,3 +141,9 @@ export default class DojoIblMobile extends Component {
     }
   }
 }
+
+DojoIblMobile.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired
+  }).isRequired
+};

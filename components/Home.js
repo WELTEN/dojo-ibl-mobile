@@ -15,19 +15,20 @@ const Title = glamorous.text({
   fontWeight: 'bold'
 });
 
-const Home = ({ user, token, onLogout }) => (
+const Home = ({ user, token, onLogout, navigate }) => (
   <Container>
     <StatusBar barStyle="light-content" />
     <UserHeader user={user} onLogout={onLogout} />
     <Title>Inquiries</Title>
-    <RunList token={token} />
+    <RunList token={token} navigate={navigate} />
   </Container>
 );
 
 Home.propTypes = {
   user: PropTypes.object.isRequired,
   token: PropTypes.string.isRequired,
-  onLogout: PropTypes.func.isRequired
+  onLogout: PropTypes.func.isRequired,
+  navigate: PropTypes.func.isRequired
 };
 
 export default Home;

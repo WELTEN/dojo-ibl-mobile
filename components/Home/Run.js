@@ -22,11 +22,8 @@ const Title = glamorous.text({
 
 const GameTitle = glamorous.text({ color: '#BDBDBD' });
 
-const CodeContainer = glamorous.view({
-  marginLeft: 8
-});
-
 const Code = glamorous.text({
+  paddingLeft: 8,
   color: '#9E9E9E',
   fontSize: 18,
   fontWeight: 'normal'
@@ -42,7 +39,7 @@ const ButtonText = glamorous.text({
   fontWeight: 'bold'
 });
 
-const Run = ({ run }) => (
+const Run = ({ run, navigate }) => (
   <Item>
     <TitleContainer>
       <Title>
@@ -50,12 +47,10 @@ const Run = ({ run }) => (
         {run.title}
       </Title>
       {run.code &&
-        <CodeContainer>
-          <Code>{run.code}</Code>
-        </CodeContainer>
+        <Code>{run.code}</Code>
       }
     </TitleContainer>
-    <OpenButton>
+    <OpenButton onPress={() => navigate('Run', { run })}>
       <ButtonText>Open</ButtonText>
     </OpenButton>
   </Item>
@@ -68,7 +63,8 @@ Run.propTypes = {
     game: PropTypes.shape({
       title: PropTypes.string.isRequired
     }).isRequired
-  }).isRequired
+  }).isRequired,
+  navigate: PropTypes.func.isRequired
 };
 
 export default Run;

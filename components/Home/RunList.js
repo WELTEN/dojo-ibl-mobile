@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { FlatList } from 'react-native';
 import Run from './Run';
 import PropTypes from 'prop-types';
+import { requestWithToken } from '../../lib/Requests';
 
 export default class RunList extends Component {
   state = {
@@ -12,17 +13,10 @@ export default class RunList extends Component {
   componentDidMount = this.getRuns;
 
   getRuns() {
-    fetch('https://dojo-ibl.appspot.com/rest/myRuns/participate/', {
-        method: 'GET',
-        headers: {
-          'Authorization': this.props.token
-        }
-      })
-      .then(response => response.json())
-      .then(({ runs }) => {
-        runs = runs.filter(run => !run.deleted)
-        this.setState({ runs, refreshing: false });
-      });
+    requestWithToken('myRuns/participate', this.props.token).then(({ runs }) => {
+      runs = runs.filter(run => !run.deleted)
+      this.setState({ runs, refreshing: false });
+    });
   }
 
   onRefresh = () => {
@@ -34,7 +28,9 @@ export default class RunList extends Component {
     <FlatList
       data={this.state.runs}
       keyExtractor={run => run.runId}
-      renderItem={({ item }) => <Run run={item} />}
+      renderItem={({ item }) => (
+        <Run run={item} navigate={this.props.navigate} />
+      )}
       onRefresh={this.onRefresh}
       refreshing={this.state.refreshing}
     />
@@ -42,5 +38,6 @@ export default class RunList extends Component {
 }
 
 RunList.propTypes = {
-  token: PropTypes.string.isRequired
+  token: PropTypes.string.isRequired,
+  navigate: PropTypes.func.isRequired
 };
