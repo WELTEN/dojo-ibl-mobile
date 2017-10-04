@@ -43,6 +43,7 @@ export default class Phase extends Component {
           <Activity
             activity={item}
             navigate={this.props.navigate}
+            runId={this.props.runId}
             isLast={index == this.state.activities.length - 1}
           />
         )}
@@ -53,6 +54,7 @@ export default class Phase extends Component {
 }
 
 Phase.propTypes = {
+  runId: PropTypes.number.isRequired,
   gameId: PropTypes.number.isRequired,
   phase: PropTypes.shape({
     title: PropTypes.string.isRequired

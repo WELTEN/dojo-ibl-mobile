@@ -45,6 +45,7 @@ export default class Run extends Component {
         }
         <Phases
           phases={run.game.phases}
+          runId={run.runId}
           gameId={run.game.gameId}
           navigate={this.props.navigation.navigate}
         />
@@ -59,6 +60,7 @@ Run.propTypes = {
     state: PropTypes.shape({
       params: PropTypes.shape({
         run: PropTypes.shape({
+          runId: PropTypes.number.isRequired,
           title: PropTypes.string.isRequired,
           code: PropTypes.string,
           game: PropTypes.shape({
