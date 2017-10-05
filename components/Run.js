@@ -1,30 +1,14 @@
 import React, { Component } from 'react';
-import { Text, StatusBar, View } from 'react-native';
+import { StatusBar } from 'react-native';
 import glamorous from 'glamorous-native';
 import Container from './Container';
 import Phases from './Run/Phases';
 import PropTypes from 'prop-types';
 import { removeHtmlTags } from '../lib/Text';
-
-const Title = glamorous.text({
-  paddingTop: 24,
-  paddingBottom: 24,
-  paddingLeft: 24,
-  paddingRight: 24,
-  color: '#616161',
-  fontSize: 28,
-  fontWeight: 'bold'
-});
+import Title from './Title';
+import Description from './Description';
 
 const GameTitle = glamorous.text({ color: '#BDBDBD' });
-
-const Description = glamorous.text({
-  paddingTop: -12,
-  paddingBottom: 24,
-  paddingLeft: 24,
-  paddingRight: 24,
-  fontSize: 16
-});
 
 export default class Run extends Component {
   static navigationOptions = ({ navigation }) => ({

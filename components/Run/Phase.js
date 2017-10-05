@@ -44,6 +44,7 @@ export default class Phase extends Component {
             activity={item}
             navigate={this.props.navigate}
             runId={this.props.runId}
+            phaseTitle={this.props.phase.title}
             isLast={index == this.state.activities.length - 1}
           />
         )}
