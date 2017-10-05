@@ -5,6 +5,7 @@ import Run from './components/Run';
 import Activity from './components/Activity';
 import firebaseConfig from './firebaseConfig';
 import * as firebase from 'firebase';
+import moment from 'moment';
 
 firebase.initializeApp(firebaseConfig);
 

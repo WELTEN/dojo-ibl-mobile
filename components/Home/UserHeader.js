@@ -42,7 +42,7 @@ const Picture = glamorous.image({
   marginRight: 18,
   width: 56,
   height: 56,
-  borderRadius: 24
+  borderRadius: 28
 });
 
 const Name = glamorous.text({
