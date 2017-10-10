@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { KeyboardAvoidingView } from 'react-native';
+import { KeyboardAvoidingView, StatusBar } from 'react-native';
 import glamorous from 'glamorous-native';
 import PropTypes from 'prop-types';
 import Title from './Title';
@@ -29,6 +29,7 @@ export default class Activity extends Component {
         behavior="padding"
         keyboardVerticalOffset={64}
       >
+        <StatusBar barStyle="dark-content" />
         <Title>
           <PhaseTitle>{phaseTitle} /</PhaseTitle>
           <LineBreak />

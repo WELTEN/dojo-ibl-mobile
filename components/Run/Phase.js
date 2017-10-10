@@ -9,6 +9,8 @@ import Activity from './Activity';
 const Item = glamorous.view({
   marginLeft: 24,
   marginRight: 24
+}, ({isLast}) => {
+  if (isLast) return [{ marginBottom: 64 }];
 });
 
 const Title = glamorous.text({
@@ -34,7 +36,7 @@ export default class Phase extends Component {
   }
 
   render = () => (
-    <Item>
+    <Item isLast={this.props.isLast}>
       <Title>{this.props.phase.title}</Title>
       <FlatList
         data={this.state.activities}
@@ -63,5 +65,6 @@ Phase.propTypes = {
     title: PropTypes.string.isRequired
   }).isRequired,
   index: PropTypes.number.isRequired,
-  navigate: PropTypes.func.isRequired
+  navigate: PropTypes.func.isRequired,
+  isLast: PropTypes.bool.isRequired
 };

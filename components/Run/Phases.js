@@ -15,6 +15,7 @@ const Phases = ({ user, phases, runId, gameId, navigate }) => (
         gameId={gameId}
         navigate={navigate}
         index={index}
+        isLast={index == phases.length - 1}
       />
     )}
   />

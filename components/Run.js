@@ -34,6 +34,8 @@ export default class Run extends Component {
 
   render() {
     const { user, run } = this.props.navigation.state.params;
+    const navigate = this.props.navigation.navigate;
+
     return (
       <Container>
         <StatusBar barStyle="dark-content" />
@@ -49,9 +51,9 @@ export default class Run extends Component {
           phases={run.game.phases}
           runId={run.runId}
           gameId={run.game.gameId}
-          navigate={this.props.navigation.navigate}
+          navigate={navigate}
         />
-        <ChatButton>
+        <ChatButton onPress={() => navigate('Chat', { user, run })}>
           <ChatIcon source={require('../images/chat.png')} />
         </ChatButton>
       </Container>

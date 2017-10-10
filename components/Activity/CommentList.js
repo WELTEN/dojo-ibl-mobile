@@ -1,40 +1,14 @@
 import React, { Component } from 'react';
-import { FlatList } from 'react-native';
 import PropTypes from 'prop-types';
-import * as firebase from 'firebase';
-import { getFirebaseRef, flattenFirebaseList } from '../../lib/Firebase';
+import FirebaseList from '../FirebaseList';
 import Comment from './Comment';
 
-export default class CommentList extends Component {
-  state = {
-    comments: [],
-    loading: true
-  };
-
-  componentDidMount = this.getComments;
-
-  getCommentsRef = () =>
-    getFirebaseRef(`responses/${this.props.runId}/${this.props.activity.id}`);
-
-  getComments() {
-    this.getCommentsRef().on('value', (snapshot) => {
-      const comments = snapshot.val();
-      this.setState({ comments, loading: false });
-    });
-  }
-
-  componentWillUnmount = () => this.getCommentsRef().off();
-
-  render = () => (
-    <FlatList
-      inverted
-      data={flattenFirebaseList(this.state.comments).reverse()}
-      keyExtractor={comment => comment.key}
-      renderItem={({ item }) => <Comment comment={item} />}
-      refreshing={this.state.loading}
-    />
-  );
-}
+const CommentList = ({ runId, activity }) => (
+  <FirebaseList
+    firebaseRef={`responses/${runId}/${activity.id}`}
+    renderItem={comment => <Comment comment={comment} />}
+  />
+);
 
 CommentList.propTypes = {
   activity: PropTypes.shape({
@@ -42,3 +16,5 @@ CommentList.propTypes = {
   }).isRequired,
   runId: PropTypes.number.isRequired
 };
+
+export default CommentList;
