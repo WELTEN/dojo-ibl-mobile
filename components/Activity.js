@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
-import { FlatList, Text, View } from 'react-native';
+import { KeyboardAvoidingView } from 'react-native';
 import glamorous from 'glamorous-native';
 import PropTypes from 'prop-types';
-import { getTokenFromStorage } from '../lib/Storage';
-import { requestWithToken } from '../lib/Requests';
-import * as firebase from 'firebase';
-import { getFirebaseRef, flattenFirebaseList } from '../lib/Firebase';
-import Container from './Container';
 import Title from './Title';
 import Description from './Description';
-import Comment from './Activity/Comment';
+import CommentList from './Activity/CommentList';
+import CommentForm from './Activity/CommentForm';
+
+const style = {
+  backgroundColor: 'white',
+  flex: 1
+};
 
 const PhaseTitle = glamorous.text({ color: '#BDBDBD', paddingRight: 1000 });
 const LineBreak = glamorous.view({ width: '100%', height: 0 });
@@ -19,35 +20,11 @@ export default class Activity extends Component {
     title: navigation.state.params.activity.name
   });
 
-  state = {
-    comments: [],
-    loading: true
-  };
-
-  componentDidMount = this.getComments;
-
-  getCommentsRef = () => {
-    const { activity, runId } = this.props.navigation.state.params;
-    return getFirebaseRef(`responses/${runId}/${activity.id}`);
-  }
-
-  getComments() {
-    this.getCommentsRef().on('value', (snapshot) => {
-      const comments = snapshot.val();
-      this.setState({ comments, loading: false });
-    });
-  }
-
-  componentWillUnmount() {
-    this.getCommentsRef().off();
-  }
-
   render() {
-    const { activity, phaseTitle } = this.props.navigation.state.params;
-    const comments = flattenFirebaseList(this.state.comments);
+    const { activity, runId, phaseTitle } = this.props.navigation.state.params;
 
     return (
-      <Container>
+      <KeyboardAvoidingView style={style} behavior="padding" keyboardVerticalOffset={64}>
         <Title>
           <PhaseTitle>{phaseTitle} /</PhaseTitle>
           <LineBreak />
@@ -56,14 +33,9 @@ export default class Activity extends Component {
         {activity.description &&
           <Description>{activity.description}</Description>
         }
-        <FlatList
-          data={flattenFirebaseList(this.state.comments)}
-          keyExtractor={comment => comment.key}
-          renderItem={({ item }) => <Comment comment={item} />}
-          refreshing={this.state.loading}
-          onRefresh={() => {}}
-        />
-      </Container>
+        <CommentList activity={activity} runId={runId} />
+        <CommentForm activity={activity} runId={runId} />
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -74,6 +46,7 @@ Activity.propTypes = {
     state: PropTypes.shape({
       params: PropTypes.shape({
         activity: PropTypes.shape({
+          id: PropTypes.number.isRequired,
           name: PropTypes.string.isRequired,
           description: PropTypes.string.isRequired,
           timestamp: PropTypes.number.isRequired
