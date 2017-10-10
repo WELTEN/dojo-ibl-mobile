@@ -40,20 +40,21 @@ const ButtonText = glamorous.text({
   fontWeight: 'bold'
 });
 
-const Activity = ({ activity, runId, phaseTitle, navigate, isLast }) => (
+const Activity = ({ user, activity, runId, phaseTitle, navigate, isLast }) => (
   <Item isLast={isLast}>
     <Content>
       <Title>{activity.name}</Title>
       <Description>{activity.description}</Description>
       <Time>{moment(activity.timestamp).fromNow()}</Time>
     </Content>
-    <ViewButton onPress={() => navigate('Activity', { activity, runId, phaseTitle })}>
+    <ViewButton onPress={() => navigate('Activity', { user, activity, runId, phaseTitle })}>
       <ButtonText>View</ButtonText>
     </ViewButton>
   </Item>
 );
 
 Activity.propTypes = {
+  user: PropTypes.object.isRequired,
   activity: PropTypes.shape({
     name: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,

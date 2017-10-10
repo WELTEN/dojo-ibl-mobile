@@ -29,7 +29,7 @@ export default class RunList extends Component {
       data={this.state.runs}
       keyExtractor={run => run.runId}
       renderItem={({ item }) => (
-        <Run run={item} navigate={this.props.navigate} />
+        <Run user={this.props.user} run={item} navigate={this.props.navigate} />
       )}
       onRefresh={this.onRefresh}
       refreshing={this.state.refreshing}
@@ -38,6 +38,7 @@ export default class RunList extends Component {
 }
 
 RunList.propTypes = {
+  user: PropTypes.object.isRequired,
   token: PropTypes.string.isRequired,
   navigate: PropTypes.func.isRequired
 };

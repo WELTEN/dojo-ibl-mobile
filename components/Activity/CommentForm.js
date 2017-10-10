@@ -33,7 +33,23 @@ export default class CommentForm extends Component {
 
   onSend = () => {
     if (!this.state.comment) return;
-    //this.getCommentsRef().push().set({})
+    this.getCommentsRef().push().set({
+      deleted: false,
+      generalItemId: this.props.activity.id.toString(),
+      generalItemName: this.props.activity.name,
+      lastModificationDate: Date.now(),
+      likeCount: 0,
+      parentId: 0,
+      responseValue: `<p>${this.state.comment}</p>`,
+      revoked: false,
+      runId: this.props.runId.toString(),
+      type: 'org.celstec.arlearn2.beans.run.Response',
+      userAccountType: 7,
+      userLocalId: this.props.user.uid,
+      userName: this.props.user.displayName,
+      userProfile: this.props.user.photoURL || '/src/assets/img/avatar5.png'
+    });
+    this.setState({ comment: '' });
   }
 
   render = () => (
@@ -51,8 +67,14 @@ export default class CommentForm extends Component {
 }
 
 CommentForm.propTypes = {
+  user: PropTypes.shape({
+    uid: PropTypes.string.isRequired,
+    displayName: PropTypes.string.isRequired,
+    photoUrl: PropTypes.any
+  }).isRequired,
   activity: PropTypes.shape({
-    id: PropTypes.number.isRequired
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired
   }).isRequired,
   runId: PropTypes.number.isRequired
 };

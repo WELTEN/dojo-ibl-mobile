@@ -21,10 +21,14 @@ export default class Activity extends Component {
   });
 
   render() {
-    const { activity, runId, phaseTitle } = this.props.navigation.state.params;
+    const { user, activity, runId, phaseTitle } = this.props.navigation.state.params;
 
     return (
-      <KeyboardAvoidingView style={style} behavior="padding" keyboardVerticalOffset={64}>
+      <KeyboardAvoidingView
+        style={style}
+        behavior="padding"
+        keyboardVerticalOffset={64}
+      >
         <Title>
           <PhaseTitle>{phaseTitle} /</PhaseTitle>
           <LineBreak />
@@ -34,7 +38,7 @@ export default class Activity extends Component {
           <Description>{activity.description}</Description>
         }
         <CommentList activity={activity} runId={runId} />
-        <CommentForm activity={activity} runId={runId} />
+        <CommentForm user={user} activity={activity} runId={runId} />
       </KeyboardAvoidingView>
     );
   }
@@ -45,6 +49,7 @@ Activity.propTypes = {
     navigate: PropTypes.func.isRequired,
     state: PropTypes.shape({
       params: PropTypes.shape({
+        user: PropTypes.object.isRequired,
         activity: PropTypes.shape({
           id: PropTypes.number.isRequired,
           name: PropTypes.string.isRequired,

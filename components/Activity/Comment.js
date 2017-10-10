@@ -39,7 +39,10 @@ const CommentText = glamorous.text({
   marginBottom: 4
 });
 
-const getFullUrl = url => `https://dojo-ibl.appspot.com${url}`;
+const getFullUrl = (url = "/src/assets/img/avatar5.png") =>
+  url.startsWith("https://") || url.startsWith("http://")
+    ? url
+    : `https://dojo-ibl.appspot.com${url}`;
 
 const Comment = ({ comment }) => (
   <Item>

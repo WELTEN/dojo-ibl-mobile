@@ -20,7 +20,7 @@ const Home = ({ user, token, onLogout, navigate }) => (
     <StatusBar barStyle="light-content" />
     <UserHeader user={user} onLogout={onLogout} />
     <Title>Inquiries</Title>
-    <RunList token={token} navigate={navigate} />
+    <RunList user={user} token={token} navigate={navigate} />
   </Container>
 );
 

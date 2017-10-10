@@ -16,7 +16,7 @@ export default class Run extends Component {
   });
 
   render() {
-    const run = this.props.navigation.state.params.run;
+    const { user, run } = this.props.navigation.state.params;
     return (
       <Container>
         <StatusBar barStyle="dark-content" />
@@ -28,6 +28,7 @@ export default class Run extends Component {
           <Description>{removeHtmlTags(run.game.description)}</Description>
         }
         <Phases
+          user={user}
           phases={run.game.phases}
           runId={run.runId}
           gameId={run.game.gameId}
@@ -43,6 +44,7 @@ Run.propTypes = {
     navigate: PropTypes.func.isRequired,
     state: PropTypes.shape({
       params: PropTypes.shape({
+        user: PropTypes.object.isRequired,
         run: PropTypes.shape({
           runId: PropTypes.number.isRequired,
           title: PropTypes.string.isRequired,

@@ -41,6 +41,7 @@ export default class Phase extends Component {
         keyExtractor={(activity) => activity.id}
         renderItem={({ item, index }) => (
           <Activity
+            user={this.props.user}
             activity={item}
             navigate={this.props.navigate}
             runId={this.props.runId}
@@ -55,6 +56,7 @@ export default class Phase extends Component {
 }
 
 Phase.propTypes = {
+  user: PropTypes.object.isRequired,
   runId: PropTypes.number.isRequired,
   gameId: PropTypes.number.isRequired,
   phase: PropTypes.shape({

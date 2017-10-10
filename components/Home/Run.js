@@ -38,7 +38,7 @@ const ButtonText = glamorous.text({
   fontWeight: 'bold'
 });
 
-const Run = ({ run, navigate }) => (
+const Run = ({ user, run, navigate }) => (
   <Item>
     <TitleContainer>
       <Title>
@@ -49,13 +49,14 @@ const Run = ({ run, navigate }) => (
         <Code>{run.code}</Code>
       }
     </TitleContainer>
-    <ViewButton onPress={() => navigate('Run', { run })}>
+    <ViewButton onPress={() => navigate('Run', { user, run })}>
       <ButtonText>View</ButtonText>
     </ViewButton>
   </Item>
 );
 
 Run.propTypes = {
+  user: PropTypes.object.isRequired,
   run: PropTypes.shape({
     title: PropTypes.string.isRequired,
     code: PropTypes.string,
