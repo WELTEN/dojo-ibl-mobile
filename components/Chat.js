@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Text, KeyboardAvoidingView, StatusBar } from 'react-native';
+import { KeyboardAvoidingView, StatusBar } from 'react-native';
 import glamorous from 'glamorous-native';
 import PropTypes from 'prop-types';
+import MessageList from './Chat/MessageList';
+import MessageForm from './Chat/MessageForm';
 
 const style = {
   backgroundColor: 'white',
@@ -14,6 +16,8 @@ export default class Chat extends Component {
   });
 
   render() {
+    const { user, run } = this.props.navigation.state.params;
+
     return (
       <KeyboardAvoidingView
         style={style}
@@ -21,7 +25,8 @@ export default class Chat extends Component {
         keyboardVerticalOffset={64}
       >
         <StatusBar barStyle="dark-content" />
-        <Text>sf</Text>
+        <MessageList runId={run.runId} />
+        <MessageForm user={user} runId={run.runId} />
       </KeyboardAvoidingView>
     );
   }
