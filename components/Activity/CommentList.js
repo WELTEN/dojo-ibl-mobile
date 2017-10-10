@@ -20,6 +20,7 @@ export default class CommentList extends Component {
     this.getCommentsRef().on('value', (snapshot) => {
       const comments = snapshot.val();
       this.setState({ comments, loading: false });
+      console.log(comments)
     });
   }
 

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import glamorous from 'glamorous-native';
 import PropTypes from 'prop-types';
+import * as firebase from 'firebase';
+import { getFirebaseRef, flattenFirebaseList } from '../../lib/Firebase';
 
 const Form = glamorous.view({
   backgroundColor: '#EEEEEE',
@@ -26,16 +28,23 @@ const ButtonText = glamorous.text({
 export default class CommentForm extends Component {
   state = { comment: '' };
 
+  getCommentsRef = () =>
+    getFirebaseRef(`responses/${this.props.runId}/${this.props.activity.id}`);
+
+  onSend = () => {
+    if (!this.state.comment) return;
+    //this.getCommentsRef().push().set({})
+  }
+
   render = () => (
     <Form>
       <Input
-        style={{flex:1}}
         placeholder="Type a comment here..."
         value={this.state.comment}
         onChangeText={comment => this.setState({ comment })}
       />
-      <TouchableOpacity>
-        <ButtonText>Commentform</ButtonText>
+      <TouchableOpacity onPress={this.onSend}>
+        <ButtonText>Send</ButtonText>
       </TouchableOpacity>
     </Form>
   );
