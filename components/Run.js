@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar, Image } from 'react-native';
 import glamorous from 'glamorous-native';
 import Container from './Container';
 import Phases from './Run/Phases';
@@ -9,6 +9,23 @@ import Title from './Title';
 import Description from './Description';
 
 const GameTitle = glamorous.text({ color: '#BDBDBD' });
+
+const ChatButton = glamorous.touchableOpacity({
+  marginTop: -72,
+  marginBottom: 24,
+  marginRight: 24,
+  padding: 12,
+  alignSelf: 'flex-end',
+  width: 48,
+  height: 48,
+  backgroundColor: '#1AB394',
+  borderRadius: 24
+});
+
+const ChatIcon = glamorous.image({
+  width: 24,
+  height: 24
+});
 
 export default class Run extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -34,6 +51,9 @@ export default class Run extends Component {
           gameId={run.game.gameId}
           navigate={this.props.navigation.navigate}
         />
+        <ChatButton>
+          <ChatIcon source={require('../images/chat.png')} />
+        </ChatButton>
       </Container>
     );
   }
