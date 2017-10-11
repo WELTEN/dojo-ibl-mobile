@@ -3,19 +3,27 @@ import PropTypes from 'prop-types';
 import Form from '../Form';
 import * as firebase from 'firebase';
 import { getFirebaseRef, flattenFirebaseList } from '../../lib/Firebase';
+import { getTokenFromStorage } from '../../lib/Storage';
+import { requestWithToken } from '../../lib/Requests';
 
 export default class MessageForm extends Component {
   getCommentsRef = () =>
     getFirebaseRef(`messages/${this.props.runId}`);
 
   onSend = (message) => {
-    this.getCommentsRef().push().set({
-      body: message,
-      date: Date.now(),
-      localId: this.props.user.uid,
-      name: this.props.user.displayName,
-      picture: this.props.user.photoURL || '/src/assets/img/avatar5.png'
-    });
+    getTokenFromStorage()
+      .then((token) => {
+        return requestWithToken('account/myAccountDetails', token);
+      })
+      .then((account) => {
+        this.getCommentsRef().push().set({
+          body: message,
+          date: Date.now(),
+          localId: account.localId,
+          name: this.props.user.displayName,
+          picture: this.props.user.photoURL || '/src/assets/img/avatar5.png'
+        });
+      });
   }
 
   render = () => (

@@ -21,16 +21,20 @@ const ButtonText = glamorous.text({
   color: '#2196F3',
   fontSize: 14,
   fontWeight: 'bold'
+}, ({ disabled }) => {
+  if (disabled) return [{ opacity: .7 }];
 });
 
 export default class Form extends Component {
   state = { text: '' };
 
   onSend = () => {
-    if (!this.state.text) return;
+    if (!this.state.text.trim()) return;
     this.props.onSend(this.state.text);
     this.setState({ text: '' });
   }
+
+  isDisabled = () => this.state.text.trim().length < 1;
 
   render = () => (
     <FormContainer>
@@ -40,7 +44,9 @@ export default class Form extends Component {
         onChangeText={text => this.setState({ text })}
       />
       <TouchableOpacity onPress={this.onSend}>
-        <ButtonText>Send</ButtonText>
+        <ButtonText disabled={this.isDisabled()}>
+          Send
+        </ButtonText>
       </TouchableOpacity>
     </FormContainer>
   );
