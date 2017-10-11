@@ -25,7 +25,7 @@ export default class Chat extends Component {
         keyboardVerticalOffset={64}
       >
         <StatusBar barStyle="dark-content" />
-        <MessageList runId={run.runId} />
+        <MessageList user={user} runId={run.runId} />
         <MessageForm user={user} runId={run.runId} />
       </KeyboardAvoidingView>
     );

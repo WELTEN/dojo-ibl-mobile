@@ -2,7 +2,7 @@ import React from 'react';
 import { Dimensions, Image, Text, View } from 'react-native';
 import glamorous from 'glamorous-native';
 import PropTypes from 'prop-types';
-import { removeHtmlTags } from '../../lib/Text';
+import { removeHtmlTags, getPictureUrl } from '../../lib/Text';
 import moment from 'moment';
 
 const width = Dimensions.get('window').width - 48;
@@ -39,14 +39,9 @@ const CommentText = glamorous.text({
   marginBottom: 4
 });
 
-const getFullUrl = (url = "/src/assets/img/avatar5.png") =>
-  url.startsWith("https://") || url.startsWith("http://")
-    ? url
-    : `https://dojo-ibl.appspot.com${url}`;
-
 const Comment = ({ comment }) => (
   <Item>
-    <Picture source={{ uri: getFullUrl(comment.userProfile) }} />
+    <Picture source={{ uri: getPictureUrl(comment.userProfile) }} />
     <Content>
       <Name>{comment.userName}</Name>
       <CommentText>{removeHtmlTags(comment.responseValue)}</CommentText>
