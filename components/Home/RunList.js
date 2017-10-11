@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, View } from 'react-native';
 import Run from './Run';
+import RunForm from './RunForm';
 import PropTypes from 'prop-types';
 import { requestWithToken } from '../../lib/Requests';
 
@@ -25,15 +26,22 @@ export default class RunList extends Component {
   }
 
   render = () => (
-    <FlatList
-      data={this.state.runs}
-      keyExtractor={run => run.runId}
-      renderItem={({ item }) => (
-        <Run user={this.props.user} run={item} navigate={this.props.navigate} />
-      )}
-      onRefresh={this.onRefresh}
-      refreshing={this.state.refreshing}
-    />
+    <View>
+      <FlatList
+        data={this.state.runs}
+        keyExtractor={run => run.runId}
+        renderItem={({ item }) => (
+          <Run user={this.props.user} run={item} navigate={this.props.navigate} />
+        )}
+        onRefresh={this.onRefresh}
+        refreshing={this.state.refreshing}
+      />
+      <RunForm
+        user={this.props.user}
+        token={this.props.token}
+        onRefresh={this.onRefresh}
+      />
+    </View>
   );
 }
 
