@@ -35,11 +35,16 @@ export default class RunList extends Component {
         )}
         onRefresh={this.onRefresh}
         refreshing={this.state.refreshing}
-      />
-      <RunForm
-        user={this.props.user}
-        token={this.props.token}
-        onRefresh={this.onRefresh}
+        ListFooterComponent={
+          <View>
+            <RunForm
+              user={this.props.user}
+              token={this.props.token}
+              onRefresh={this.onRefresh}
+            />
+            <View style={{ height: 200 }} />
+          </View>
+        }
       />
     </View>
   );

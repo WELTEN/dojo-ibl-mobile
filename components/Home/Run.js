@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { Dimensions, View, Text } from 'react-native';
 import glamorous from 'glamorous-native';
 import PropTypes from 'prop-types';
 
@@ -7,7 +7,8 @@ const Item = glamorous.view({
   marginTop: 6,
   marginBottom: 6,
   marginLeft: 24,
-  marginRight: 24
+  marginRight: 24,
+  width: Dimensions.get('window').width - 48
 });
 
 const TitleContainer = glamorous.view({
