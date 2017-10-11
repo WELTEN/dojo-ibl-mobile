@@ -12,9 +12,7 @@ export default class CommentForm extends Component {
 
   onSend = (comment) => {
     getTokenFromStorage()
-      .then((token) => {
-        return requestWithToken('account/myAccountDetails', token);
-      })
+      .then(token => requestWithToken('account/myAccountDetails', token))
       .then((account) => {
         this.getCommentsRef().push().set({
           deleted: false,

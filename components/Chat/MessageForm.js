@@ -12,9 +12,7 @@ export default class MessageForm extends Component {
 
   onSend = (message) => {
     getTokenFromStorage()
-      .then((token) => {
-        return requestWithToken('account/myAccountDetails', token);
-      })
+      .then(token => requestWithToken('account/myAccountDetails', token))
       .then((account) => {
         this.getCommentsRef().push().set({
           body: message,
